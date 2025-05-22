@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   database: {fileID: 11400000, guid: 15c8c6fb6918ba44ab1f944ec83037cd, type: 2}
-  chipPrefab: {fileID: 938072701398767786, guid: 4770244b7b35ff94590a27d2093b6ca0, type: 3}
+  chipPrefab: {fileID: 569774222172738538, guid: 4770244b7b35ff94590a27d2093b6ca0, type: 3}
 --- !u!4 &1269200908
 Transform:
   m_ObjectHideFlags: 0
@@ -265,7 +265,7 @@ Transform:
   m_GameObject: {fileID: 1269200905}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5525033, y: -0.5479467, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

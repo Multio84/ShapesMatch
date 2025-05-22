@@ -20,6 +20,12 @@ TextureImporter:
   - first:
       213: -400089606742243520
     second: Shapes_5
+  - first:
+      213: 5405397178528234592
+    second: Shapes_6
+  - first:
+      213: 5341752473459613567
+    second: Shapes_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -173,8 +179,8 @@ TextureImporter:
       name: Shapes_2
       rect:
         serializedVersion: 2
-        x: 6
-        y: 65
+        x: 214
+        y: 163
         width: 88
         height: 88
       alignment: 0
@@ -194,10 +200,10 @@ TextureImporter:
       name: Shapes_3
       rect:
         serializedVersion: 2
-        x: 103
-        y: 84
-        width: 70
-        height: 70
+        x: 314
+        y: 167
+        width: 88
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,8 +221,8 @@ TextureImporter:
       name: Shapes_4
       rect:
         serializedVersion: 2
-        x: 180
-        y: 84
+        x: 15
+        y: 80
         width: 70
         height: 70
       alignment: 0
@@ -236,8 +242,8 @@ TextureImporter:
       name: Shapes_5
       rect:
         serializedVersion: 2
-        x: 102
-        y: 6
+        x: 114
+        y: 80
         width: 79
         height: 70
       alignment: 0
@@ -249,6 +255,48 @@ TextureImporter:
       bones: []
       spriteID: 0478dc75f98927af0800000000000000
       internalID: -400089606742243520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shapes_6
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 80
+        width: 70
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06cf2184814d30b40800000000000000
+      internalID: 5405397178528234592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shapes_7
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 84
+        width: 70
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7fdf92a297b12a40800000000000000
+      internalID: 5341752473459613567
       vertices: []
       indices: 
       edges: []

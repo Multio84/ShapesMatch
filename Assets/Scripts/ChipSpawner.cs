@@ -16,7 +16,8 @@ public class ChipSpawner : MonoBehaviour
 
         for (int i = 0; i < 10; i++)
         {
-            factory.GenerateRandomChip();
+            Vector3 newPos = transform.position + new Vector3(0, i, 0);
+            Chip chip = factory.SpawnUniqueChip(newPos);
         }
     }
 }

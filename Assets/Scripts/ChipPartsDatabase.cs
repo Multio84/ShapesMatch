@@ -9,7 +9,7 @@ public enum ChipShapeType
     Circle
 }
 
-[CreateAssetMenu(fileName = "ChipComponentsDatabase", menuName = "Game/ChipComponentsDatabase")]
+[CreateAssetMenu(fileName = "ChipPartsDatabase", menuName = "Game/ChipPartsDatabase")]
 public class ChipPartsDatabase : ScriptableObject
 {
     [Header("Shapes")]
@@ -20,12 +20,18 @@ public class ChipPartsDatabase : ScriptableObject
 
     [Header("Animals")]
     public List<Sprite> faceSprites;
+
+    public ChipShape GetShape(int idx) => 
+        (idx >= 0 && idx < shapes.Count) ? shapes[idx] : null;
+    public Color GetFrameColor(int idx) => 
+        (idx >= 0 && idx < frameColors.Count) ? frameColors[idx] : Color.black;
+    public Sprite GetAnimal(int idx) => 
+        (idx >= 0 && idx < faceSprites.Count) ? faceSprites[idx] : null;
 }
 
 [System.Serializable]
 public class ChipShape
 {
-    public ChipShapeType shapeType;
     public Sprite shapeSprite;
     public Sprite frameSprite;
 }
