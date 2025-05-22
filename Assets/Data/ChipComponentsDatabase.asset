@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d326e6db9c75b4c4e8393aab6e093aac, type: 3}
+  m_Name: ChipComponentsDatabase
+  m_EditorClassIdentifier: 
+  shapes:
+  - shapeType: 0
+    shapeSprite: {fileID: -115080129212707553, guid: ed1e505b543e73f4c8fe01c933c3e28b, type: 3}
+    frameSprite: {fileID: -8976616514968600313, guid: ed1e505b543e73f4c8fe01c933c3e28b, type: 3}
+  - shapeType: 1
+    shapeSprite: {fileID: -400089606742243520, guid: ed1e505b543e73f4c8fe01c933c3e28b, type: 3}
+    frameSprite: {fileID: 962806293248896454, guid: ed1e505b543e73f4c8fe01c933c3e28b, type: 3}
+  - shapeType: 2
+    shapeSprite: {fileID: -5455399344394033347, guid: ed1e505b543e73f4c8fe01c933c3e28b, type: 3}
+    frameSprite: {fileID: -8138782370738992367, guid: ed1e505b543e73f4c8fe01c933c3e28b, type: 3}
+  frameColors:
+  - {r: 0.990566, g: 0.31305623, b: 0.41728857, a: 1}
+  - {r: 0.52072793, g: 0.8584906, b: 0.2713154, a: 1}
+  - {r: 0.12549017, g: 0.85882354, b: 0.8020721, a: 1}
+  - {r: 0.9433962, g: 0.45834818, b: 0.76521605, a: 1}
+  - {r: 0.5707547, g: 0.66155666, b: 1, a: 1}
+  - {r: 1, g: 0.654032, b: 0.43867922, a: 1}
+  faceSprites:
+  - {fileID: 3139590038334684883, guid: bd33222073a88834ea526076e99f3953, type: 3}
+  - {fileID: 7980907516002592024, guid: bd33222073a88834ea526076e99f3953, type: 3}
+  - {fileID: -5338332612186525698, guid: bd33222073a88834ea526076e99f3953, type: 3}
+  - {fileID: -4015624487889484488, guid: bd33222073a88834ea526076e99f3953, type: 3}
+  - {fileID: 6388453771393081888, guid: bd33222073a88834ea526076e99f3953, type: 3}
+  - {fileID: -4654102829445103667, guid: bd33222073a88834ea526076e99f3953, type: 3}
