@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class ChipSpawner : MonoBehaviour
 {
-    public ChipFactory factory;
+    [SerializeField] private ChipFactory factory;
+    
 
     void Start()
     {
@@ -14,10 +15,9 @@ public class ChipSpawner : MonoBehaviour
     {
         if (factory is null) return;
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 50; i++)
         {
-            Vector3 newPos = transform.position + new Vector3(0, i, 0);
-            Chip chip = factory.SpawnUniqueChip(newPos);
+            Chip chip = factory.SpawnUniqueChip(transform);
         }
     }
 }

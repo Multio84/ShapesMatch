@@ -1,25 +1,24 @@
 using UnityEngine;
 
 
-
 [System.Serializable]
-public struct ChipData
+public struct ChipPassport
 {
-    public int shapeIdx;
-    public int frameColorIdx;
+    public int prefabIdx;
+    public int colorIdx;
     public int animalIdx;
 
-    public ChipData(int shape, int color, int animal)
+    public ChipPassport(int prefab, int color, int animal)
     {
-        shapeIdx = shape;
-        frameColorIdx = color;
+        prefabIdx = prefab;
+        colorIdx = color;
         animalIdx = animal;
     }
 
-    public bool IsSameAs(ChipData other)
+    public bool IsSameAs(ChipPassport other)
     {
-        return shapeIdx == other.shapeIdx &&
-               frameColorIdx == other.frameColorIdx &&
+        return prefabIdx == other.prefabIdx &&
+               colorIdx == other.colorIdx &&
                animalIdx == other.animalIdx;
     }
 }
@@ -27,26 +26,17 @@ public struct ChipData
 public class Chip : MonoBehaviour
 {
     [Header("Renderers")]
-    [SerializeField] private SpriteRenderer shapeRenderer;
-    [SerializeField] private SpriteRenderer frameRenderer;
-    [SerializeField] private SpriteRenderer animalRenderer;
+    [SerializeField] private SpriteRenderer frameRenderer;  // to set color
+    [SerializeField] private SpriteRenderer animalRenderer; // to set animal
 
-    private ChipData data;
-    public ChipData Data => data;
+    private ChipPassport passport;
+    public ChipPassport Passport => passport;
 
-    public void Init(ChipData data, ChipPartsDatabase db)
+    public void Init(ChipPassport passport, ChipPartsDatabase db)
     {
-        this.data = data;
+        this.passport = passport;
 
-        // shape
-        ChipShape shape = db.GetShape(data.shapeIdx);
-        shapeRenderer.sprite = shape.shapeSprite;
-
-        // frame color
-        frameRenderer.sprite = shape.frameSprite;
-        frameRenderer.color = db.GetFrameColor(data.frameColorIdx);
-
-        // animal
-        animalRenderer.sprite = db.GetAnimal(data.animalIdx);
+        frameRenderer.color = db.GetColor(passport.colorIdx);
+        animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
     }
 }

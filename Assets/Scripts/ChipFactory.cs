@@ -4,42 +4,44 @@ using UnityEngine;
 
 public class ChipFactory : MonoBehaviour
 {
+    [Header("Links")]
     [SerializeField] private ChipPartsDatabase database;
-    [SerializeField] private Chip chipPrefab;
 
-    private List<ChipData> selectedChipsData = new List<ChipData>();
+    private List<ChipPassport> usedPassports = new List<ChipPassport>();
     private int maxUniqueChipsCount;
 
-    public Chip SpawnUniqueChip(Vector3 worldPos)
+
+    public Chip SpawnUniqueChip(Transform parent)
     {
         maxUniqueChipsCount = CountMaxUniqueCombinations(database);
-        ChipData data = GetUniqueRandomChipData();
+        ChipPassport passport = GetUniqueRandomPassport();
 
-        Chip chip = Instantiate(chipPrefab, worldPos, Quaternion.identity);
-        chip.Init(data, database);
+        Chip prefab = database.GetPrefab(passport.prefabIdx);
+        Chip chip = Instantiate(prefab, parent);
+        chip.Init(passport, database);
         return chip;
     }
 
-    private int CountMaxUniqueCombinations(ChipPartsDatabase database)
+    private int CountMaxUniqueCombinations(ChipPartsDatabase db)
     {
-        return database.shapes.Count * 
-            database.frameColors.Count * 
-            database.faceSprites.Count;
+        return db.prefabs.Count *
+            db.frameColors.Count *
+            db.animalSprites.Count;
     }
 
-    private ChipData GetUniqueRandomChipData()
+    private ChipPassport GetUniqueRandomPassport()
     {
-        const int ATTEMPT_LIMIT_COEF = 3;
-        int attemptsLimit = maxUniqueChipsCount * ATTEMPT_LIMIT_COEF;
+        const int ATTEMPTS_LIMIT_COEF = 3;
+        int attemptsLimit = maxUniqueChipsCount * ATTEMPTS_LIMIT_COEF;
         int attempts = 0;
 
         while (attempts < attemptsLimit)
         {
-            ChipData candidate = MakeRandomChipData();
+            ChipPassport candidate = MakeRandomPassport();
 
-            if (!ContainsData(candidate))
+            if (!ContainsPassport(candidate))
             {
-                selectedChipsData.Add(candidate);
+                usedPassports.Add(candidate);
                 return candidate;
             }
 
@@ -47,23 +49,23 @@ public class ChipFactory : MonoBehaviour
         }
 
         Debug.LogWarning("Couldn't find unique chip: returned duplicate.");
-        return MakeRandomChipData();
+        return MakeRandomPassport();
     }
 
-    private ChipData MakeRandomChipData()
+    private ChipPassport MakeRandomPassport()
     {
-        int shape = Random.Range(0, database.shapes.Count);
+        int prefab = Random.Range(0, database.prefabs.Count);
         int color = Random.Range(0, database.frameColors.Count);
-        int animal = Random.Range(0, database.faceSprites.Count);
+        int animal = Random.Range(0, database.animalSprites.Count);
 
-        return new ChipData(shape, color, animal);
+        return new ChipPassport(prefab, color, animal);
     }
 
-    private bool ContainsData(ChipData data)
+    private bool ContainsPassport(ChipPassport passport)
     {
-        foreach (ChipData saved in selectedChipsData)
+        foreach (ChipPassport saved in usedPassports)
         {
-            if (saved.IsSameAs(data))
+            if (saved.IsSameAs(passport))
                 return true;
         }
         return false;
