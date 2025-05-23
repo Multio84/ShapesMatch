@@ -17,7 +17,7 @@ public class ChipSpawner : MonoBehaviour
     private List<Chip> spawnedChips = new List<Chip>();
 
 
-    private void Start()
+    public void GenerateLevel()
     {
         StartCoroutine(SpawnChips());
     }

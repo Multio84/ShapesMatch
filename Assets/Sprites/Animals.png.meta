@@ -263,7 +263,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Animals_0: 3139590038334684883
+      Animals_1: 7980907516002592024
+      Animals_2: -5338332612186525698
+      Animals_3: -4015624487889484488
+      Animals_4: 6388453771393081888
+      Animals_5: -4654102829445103667
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
