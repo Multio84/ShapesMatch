@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 
 [System.Serializable]
@@ -23,7 +24,7 @@ public struct ChipPassport
     }
 }
 
-public class Chip : MonoBehaviour
+public class Chip : MonoBehaviour, IPointerDownHandler
 {
     [Header("Renderers")]
     [SerializeField] private SpriteRenderer frameRenderer;  // to set color
@@ -38,5 +39,10 @@ public class Chip : MonoBehaviour
 
         frameRenderer.color = db.GetColor(passport.colorIdx);
         animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Destroy(gameObject);
     }
 }
