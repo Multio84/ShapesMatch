@@ -554,7 +554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factory: {fileID: 1269200907}
-  uniqueChips: 14
+  uniqueChips: 1
   chipCopies: 3
   spawnInterval: 0.1
 --- !u!114 &1269200907

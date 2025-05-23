@@ -11,21 +11,21 @@ public class ChipFactory : MonoBehaviour
     private int maxUniqueChipsCount;
 
 
-    public List<ChipPassport> BuildPassportDeck(int uniqueCount, int chipCopies = 3)
+    public List<ChipPassport> BuildPassportDeck(int uniqueChipsCount, int chipCopies = 3)
     {
-        int max = CountMaxUniquePassports(database);
-        if (uniqueCount > maxUniqueChipsCount)
+        maxUniqueChipsCount = CountMaxUniquePassports(database);
+        if (uniqueChipsCount > maxUniqueChipsCount)
         {
             Debug.LogWarning("Quantity of available unique chips is less than required to generate. It will be clamped.");
-            uniqueCount = Mathf.Clamp(uniqueCount, 0, max);
+            uniqueChipsCount = Mathf.Clamp(uniqueChipsCount, 0, maxUniqueChipsCount);
         }
 
         // make unique passports
-        for (int i = 0; i < uniqueCount; i++)
+        for (int i = 0; i < uniqueChipsCount; i++)
             uniquePassports.Add(GetUniqueRandomPassport());
 
         // triple unique passports
-        List<ChipPassport> deck = new List<ChipPassport>(uniqueCount * chipCopies);
+        List<ChipPassport> deck = new List<ChipPassport>(uniqueChipsCount * chipCopies);
         foreach (ChipPassport p in uniquePassports)
             for (int i = 0; i < chipCopies; i++)
                 deck.Add(p);
@@ -55,10 +55,7 @@ public class ChipFactory : MonoBehaviour
             ChipPassport candidate = MakeRandomPassport();
 
             if (!ContainsPassport(candidate))
-            {
-                uniquePassports.Add(candidate);
                 return candidate;
-            }
 
             attempts++;
         }

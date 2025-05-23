@@ -9,7 +9,7 @@ public class ChipSpawner : MonoBehaviour
     [SerializeField] private ChipFactory factory;
 
     [Header("Spawn settings")]
-    [SerializeField] private int uniqueChips = 10;
+    [SerializeField] private int uniqueChips = 3;
     [SerializeField] private int chipCopies = 3;
     [SerializeField] private float spawnInterval = 0.2f;
 

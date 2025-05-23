@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-[System.Serializable]
 public struct ChipPassport
 {
     public int prefabIdx;
