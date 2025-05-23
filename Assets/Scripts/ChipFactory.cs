@@ -7,26 +7,41 @@ public class ChipFactory : MonoBehaviour
     [Header("Links")]
     [SerializeField] private ChipPartsDatabase database;
 
-    private List<ChipPassport> usedPassports = new List<ChipPassport>();
+    private readonly List<ChipPassport> uniquePassports = new List<ChipPassport>();
     private int maxUniqueChipsCount;
 
 
-    public Chip SpawnUniqueChip(Transform parent)
+    public List<ChipPassport> BuildPassportDeck(int uniqueCount, int chipCopies = 3)
     {
-        maxUniqueChipsCount = CountMaxUniqueCombinations(database);
-        ChipPassport passport = GetUniqueRandomPassport();
+        int max = CountMaxUniquePassports(database);
+        if (uniqueCount > maxUniqueChipsCount)
+        {
+            Debug.LogWarning("Quantity of available unique chips is less than required to generate. It will be clamped.");
+            uniqueCount = Mathf.Clamp(uniqueCount, 0, max);
+        }
 
+        // make unique passports
+        for (int i = 0; i < uniqueCount; i++)
+            uniquePassports.Add(GetUniqueRandomPassport());
+
+        // triple unique passports
+        List<ChipPassport> deck = new List<ChipPassport>(uniqueCount * chipCopies);
+        foreach (ChipPassport p in uniquePassports)
+            for (int i = 0; i < chipCopies; i++)
+                deck.Add(p);
+
+        // shuffle all passportsDeck of passports
+        Shuffle(deck);
+
+        return deck;
+    }
+
+    public Chip SpawnChip(ChipPassport passport, Transform parent)
+    {
         Chip prefab = database.GetPrefab(passport.prefabIdx);
         Chip chip = Instantiate(prefab, parent);
         chip.Init(passport, database);
         return chip;
-    }
-
-    private int CountMaxUniqueCombinations(ChipPartsDatabase db)
-    {
-        return db.prefabs.Count *
-            db.frameColors.Count *
-            db.animalSprites.Count;
     }
 
     private ChipPassport GetUniqueRandomPassport()
@@ -41,7 +56,7 @@ public class ChipFactory : MonoBehaviour
 
             if (!ContainsPassport(candidate))
             {
-                usedPassports.Add(candidate);
+                uniquePassports.Add(candidate);
                 return candidate;
             }
 
@@ -63,11 +78,23 @@ public class ChipFactory : MonoBehaviour
 
     private bool ContainsPassport(ChipPassport passport)
     {
-        foreach (ChipPassport saved in usedPassports)
+        foreach (ChipPassport saved in uniquePassports)
         {
             if (saved.IsSameAs(passport))
                 return true;
         }
         return false;
+    }
+
+    private int CountMaxUniquePassports(ChipPartsDatabase db) =>
+       db.prefabs.Count * db.frameColors.Count * db.animalSprites.Count;
+
+    private void Shuffle<T>(IList<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int j = Random.Range(i, list.Count);
+            (list[i], list[j]) = (list[j], list[i]);
+        }
     }
 }
