@@ -291,6 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frameRenderer: {fileID: 1063323566823463244}
   animalRenderer: {fileID: 7317676209381694161}
+  rb: {fileID: 1420525478682591080}
 --- !u!50 &1420525478682591080
 Rigidbody2D:
   serializedVersion: 4
@@ -303,7 +304,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
