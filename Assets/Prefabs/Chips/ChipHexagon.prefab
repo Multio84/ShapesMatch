@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd9add48cc886f149bf9d5e045c6291d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backRenderer: {fileID: 570601824150949394}
   frameRenderer: {fileID: 8022517175416750886}
   animalRenderer: {fileID: 2462835011597678081}
-  rb: {fileID: 1977170162010559799}
 --- !u!50 &1977170162010559799
 Rigidbody2D:
   serializedVersion: 4

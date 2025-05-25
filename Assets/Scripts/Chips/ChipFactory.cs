@@ -6,10 +6,16 @@ public class ChipFactory : MonoBehaviour
 {
     [Header("Links")]
     [SerializeField] private ChipPartsDatabase database;
+    private ActionBar actionBar;
 
     private readonly List<ChipPassport> uniquePassports = new List<ChipPassport>();
     private int maxUniqueChipsCount;
 
+
+    public void Setup(ActionBar actionBar)
+    {
+        this.actionBar = actionBar;
+    }
 
     public List<ChipPassport> BuildPassportDeck(int uniqueChipsCount, int chipCopies = 3)
     {
@@ -40,7 +46,7 @@ public class ChipFactory : MonoBehaviour
     {
         Chip prefab = database.GetPrefab(passport.prefabIdx);
         Chip chip = Instantiate(prefab, parent);
-        chip.Init(passport, database);
+        chip.Init(passport, database, actionBar);
         return chip;
     }
 

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -26,22 +27,95 @@ public struct ChipPassport
 public class Chip : MonoBehaviour, IPointerDownHandler
 {
     [Header("Renderers")]
-    [SerializeField] private SpriteRenderer frameRenderer;  // to set color
-    [SerializeField] private SpriteRenderer animalRenderer; // to set animal
+    [SerializeField] private SpriteRenderer backRenderer;
+    [SerializeField] private SpriteRenderer frameRenderer;
+    [SerializeField] private SpriteRenderer animalRenderer;
+
+    private Rigidbody2D rb;
+    private Collider2D col;
+    private ActionBar actionBar;
 
     private ChipPassport passport;
     public ChipPassport Passport => passport;
 
-    public void Init(ChipPassport passport, ChipPartsDatabase db)
+    private bool isIteractable = true;
+    private const float MOVE_DURATION = 0.6f;
+
+    public void Init(ChipPassport passport, ChipPartsDatabase db, ActionBar actionBar)
     {
         this.passport = passport;
 
+        this.actionBar = actionBar;
         frameRenderer.color = db.GetColor(passport.colorIdx);
         animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
+
+        rb = GetComponent<Rigidbody2D>();
+        col = GetComponentInChildren<Collider2D>();
+        if (rb is null || col is null)
+        {
+            Debug.LogError("RigidBody2D or Collider2D wasn't found in a chip.");
+            return;
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Destroy(gameObject);
+        if (isIteractable)
+        {
+            isIteractable = false;
+            SendToActionBar();
+        }
+    }
+
+    public void SendToActionBar()
+    {
+        Slot targetSlot = actionBar.GetNextAvailableSlot();
+        if (targetSlot is null)
+        {
+            Debug.LogError("No available slot to place next chip.");
+            return;
+        }
+
+        PlaceOverActionBar();
+
+        rb.simulated = false;
+        col.enabled = false;
+
+        Rotate(targetSlot.transform);
+        Move(targetSlot).OnComplete(() => 
+            actionBar.AddChipToPanel(this, targetSlot.index));
+
+    }
+
+    private void PlaceOverActionBar()
+    {
+        if (actionBar.canvas is null)
+        {
+            Debug.LogWarning("ActionBarCanvas is not assigned.");
+            return;
+        }
+
+        int actionBarOrder = actionBar.canvas.sortingOrder;
+
+        backRenderer.sortingOrder += actionBarOrder;
+        frameRenderer.sortingOrder += actionBarOrder;
+        animalRenderer.sortingOrder += actionBarOrder;
+    }
+
+    public Tween Move(Slot targetSlot)
+    {
+        return transform.DOMove(targetSlot.transform.position, MOVE_DURATION)
+            .SetEase(Ease.InOutQuad);
+    }
+
+    public void Rotate(Transform targetTransform)
+    {
+        Vector3 targetZVector = new Vector3(0, 0, targetTransform.rotation.eulerAngles.z);
+
+        transform.DORotate(
+            targetZVector,
+            MOVE_DURATION,
+            RotateMode.FastBeyond360
+        ).SetEase(Ease.InOutQuad);
     }
 }
