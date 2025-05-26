@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class ChipFactory : MonoBehaviour
 {
-    [Header("Links")]
-    [SerializeField] private ChipPartsDatabase database;
     private GameplayManager gameplayManager;
+    private ChipPartsDatabase database;
     private GamePanel gamePanel;
 
     private readonly List<ChipPassport> uniquePassports = new List<ChipPassport>();
     private int maxUniqueChipsCount;
 
 
-    public void Setup(GameplayManager gm, GamePanel gp)
+    public void Setup(ChipPartsDatabase db, GameplayManager gm, GamePanel gp)
     {
+        database = db;
         gameplayManager = gm;
         gamePanel = gp;
     }

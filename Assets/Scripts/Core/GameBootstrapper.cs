@@ -6,6 +6,7 @@ public class GameBootstrapper : MonoBehaviour
 {
     private IInitializable[] initializables;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private ChipPartsDatabase chipPartsDatabase;
     [SerializeField] private GameplayManager gameplayManager;
     [SerializeField] private ChipFactory chipFactory;
     [SerializeField] private ChipSpawner chipSpawner;
@@ -21,6 +22,7 @@ public class GameBootstrapper : MonoBehaviour
     private void Setup()
     {
         if (gameManager is null ||
+            chipPartsDatabase is null ||
             gameplayManager is null ||
             chipFactory is null ||
             chipSpawner is null ||
@@ -32,8 +34,8 @@ public class GameBootstrapper : MonoBehaviour
 
         gameManager.Setup(gameplayManager, chipSpawner);
         gameplayManager.Setup(gamePanel);
-        chipSpawner.Setup(gameplayManager);
-        chipFactory.Setup(gameplayManager, gamePanel);
+        chipSpawner.Setup(gameplayManager, chipFactory);
+        chipFactory.Setup(chipPartsDatabase, gameplayManager, gamePanel);
     }
 
     
@@ -42,7 +44,7 @@ public class GameBootstrapper : MonoBehaviour
         initializables = new IInitializable[]
         {
             gameManager,
-            gameplayManager,
+            //gameplayManager,
             gamePanel
         };
 

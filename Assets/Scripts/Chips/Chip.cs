@@ -43,6 +43,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     public ChipPassport Passport => passport;
     public bool isMatched = false;
 
+    public event Action<Chip> ChipSent;
     public event Action ChipPlaced;
 
 
@@ -68,6 +69,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         frameRenderer.color = db.GetColor(passport.colorIdx);
         animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
 
+        ChipSent += gameplayManager.OnChipSent;
         ChipPlaced += gameplayManager.OnChipPlaced;
 
     }
@@ -78,6 +80,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         {
             isIteractable = false;
 
+            ChipSent?.Invoke(this);
             SendToActionBar();
         }
     }

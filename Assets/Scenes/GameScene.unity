@@ -246,15 +246,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1545951893}
-  placedChipsRoot: {fileID: 2050018683}
+  chipsRoot: {fileID: 0}
   slots:
   - transform: {fileID: 45190538}
+    state: 0
   - transform: {fileID: 1858730351}
+    state: 0
   - transform: {fileID: 1123585592}
+    state: 0
   - transform: {fileID: 1840125349}
+    state: 0
   - transform: {fileID: 1677525400}
+    state: 0
   - transform: {fileID: 1577992805}
+    state: 0
   - transform: {fileID: 843298650}
+    state: 0
 --- !u!1 &308865442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,9 +1039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameplayManager: {fileID: 0}
   factory: {fileID: 1269200907}
-  uniqueChips: 5
-  chipCopies: 3
-  spawnInterval: 0.1
+  uniqueChips: 10
 --- !u!114 &1269200907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1425,7 +1430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2050018683}
   m_Layer: 5
-  m_Name: PlacedChips
+  m_Name: Chips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
