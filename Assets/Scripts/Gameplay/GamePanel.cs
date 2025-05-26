@@ -29,7 +29,7 @@ public class GamePanel : MonoBehaviour, IInitializable
     [SerializeField] private Slot[] slots = new Slot[SLOTS_COUNT];
 
     public const int SLOTS_COUNT = 7;
-    private const float MOVE_DURATION = 0.2f;
+    private const float MOVE_DURATION = 0.15f;
     private List<Chip> chipsToDelete = new List<Chip>();
     private List<Chip> chipsToMove = new List<Chip>();
 

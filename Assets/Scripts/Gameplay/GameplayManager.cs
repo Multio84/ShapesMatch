@@ -25,7 +25,7 @@ public class GameplayManager : MonoBehaviour, IInitializable
         panel.MatchesDestroyed -= OnMatchesDestroyed;
     }
 
-    public void OnChipSent(Chip chip)
+    public void OnChipSentToPanel(Chip chip)
     {
         spawnedChips.Remove(chip);
     }

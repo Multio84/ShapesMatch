@@ -15,8 +15,6 @@ public class GameBootstrapper : MonoBehaviour
 
     private void Awake()
     {
-
-
         Setup();
         Init();
     }

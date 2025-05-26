@@ -38,13 +38,13 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     private GamePanel panel;
     private bool isInteractable = true;
     private const float FLY_DURATION = 0.5f;
-    private const float DEATH_DURATION = 0.2f;
+    private const float DEATH_DURATION = 0.15f;
 
     private ChipPassport passport;
     public ChipPassport Passport => passport;
     public bool isMatched = false;
 
-    public event Action<Chip> ChipSent;
+    public event Action<Chip> ChipSentToPanel;
     public event Action ChipPlaced;
     public event Action<Chip> DeathCompleted;
 
@@ -71,7 +71,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         frameRenderer.color = db.GetColor(passport.colorIdx);
         animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
 
-        ChipSent += gameplayManager.OnChipSent;
+        ChipSentToPanel += gameplayManager.OnChipSentToPanel;
         ChipPlaced += gameplayManager.OnChipPlaced;
     }
 
@@ -95,7 +95,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         rb.simulated = false;
         col.enabled = false;
 
-        ChipSent?.Invoke(this);
+        ChipSentToPanel?.Invoke(this);
 
         panel.ReserveSlot(idx, this);
 
