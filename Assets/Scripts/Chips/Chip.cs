@@ -73,7 +73,6 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
         ChipSent += gameplayManager.OnChipSent;
         ChipPlaced += gameplayManager.OnChipPlaced;
-
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -86,11 +85,11 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
             isInteractable = false;
 
-            SendToActionBar(idx);
+            SendToPanel(idx);
         }
     }
 
-    public void SendToActionBar(int idx)
+    public void SendToPanel(int idx)
     {
         PrepareForGamePanel();
         rb.simulated = false;
@@ -102,7 +101,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
         Rotate(panel.GetSlotTransform(idx));
         Move(panel.GetSlotTransform(idx), FLY_DURATION).
-            OnComplete(() => ChipArrived(idx));
+            OnComplete(() => ChipArrivedToPanel(idx));
     }
 
     private void PrepareForGamePanel()
@@ -120,7 +119,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         animalRenderer.sortingOrder += actionBarOrder;
     }
 
-    private void ChipArrived(int idx)
+    private void ChipArrivedToPanel(int idx)
     {
         panel.PlaceChip(idx, this);
         ChipPlaced?.Invoke();

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,9 +31,10 @@ public class GamePanel : MonoBehaviour, IInitializable
     public const int SLOTS_COUNT = 7;
     private const float MOVE_DURATION = 0.2f;
     private List<Chip> chipsToDelete = new List<Chip>();
-    private List<Chip> chipsToMOve = new List<Chip>();
+    private List<Chip> chipsToMove = new List<Chip>();
 
     public event Action MatchesDestroyed;
+    public event Action ChipsMoveCompleted;
 
 
     public void Init()
@@ -172,8 +174,10 @@ public class GamePanel : MonoBehaviour, IInitializable
             MatchesDestroyed?.Invoke();
     }
 
-    public void MoveChipsToEmptySlots()
+    public bool MoveChipsToEmptySlots()
     {
+        bool chipsWereSentToMove = false;
+
         for (int i = 0; i < SLOTS_COUNT; i++)
         {
             if (slots[i].state != SlotState.Free) continue;
@@ -182,14 +186,27 @@ public class GamePanel : MonoBehaviour, IInitializable
             {
                 if (slots[j].state != SlotState.Occupied) continue;
 
+                chipsWereSentToMove = true;
+
                 Transform target = slots[i].transform;
                 Chip chip = slots[j].chip;
                 RelocateChip(j, i);
 
-                chip.Move(target, MOVE_DURATION);
+                chipsToMove.Add(chip);
+                chip.Move(target, MOVE_DURATION).OnComplete(() => HandleChipsMoved(chip));
 
                 break;
             }
         }
+
+        return chipsWereSentToMove;
+    }
+
+    private void HandleChipsMoved(Chip chip)
+    {
+        chipsToMove.Remove(chip);
+
+        if (chipsToMove.Count <= 0)
+            ChipsMoveCompleted?.Invoke();
     }
 }

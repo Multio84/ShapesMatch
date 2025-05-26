@@ -17,6 +17,7 @@ public class GameplayManager : MonoBehaviour, IInitializable
     public void Init()
     {
         panel.MatchesDestroyed += OnMatchesDestroyed;
+        panel.ChipsMoveCompleted += OnChipsMoveCompleted;
     }
 
     void OnDisable()
@@ -31,7 +32,27 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
     public void OnChipPlaced()
     {
-        ProcessMove();
+        if (panel.HasFlyingChips())
+            return;
+
+        if (!panel.MoveChipsToEmptySlots())
+            FindAndDestroyMatches();
+    }
+
+    public void OnChipsMoveCompleted()
+    {
+        FindAndDestroyMatches();
+    }
+
+    private void FindAndDestroyMatches()
+    {
+        if (panel.CountPlacedChips() >= ChipSpawner.CHIP_COPIES)
+        {
+            if (panel.FindMatches())
+                panel.DestroyMatches();
+            else
+                UpdateGameState();
+        }
     }
 
     public void OnMatchesDestroyed()
@@ -40,22 +61,6 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
         if (panel.CountPlacedChips() > 0)
             panel.MoveChipsToEmptySlots();
-    }
-
-    private void ProcessMove()
-    {
-        if (panel.HasFlyingChips())
-            return;
-
-        panel.MoveChipsToEmptySlots();
-
-        if (panel.CountPlacedChips() >= ChipSpawner.CHIP_COPIES)
-        {
-            if (panel.FindMatches())
-                panel.DestroyMatches();
-            else
-                UpdateGameState();
-        }   
     }
 
     private void UpdateGameState()
