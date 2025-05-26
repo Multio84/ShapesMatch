@@ -6,18 +6,20 @@ public class ChipFactory : MonoBehaviour
 {
     [Header("Links")]
     [SerializeField] private ChipPartsDatabase database;
-    private ActionBar actionBar;
+    private GameplayManager gameplayManager;
+    private GamePanel gamePanel;
 
     private readonly List<ChipPassport> uniquePassports = new List<ChipPassport>();
     private int maxUniqueChipsCount;
 
 
-    public void Setup(ActionBar actionBar)
+    public void Setup(GameplayManager gm, GamePanel gp)
     {
-        this.actionBar = actionBar;
+        gameplayManager = gm;
+        gamePanel = gp;
     }
 
-    public List<ChipPassport> BuildPassportDeck(int uniqueChipsCount, int chipCopies = 3)
+    public List<ChipPassport> BuildPassportDeck(int uniqueChipsCount, int chipCopies)
     {
         maxUniqueChipsCount = CountMaxUniquePassports(database);
         if (uniqueChipsCount > maxUniqueChipsCount)
@@ -30,7 +32,7 @@ public class ChipFactory : MonoBehaviour
         for (int i = 0; i < uniqueChipsCount; i++)
             uniquePassports.Add(GetUniqueRandomPassport());
 
-        // triple unique passports
+        // copy unique passports
         List<ChipPassport> deck = new List<ChipPassport>(uniqueChipsCount * chipCopies);
         foreach (ChipPassport p in uniquePassports)
             for (int i = 0; i < chipCopies; i++)
@@ -46,7 +48,7 @@ public class ChipFactory : MonoBehaviour
     {
         Chip prefab = database.GetPrefab(passport.prefabIdx);
         Chip chip = Instantiate(prefab, parent);
-        chip.Init(passport, database, actionBar);
+        chip.Init(gameplayManager, gamePanel, passport, database);
         return chip;
     }
 

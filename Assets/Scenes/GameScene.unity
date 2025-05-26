@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 236295821}
   - component: {fileID: 236295823}
   m_Layer: 5
-  m_Name: ActionBar
+  m_Name: GamePlanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -249,19 +249,57 @@ MonoBehaviour:
   placedChipsRoot: {fileID: 2050018683}
   slots:
   - transform: {fileID: 45190538}
-    index: 0
   - transform: {fileID: 1858730351}
-    index: 0
   - transform: {fileID: 1123585592}
-    index: 0
   - transform: {fileID: 1840125349}
-    index: 0
   - transform: {fileID: 1677525400}
-    index: 0
   - transform: {fileID: 1577992805}
-    index: 0
   - transform: {fileID: 843298650}
-    index: 0
+--- !u!1 &308865442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 308865443}
+  - component: {fileID: 308865444}
+  m_Layer: 0
+  m_Name: GameplayManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &308865443
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308865442}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 358847137}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &308865444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308865442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bb692debe999ce40abcf0f162f4242c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnedChips: []
 --- !u!1 &351236009
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,6 +375,7 @@ Transform:
   m_Children:
   - {fileID: 479776510}
   - {fileID: 351236010}
+  - {fileID: 308865443}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &479776509
@@ -384,9 +423,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 351236011}
+  gameplayManager: {fileID: 308865444}
   chipFactory: {fileID: 1269200907}
   chipSpawner: {fileID: 1269200906}
-  actionBar: {fileID: 236295823}
+  gamePanel: {fileID: 236295823}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,6 +1030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db188a45b73170548b70ddadee068cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameplayManager: {fileID: 0}
   factory: {fileID: 1269200907}
   uniqueChips: 5
   chipCopies: 3
@@ -1035,7 +1076,7 @@ GameObject:
   - component: {fileID: 1545951892}
   - component: {fileID: 1545951891}
   m_Layer: 5
-  m_Name: ActionBarCanvas
+  m_Name: GamePanelCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

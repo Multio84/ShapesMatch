@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -33,22 +34,25 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
     private Rigidbody2D rb;
     private Collider2D col;
-    private ActionBar actionBar;
+    private GameplayManager gameplayManager;
+    private GamePanel panel;
+    private bool isIteractable = true;
+    private const float MOVE_DURATION = 2.6f;
 
     private ChipPassport passport;
     public ChipPassport Passport => passport;
+    public bool isMatched = false;
 
-    private bool isIteractable = true;
-    private const float MOVE_DURATION = 0.6f;
+    public event Action ChipPlaced;
 
-    public void Init(ChipPassport passport, ChipPartsDatabase db, ActionBar actionBar)
+
+    void OnDisable()
     {
-        this.passport = passport;
+        ChipPlaced -= gameplayManager.OnChipPlaced;
+    }
 
-        this.actionBar = actionBar;
-        frameRenderer.color = db.GetColor(passport.colorIdx);
-        animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
-
+    public void Init(GameplayManager gm, GamePanel gp, ChipPassport p, ChipPartsDatabase db)
+    {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponentInChildren<Collider2D>();
         if (rb is null || col is null)
@@ -56,6 +60,16 @@ public class Chip : MonoBehaviour, IPointerDownHandler
             Debug.LogError("RigidBody2D or Collider2D wasn't found in a chip.");
             return;
         }
+
+        gameplayManager = gm;
+        panel = gp;
+        passport = p;
+
+        frameRenderer.color = db.GetColor(passport.colorIdx);
+        animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
+
+        ChipPlaced += gameplayManager.OnChipPlaced;
+
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -63,48 +77,55 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         if (isIteractable)
         {
             isIteractable = false;
+
             SendToActionBar();
         }
     }
 
     public void SendToActionBar()
     {
-        Slot targetSlot = actionBar.GetNextAvailableSlot();
-        if (targetSlot is null)
+        int slotIdx = panel.GetNextAvailableSlot();
+        if (slotIdx < 0)
         {
             Debug.LogError("No available slot to place next chip.");
             return;
         }
 
         PlaceOverActionBar();
-
         rb.simulated = false;
         col.enabled = false;
+        
+        panel.ReserveSlot(slotIdx, this);
 
-        Rotate(targetSlot.transform);
-        Move(targetSlot).OnComplete(() => 
-            actionBar.AddChipToPanel(this, targetSlot.index));
+        Rotate(panel.GetSlotTransform(slotIdx));
+        Move(panel.GetSlotTransform(slotIdx)).
+            OnComplete(() => ChipArrived(slotIdx));
+    }
 
+    private void ChipArrived(int idx)
+    {
+        panel.PlaceChip(idx, this);
+        ChipPlaced?.Invoke();
     }
 
     private void PlaceOverActionBar()
     {
-        if (actionBar.canvas is null)
+        if (panel.canvas is null)
         {
             Debug.LogWarning("ActionBarCanvas is not assigned.");
             return;
         }
 
-        int actionBarOrder = actionBar.canvas.sortingOrder;
+        int actionBarOrder = panel.canvas.sortingOrder;
 
         backRenderer.sortingOrder += actionBarOrder;
         frameRenderer.sortingOrder += actionBarOrder;
         animalRenderer.sortingOrder += actionBarOrder;
     }
 
-    public Tween Move(Slot targetSlot)
+    public Tween Move(Transform targetTransform)
     {
-        return transform.DOMove(targetSlot.transform.position, MOVE_DURATION)
+        return transform.DOMove(targetTransform.position, MOVE_DURATION)
             .SetEase(Ease.InOutQuad);
     }
 
@@ -112,10 +133,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     {
         Vector3 targetZVector = new Vector3(0, 0, targetTransform.rotation.eulerAngles.z);
 
-        transform.DORotate(
-            targetZVector,
-            MOVE_DURATION,
-            RotateMode.FastBeyond360
-        ).SetEase(Ease.InOutQuad);
+        transform.DORotate(targetZVector, MOVE_DURATION)
+            .SetEase(Ease.InOutQuad);
     }
 }

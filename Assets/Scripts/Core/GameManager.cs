@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour, IInitializable
 {
+    private GameplayManager gameplayManager;
     private ChipSpawner chipSpawner;
 
 
-    public void Setup(ChipSpawner chipSpawner)
+    public void Setup(GameplayManager gm, ChipSpawner cs)
     {
-        this.chipSpawner = chipSpawner;
+        gameplayManager = gm;
+        chipSpawner = cs;
     }
 
     public void Init()

@@ -6,16 +6,21 @@ using UnityEngine;
 public class ChipSpawner : MonoBehaviour
 {
     [Header("Links")]
+    [SerializeField] private GameplayManager gameplayManager;
     [SerializeField] private ChipFactory factory;
 
     [Header("Spawn settings")]
+    [SerializeField] public const int CHIP_COPIES = 3;
     [SerializeField] private int uniqueChips = 3;
-    [SerializeField] private int chipCopies = 3;
-    [SerializeField] private float spawnInterval = 0.2f;
+    [SerializeField] private const float SPAWN_INTERVAL = 0.2f;
 
     private List<ChipPassport> passportsDeck;
-    private List<Chip> spawnedChips = new List<Chip>();
+    
 
+    public void Setup(GameplayManager gm)
+    {
+        gameplayManager = gm;
+    }
 
     public void GenerateLevel()
     {
@@ -30,14 +35,14 @@ public class ChipSpawner : MonoBehaviour
             yield break;
         }
 
-        passportsDeck = factory.BuildPassportDeck(uniqueChips, chipCopies);
+        passportsDeck = factory.BuildPassportDeck(uniqueChips, CHIP_COPIES);
 
         foreach (ChipPassport passport in passportsDeck)
         {
             Chip chip = factory.SpawnChip(passport, transform);
-            spawnedChips.Add(chip);
+            gameplayManager.spawnedChips.Add(chip);
 
-            yield return new WaitForSeconds(spawnInterval);
+            yield return new WaitForSeconds(SPAWN_INTERVAL);
         }
     }
 
