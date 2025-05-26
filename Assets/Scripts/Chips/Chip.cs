@@ -36,8 +36,9 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     private Collider2D col;
     private GameplayManager gameplayManager;
     private GamePanel panel;
-    private bool isIteractable = true;
-    private const float MOVE_DURATION = 2.6f;
+    private bool isInteractable = true;
+    private const float FLY_DURATION = 0.5f;
+    private const float DEATH_DURATION = 0.2f;
 
     private ChipPassport passport;
     public ChipPassport Passport => passport;
@@ -45,6 +46,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
     public event Action<Chip> ChipSent;
     public event Action ChipPlaced;
+    public event Action<Chip> DeathCompleted;
 
 
     void OnDisable()
@@ -76,46 +78,38 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (isIteractable)
+        if (isInteractable)
         {
-            isIteractable = false;
+            int idx = panel.GetNextAvailableSlot();
+            if (idx < 0)
+                return;
 
-            ChipSent?.Invoke(this);
-            SendToActionBar();
+            isInteractable = false;
+
+            SendToActionBar(idx);
         }
     }
 
-    public void SendToActionBar()
+    public void SendToActionBar(int idx)
     {
-        int slotIdx = panel.GetNextAvailableSlot();
-        if (slotIdx < 0)
-        {
-            Debug.LogError("No available slot to place next chip.");
-            return;
-        }
-
-        PlaceOverActionBar();
+        PrepareForGamePanel();
         rb.simulated = false;
         col.enabled = false;
-        
-        panel.ReserveSlot(slotIdx, this);
 
-        Rotate(panel.GetSlotTransform(slotIdx));
-        Move(panel.GetSlotTransform(slotIdx)).
-            OnComplete(() => ChipArrived(slotIdx));
+        ChipSent?.Invoke(this);
+
+        panel.ReserveSlot(idx, this);
+
+        Rotate(panel.GetSlotTransform(idx));
+        Move(panel.GetSlotTransform(idx), FLY_DURATION).
+            OnComplete(() => ChipArrived(idx));
     }
 
-    private void ChipArrived(int idx)
-    {
-        panel.PlaceChip(idx, this);
-        ChipPlaced?.Invoke();
-    }
-
-    private void PlaceOverActionBar()
+    private void PrepareForGamePanel()
     {
         if (panel.canvas is null)
         {
-            Debug.LogWarning("ActionBarCanvas is not assigned.");
+            Debug.LogWarning("GamePanel is not assigned.");
             return;
         }
 
@@ -126,9 +120,15 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         animalRenderer.sortingOrder += actionBarOrder;
     }
 
-    public Tween Move(Transform targetTransform)
+    private void ChipArrived(int idx)
     {
-        return transform.DOMove(targetTransform.position, MOVE_DURATION)
+        panel.PlaceChip(idx, this);
+        ChipPlaced?.Invoke();
+    }
+
+    public Tween Move(Transform targetTransform, float duration)
+    {
+        return transform.DOMove(targetTransform.position, duration)
             .SetEase(Ease.InOutQuad);
     }
 
@@ -136,7 +136,14 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     {
         Vector3 targetZVector = new Vector3(0, 0, targetTransform.rotation.eulerAngles.z);
 
-        transform.DORotate(targetZVector, MOVE_DURATION)
+        transform.DORotate(targetZVector, FLY_DURATION)
             .SetEase(Ease.InOutQuad);
+    }
+
+    public void Die()
+    {
+        transform.DOScale(Vector3.zero, DEATH_DURATION)
+         .SetEase(Ease.InOutQuad)
+         .OnComplete(() => DeathCompleted(this));
     }
 }

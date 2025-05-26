@@ -15,6 +15,8 @@ public class GameBootstrapper : MonoBehaviour
 
     private void Awake()
     {
+
+
         Setup();
         Init();
     }
@@ -44,7 +46,7 @@ public class GameBootstrapper : MonoBehaviour
         initializables = new IInitializable[]
         {
             gameManager,
-            //gameplayManager,
+            gameplayManager,
             gamePanel
         };
 

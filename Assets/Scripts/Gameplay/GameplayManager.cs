@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class GameplayManager : MonoBehaviour//, IInitializable
+public class GameplayManager : MonoBehaviour, IInitializable
 {
     private GamePanel panel;
 
@@ -14,15 +14,15 @@ public class GameplayManager : MonoBehaviour//, IInitializable
         panel = gp;
     }
 
-    //public void Init()
-    //{
+    public void Init()
+    {
+        panel.MatchesDestroyed += OnMatchesDestroyed;
+    }
 
-    //}
-
-    //void OnDisable()
-    //{
-
-    //}
+    void OnDisable()
+    {
+        panel.MatchesDestroyed -= OnMatchesDestroyed;
+    }
 
     public void OnChipSent(Chip chip)
     {
@@ -32,6 +32,14 @@ public class GameplayManager : MonoBehaviour//, IInitializable
     public void OnChipPlaced()
     {
         ProcessMove();
+    }
+
+    public void OnMatchesDestroyed()
+    {
+        UpdateGameState();
+
+        if (panel.CountPlacedChips() > 0)
+            panel.MoveChipsToEmptySlots();
     }
 
     private void ProcessMove()
@@ -44,13 +52,7 @@ public class GameplayManager : MonoBehaviour//, IInitializable
         if (panel.CountPlacedChips() >= ChipSpawner.CHIP_COPIES)
         {
             if (panel.FindMatches())
-            {
                 panel.DestroyMatches();
-                UpdateGameState();
-
-                if (panel.CountPlacedChips() > 0)
-                    panel.MoveChipsToEmptySlots();
-            }
             else
                 UpdateGameState();
         }   

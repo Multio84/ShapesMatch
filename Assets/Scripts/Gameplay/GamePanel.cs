@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,22 +11,28 @@ public enum SlotState
     Matched
 }
 
-[System.Serializable]
+[Serializable]
 public class Slot
 {
     public Transform transform;
-    [System.NonSerialized] public int index;
-    //[System.NonSerialized] 
+    [NonSerialized] public int index;
+    //[NonSerialized] 
     public SlotState state = SlotState.Free;
-    [System.NonSerialized] public Chip chip;
+    [NonSerialized] public Chip chip;
 }
 
 public class GamePanel : MonoBehaviour, IInitializable
 {
-    public const int SLOTS_COUNT = 7;
     public Canvas canvas;
     [SerializeField] private Transform chipsRoot;
     [SerializeField] private Slot[] slots = new Slot[SLOTS_COUNT];
+
+    public const int SLOTS_COUNT = 7;
+    private const float MOVE_DURATION = 0.2f;
+    private List<Chip> chipsToDelete = new List<Chip>();
+    private List<Chip> chipsToMOve = new List<Chip>();
+
+    public event Action MatchesDestroyed;
 
 
     public void Init()
@@ -47,7 +54,6 @@ public class GamePanel : MonoBehaviour, IInitializable
                 return i;
         }
         
-        Debug.LogError("Attempt to send chip to non-existing slotIdx!");
         return -1;
     }
 
@@ -65,7 +71,6 @@ public class GamePanel : MonoBehaviour, IInitializable
 
     private void DestroyChip(int idx)
     {
-        Destroy(slots[idx].chip.gameObject);
         slots[idx].chip = null;
         slots[idx].state = SlotState.Free;
     }
@@ -141,24 +146,47 @@ public class GamePanel : MonoBehaviour, IInitializable
     {
         foreach (var s in slots)
             if (s.state == SlotState.Matched)
+            {
+                Chip chip = s.chip;
+                chipsToDelete.Add(chip);
+                chip.DeathCompleted += HandleMatchesDestroyed;
+                chip.Die();
+            }
+    }
+
+    private void HandleMatchesDestroyed(Chip chip)
+    {
+        chip.DeathCompleted -= HandleMatchesDestroyed;
+        chipsToDelete.Remove(chip);
+
+        foreach (var s in slots)
+            if (s.chip == chip)
+            {
                 DestroyChip(s.index);
+                break;
+            }
+
+        Destroy(chip);
+
+        if (chipsToDelete.Count <= 0)
+            MatchesDestroyed?.Invoke();
     }
 
     public void MoveChipsToEmptySlots()
     {
         for (int i = 0; i < SLOTS_COUNT; i++)
         {
-            if (slots[i].state == SlotState.Occupied) continue;
+            if (slots[i].state != SlotState.Free) continue;
 
             for (int j = i + 1; j < SLOTS_COUNT; j++)
             {
-                if (slots[j].state == SlotState.Free) continue;
+                if (slots[j].state != SlotState.Occupied) continue;
 
                 Transform target = slots[i].transform;
                 Chip chip = slots[j].chip;
                 RelocateChip(j, i);
 
-                chip.Move(target);
+                chip.Move(target, MOVE_DURATION);
 
                 break;
             }

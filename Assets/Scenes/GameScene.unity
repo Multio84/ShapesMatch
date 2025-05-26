@@ -430,6 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 351236011}
+  chipPartsDatabase: {fileID: 11400000, guid: 15c8c6fb6918ba44ab1f944ec83037cd, type: 2}
   gameplayManager: {fileID: 308865444}
   chipFactory: {fileID: 1269200907}
   chipSpawner: {fileID: 1269200906}
@@ -1037,8 +1038,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db188a45b73170548b70ddadee068cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameplayManager: {fileID: 0}
-  factory: {fileID: 1269200907}
   uniqueChips: 10
 --- !u!114 &1269200907
 MonoBehaviour:
@@ -1052,7 +1051,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5450220dfae3d944284171b5c0f72090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  database: {fileID: 11400000, guid: 15c8c6fb6918ba44ab1f944ec83037cd, type: 2}
 --- !u!4 &1269200908
 Transform:
   m_ObjectHideFlags: 0
