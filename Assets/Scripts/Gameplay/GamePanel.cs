@@ -17,8 +17,7 @@ public class Slot
 {
     public Transform transform;
     [NonSerialized] public int index;
-    //[NonSerialized] 
-    public SlotState state = SlotState.Free;
+    [NonSerialized] public SlotState state = SlotState.Free;
     [NonSerialized] public Chip chip;
 }
 

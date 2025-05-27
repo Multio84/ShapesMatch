@@ -60,6 +60,15 @@ public class ChipSpawner : MonoBehaviour
         yield return new WaitUntil(() =>
             bottomSensor.IsAllPassed(gameplayManager.spawnedChips));
 
+        // to slow down chips' speed
+        foreach (Chip chip in gameplayManager.spawnedChips)
+        {
+            var rb = chip.rb;
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.simulated = false;
+        }
+
         containerBottom.enabled = true;
 
         ChipFactory.Shuffle(gameplayManager.spawnedChips);
@@ -67,6 +76,9 @@ public class ChipSpawner : MonoBehaviour
         // drop chips again
         foreach (Chip chip in gameplayManager.spawnedChips)
         {
+            var rb = chip.rb;
+            rb.simulated = true;
+
             chip.transform.position = transform.position;
 
             yield return new WaitForSeconds(spawnInterval);

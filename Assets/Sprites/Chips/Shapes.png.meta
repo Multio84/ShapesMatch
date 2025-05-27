@@ -96,7 +96,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -137,10 +137,10 @@ TextureImporter:
       name: Shapes_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 163
-        width: 88
-        height: 88
+        x: 5
+        y: 162
+        width: 90
+        height: 90
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +166,20 @@ TextureImporter:
       name: Shapes_1
       rect:
         serializedVersion: 2
-        x: 105
-        y: 163
-        width: 97
-        height: 88
+        x: 104
+        y: 162
+        width: 99
+        height: 90
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
       - - {x: -9.5, y: 44}
-        - {x: -48.5, y: -23}
-        - {x: -43.5, y: -44}
+        - {x: -49.5, y: -24}
+        - {x: -42.5, y: -44}
         - {x: 42.5, y: -44}
-        - {x: 48.5, y: -22}
+        - {x: 49.5, y: -25}
         - {x: 9.5, y: 44}
       tessellationDetail: 0
       bones: []
@@ -193,10 +193,10 @@ TextureImporter:
       name: Shapes_2
       rect:
         serializedVersion: 2
-        x: 214
-        y: 163
-        width: 88
-        height: 88
+        x: 5
+        y: 65
+        width: 90
+        height: 90
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,111 +214,27 @@ TextureImporter:
       name: Shapes_3
       rect:
         serializedVersion: 2
-        x: 314
-        y: 167
-        width: 88
-        height: 80
+        x: 105
+        y: 68
+        width: 95
+        height: 86
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -44, y: 6}
-        - {x: -44, y: -5}
-        - {x: -24, y: -40}
-        - {x: 24, y: -40}
-        - {x: 44, y: -5}
-        - {x: 44, y: 6}
-        - {x: 24, y: 40}
-        - {x: -24, y: 40}
+      - - {x: -46.5, y: 6}
+        - {x: -46.5, y: -5}
+        - {x: -24.5, y: -42}
+        - {x: 24.5, y: -42}
+        - {x: 46.5, y: -5}
+        - {x: 46.5, y: 6}
+        - {x: 24.5, y: 42}
+        - {x: -24.5, y: 42}
       tessellationDetail: 0
       bones: []
       spriteID: f1d02917b37276ef0800000000000000
       internalID: -115080129212707553
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Shapes_4
-      rect:
-        serializedVersion: 2
-        x: 15
-        y: 80
-        width: 70
-        height: 70
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d37ae7143378a44b0800000000000000
-      internalID: -5455399344394033347
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Shapes_5
-      rect:
-        serializedVersion: 2
-        x: 114
-        y: 80
-        width: 79
-        height: 70
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0478dc75f98927af0800000000000000
-      internalID: -400089606742243520
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Shapes_6
-      rect:
-        serializedVersion: 2
-        x: 221
-        y: 80
-        width: 70
-        height: 70
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 06cf2184814d30b40800000000000000
-      internalID: 5405397178528234592
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Shapes_7
-      rect:
-        serializedVersion: 2
-        x: 323
-        y: 84
-        width: 70
-        height: 62
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f7fdf92a297b12a40800000000000000
-      internalID: 5341752473459613567
       vertices: []
       indices: 
       edges: []
@@ -338,10 +254,6 @@ TextureImporter:
       Shapes_1: 962806293248896454
       Shapes_2: -8138782370738992367
       Shapes_3: -115080129212707553
-      Shapes_4: -5455399344394033347
-      Shapes_5: -400089606742243520
-      Shapes_6: 5405397178528234592
-      Shapes_7: 5341752473459613567
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

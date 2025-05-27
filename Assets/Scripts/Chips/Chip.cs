@@ -28,7 +28,7 @@ public struct ChipPassport
 public class Chip : MonoBehaviour, IPointerDownHandler
 {
     [Header("Renderers")]
-    [SerializeField] private SpriteRenderer backRenderer;
+    //[SerializeField] private SpriteRenderer backRenderer;
     [SerializeField] private SpriteRenderer frameRenderer;
     [SerializeField] private SpriteRenderer animalRenderer;
 
@@ -38,7 +38,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     private GamePanel panel;
     private bool isInteractable = true;
     private const float FLY_DURATION = 0.5f;
-    private const float DEATH_DURATION = 0.15f;
+    private const float DEATH_DURATION = 0.25f;
 
     private ChipPassport passport;
     public bool isMatched = false;
@@ -114,7 +114,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
         int actionBarOrder = panel.canvas.sortingOrder;
 
-        backRenderer.sortingOrder += actionBarOrder;
+        //backRenderer.sortingOrder += actionBarOrder;
         frameRenderer.sortingOrder += actionBarOrder;
         animalRenderer.sortingOrder += actionBarOrder;
     }

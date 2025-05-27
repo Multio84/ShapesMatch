@@ -197,22 +197,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
-  chipsRoot: {fileID: 0}
+  chipsRoot: {fileID: 195838438024362614}
   slots:
   - transform: {fileID: 6599203094436227038}
-    state: 0
   - transform: {fileID: 5678039950656574480}
-    state: 0
   - transform: {fileID: 7007571453134504248}
-    state: 0
   - transform: {fileID: 5893946604987089909}
-    state: 0
   - transform: {fileID: 5340878511354827176}
-    state: 0
   - transform: {fileID: 6944157313975109883}
-    state: 0
   - transform: {fileID: 7607724899983204772}
-    state: 0
+  chipMoveDuration: 0.15
 --- !u!1 &2675532039226307323
 GameObject:
   m_ObjectHideFlags: 0
