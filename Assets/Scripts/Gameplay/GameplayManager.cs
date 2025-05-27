@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class GameplayManager : MonoBehaviour, IInitializable
 {
+    private ChipSpawner spawner;
     private GamePanel panel;
+    private UIManager uiManager;
 
     [HideInInspector] public List<Chip> spawnedChips = new List<Chip>();
 
 
-    public void Setup(GamePanel gp)
+    public void Setup(ChipSpawner s, GamePanel gp, UIManager uim)
     {
+        spawner = s;
         panel = gp;
+        uiManager = uim;
     }
 
     public void Init()
@@ -23,6 +27,12 @@ public class GameplayManager : MonoBehaviour, IInitializable
     void OnDisable()
     {
         panel.MatchesDestroyed -= OnMatchesDestroyed;
+        panel.ChipsMoveCompleted -= OnChipsMoveCompleted;
+    }
+
+    public void GenerateLevel()
+    {
+        spawner.GenerateLevel();
     }
 
     public void OnChipSentToPanel(Chip chip)
@@ -32,8 +42,7 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
     public void OnChipPlaced()
     {
-        if (panel.HasFlyingChips())
-            return;
+        if (panel.HasFlyingChips()) return;
 
         if (!panel.MoveChipsToEmptySlots())
             FindAndDestroyMatches();
@@ -65,20 +74,10 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
     private void UpdateGameState()
     {
-        if (panel.CountPlacedChips() == GamePanel.SLOTS_COUNT)
-            GameOver();
-
         if (panel.CountPlacedChips() == 0 && spawnedChips.Count == 0)
-            YouWin();
-    }
+            uiManager.ShowWinWindow();
 
-    private void GameOver()
-    {
-        Debug.Log("Game Over.");
-    }
-
-    private void YouWin()
-    {
-        Debug.Log("You win!");
+        if (panel.CountPlacedChips() == GamePanel.SLOTS_COUNT)
+            uiManager.ShowLoseWindow();
     }
 }

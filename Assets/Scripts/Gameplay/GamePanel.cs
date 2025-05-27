@@ -28,8 +28,8 @@ public class GamePanel : MonoBehaviour, IInitializable
     [SerializeField] private Transform chipsRoot;
     [SerializeField] private Slot[] slots = new Slot[SLOTS_COUNT];
 
-    public const int SLOTS_COUNT = 7;
-    private const float MOVE_DURATION = 0.15f;
+    [HideInInspector] public const int SLOTS_COUNT = 7;
+    [SerializeField] private float chipMoveDuration = 0.15f;
     private List<Chip> chipsToDelete = new List<Chip>();
     private List<Chip> chipsToMove = new List<Chip>();
 
@@ -51,10 +51,8 @@ public class GamePanel : MonoBehaviour, IInitializable
     public int GetNextAvailableSlot()
     {
         for (int i = 0; i < SLOTS_COUNT; i++)
-        {
             if (slots[i].state == SlotState.Free)
                 return i;
-        }
         
         return -1;
     }
@@ -129,8 +127,7 @@ public class GamePanel : MonoBehaviour, IInitializable
                     matchCount++;
                 }
 
-                if (matchCount == 3)
-                    break;
+                if (matchCount == 3) break;
             }
 
             if (matchCount == 3)
@@ -193,7 +190,8 @@ public class GamePanel : MonoBehaviour, IInitializable
                 RelocateChip(j, i);
 
                 chipsToMove.Add(chip);
-                chip.Move(target, MOVE_DURATION).OnComplete(() => HandleChipsMoved(chip));
+                chip.Move(target, chipMoveDuration)
+                    .OnComplete(() => HandleChipsMoved(chip));
 
                 break;
             }

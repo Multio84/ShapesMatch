@@ -88,6 +88,7 @@ public class ChipFactory : MonoBehaviour
             if (saved.IsSameAs(passport))
                 return true;
         }
+
         return false;
     }
 

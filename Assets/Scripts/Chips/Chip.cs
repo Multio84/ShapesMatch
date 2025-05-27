@@ -41,13 +41,14 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     private const float DEATH_DURATION = 0.15f;
 
     private ChipPassport passport;
-    public ChipPassport Passport => passport;
     public bool isMatched = false;
 
     public event Action<Chip> ChipSentToPanel;
     public event Action ChipPlaced;
     public event Action<Chip> DeathCompleted;
 
+
+    public ChipPassport Passport => passport;
 
     void OnDisable()
     {
@@ -80,8 +81,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         if (isInteractable)
         {
             int idx = panel.GetNextAvailableSlot();
-            if (idx < 0)
-                return;
+            if (idx < 0) return;
 
             isInteractable = false;
 
