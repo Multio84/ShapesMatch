@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("Scene references")]
+    [Header("Scene Links")]
+    public Button buttonReshuffle;
     [SerializeField] private WindowController window;
     [SerializeField] private ClickBlocker blocker;
 
-    [Header("Texts")]
+    [Header("Window Texts")]
     [TextArea] public string winHeader;
     [TextArea] public string winBody;
     [TextArea] public string loseHeader;

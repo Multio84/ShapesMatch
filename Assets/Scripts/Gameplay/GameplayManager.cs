@@ -22,18 +22,17 @@ public class GameplayManager : MonoBehaviour, IInitializable
     {
         panel.MatchesDestroyed += OnMatchesDestroyed;
         panel.ChipsMoveCompleted += OnChipsMoveCompleted;
+        uiManager.buttonReshuffle.onClick.AddListener(OnReshuffleClicked);
     }
 
     void OnDisable()
     {
         panel.MatchesDestroyed -= OnMatchesDestroyed;
         panel.ChipsMoveCompleted -= OnChipsMoveCompleted;
+        uiManager.buttonReshuffle.onClick.RemoveListener(OnReshuffleClicked);
     }
 
-    public void GenerateLevel()
-    {
-        spawner.GenerateLevel();
-    }
+    public void GenerateLevel() => spawner.GenerateLevel();
 
     public void OnChipSentToPanel(Chip chip)
     {
@@ -79,5 +78,10 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
         if (panel.CountPlacedChips() == GamePanel.SLOTS_COUNT)
             uiManager.ShowLoseWindow();
+    }
+
+    private void OnReshuffleClicked()
+    {
+        spawner.StartReshuffle();
     }
 }

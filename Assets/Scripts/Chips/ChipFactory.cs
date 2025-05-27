@@ -95,7 +95,7 @@ public class ChipFactory : MonoBehaviour
     private int CountMaxUniquePassports(ChipPartsDatabase db) =>
        db.prefabs.Count * db.frameColors.Count * db.animalSprites.Count;
 
-    private void Shuffle<T>(IList<T> list)
+    public static void Shuffle<T>(IList<T> list)
     {
         for (int i = 0; i < list.Count; i++)
         {

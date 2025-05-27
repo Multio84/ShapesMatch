@@ -32,8 +32,8 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     [SerializeField] private SpriteRenderer frameRenderer;
     [SerializeField] private SpriteRenderer animalRenderer;
 
-    private Rigidbody2D rb;
-    private Collider2D col;
+    [HideInInspector] public Rigidbody2D rb;
+    [HideInInspector] public Collider2D col;
     private GameplayManager gameplayManager;
     private GamePanel panel;
     private bool isInteractable = true;

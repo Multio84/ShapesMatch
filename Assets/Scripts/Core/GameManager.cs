@@ -28,10 +28,7 @@ public class GameManager : MonoBehaviour, IInitializable
         uiManager.WindowClosed -= QuitGame;
     }
 
-    private void StartGame()
-    {
-        gameplayManager.GenerateLevel();
-    }
+    private void StartGame() => gameplayManager.GenerateLevel();
 
     private void QuitGame()
     {

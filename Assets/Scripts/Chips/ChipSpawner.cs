@@ -5,15 +5,19 @@ using UnityEngine;
 
 public class ChipSpawner : MonoBehaviour
 {
+    [SerializeField] private Collider2D containerBottom;
+    [SerializeField] private BottomSensor bottomSensor;
+
     [Header("Spawn settings")]
-    [SerializeField] public const int CHIP_COPIES = 3;
+    public const int CHIP_COPIES = 3;
     [SerializeField] private int uniqueChips = 3;
-    [SerializeField] private const float SPAWN_INTERVAL = 0.2f;
+    [SerializeField] private float spawnInterval = 0.2f;
 
     private GameplayManager gameplayManager;
     private ChipFactory factory;
     private List<ChipPassport> passportsDeck;
-    
+    private bool reshuffling;
+
 
     public void Setup(GameplayManager gm, ChipFactory cf)
     {
@@ -28,12 +32,6 @@ public class ChipSpawner : MonoBehaviour
 
     private IEnumerator SpawnChips()
     {
-        if (factory is null)
-        {
-            Debug.LogError("ChipSpawner: ChipFactory has no link.");
-            yield break;
-        }
-
         passportsDeck = factory.BuildPassportDeck(uniqueChips, CHIP_COPIES);
 
         foreach (ChipPassport passport in passportsDeck)
@@ -41,8 +39,42 @@ public class ChipSpawner : MonoBehaviour
             Chip chip = factory.SpawnChip(passport, transform);
             gameplayManager.spawnedChips.Add(chip);
 
-            yield return new WaitForSeconds(SPAWN_INTERVAL);
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
+    public void StartReshuffle()
+    {
+        if (!reshuffling) StartCoroutine(Reshuffle());
+    }
+
+    private IEnumerator Reshuffle()
+    {
+        reshuffling = true;
+
+        // let chips fall
+        containerBottom.enabled = false;
+        bottomSensor.ResetSensor();
+
+        // check that all chips intersected screen bottom
+        yield return new WaitUntil(() =>
+            bottomSensor.IsAllPassed(gameplayManager.spawnedChips));
+
+        containerBottom.enabled = true;
+
+        ChipFactory.Shuffle(gameplayManager.spawnedChips);
+
+        // drop chips again
+        foreach (Chip chip in gameplayManager.spawnedChips)
+        {
+            chip.transform.position = transform.position;
+
+            yield return new WaitForSeconds(spawnInterval);
+        }
+
+        // delay for all chips to finish falling
+        yield return new WaitForSeconds(1.5f);
+
+        reshuffling = false;
+    }
 }
