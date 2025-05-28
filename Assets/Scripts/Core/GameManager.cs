@@ -1,18 +1,15 @@
 using UnityEngine;
-using static UnityEngine.Application;
 
 
 public class GameManager : MonoBehaviour, IInitializable
 {
     private GameplayManager gameplayManager;
-    private ChipSpawner chipSpawner;
     private UIManager uiManager;
 
 
-    public void Setup(GameplayManager gm, ChipSpawner cs, UIManager uim)
+    public void Setup(GameplayManager gm, UIManager uim)
     {
         gameplayManager = gm;
-        chipSpawner = cs;
         uiManager = uim;
     }
 

@@ -16,7 +16,6 @@ public class BottomSensor : MonoBehaviour
     {
         Chip chip = other.GetComponentInParent<Chip>();
 
-        // Добавляем фишку, если пришёл её «главный» коллайдер.
         if (chip is not null && other == chip.col)
             passed.Add(chip);
     }

@@ -91,9 +91,9 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
     public void SendToPanel(int idx)
     {
-        PrepareForGamePanel();
         rb.simulated = false;
         col.enabled = false;
+        PlaceOverGamePanel();
 
         ChipSentToPanel?.Invoke(this);
 
@@ -104,17 +104,10 @@ public class Chip : MonoBehaviour, IPointerDownHandler
             OnComplete(() => ChipArrivedToPanel(idx));
     }
 
-    private void PrepareForGamePanel()
+    private void PlaceOverGamePanel()
     {
-        if (panel.canvas is null)
-        {
-            Debug.LogWarning("GamePanel is not assigned.");
-            return;
-        }
+        int actionBarOrder = panel.spriteRenderer.sortingOrder;
 
-        int actionBarOrder = panel.canvas.sortingOrder;
-
-        //backRenderer.sortingOrder += actionBarOrder;
         frameRenderer.sortingOrder += actionBarOrder;
         animalRenderer.sortingOrder += actionBarOrder;
     }

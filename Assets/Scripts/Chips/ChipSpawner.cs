@@ -12,6 +12,7 @@ public class ChipSpawner : MonoBehaviour
     public const int CHIP_COPIES = 3;
     [SerializeField] private int uniqueChips = 3;
     [SerializeField] private float spawnInterval = 0.2f;
+    [SerializeField] private float delayAfterReshuffle = 1f;    // for all chips to finish falling
 
     private GameplayManager gameplayManager;
     private ChipFactory factory;
@@ -52,7 +53,7 @@ public class ChipSpawner : MonoBehaviour
     {
         reshuffling = true;
 
-        // let chips fall
+        // let chips fall under screen
         containerBottom.enabled = false;
         bottomSensor.ResetSensor();
 
@@ -60,7 +61,7 @@ public class ChipSpawner : MonoBehaviour
         yield return new WaitUntil(() =>
             bottomSensor.IsAllPassed(gameplayManager.spawnedChips));
 
-        // to slow down chips' speed
+        // stop chips' movement
         foreach (Chip chip in gameplayManager.spawnedChips)
         {
             var rb = chip.rb;
@@ -84,8 +85,8 @@ public class ChipSpawner : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
         }
 
-        // delay for all chips to finish falling
-        yield return new WaitForSeconds(1.5f);
+        
+        yield return new WaitForSeconds(delayAfterReshuffle);
 
         reshuffling = false;
     }

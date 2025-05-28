@@ -38,7 +38,7 @@ public class ChipFactory : MonoBehaviour
             for (int i = 0; i < chipCopies; i++)
                 deck.Add(p);
 
-        // shuffle all passportsDeck of passports
+        // shuffle all Deck of passports
         Shuffle(deck);
 
         return deck;

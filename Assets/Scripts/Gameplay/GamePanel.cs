@@ -21,9 +21,10 @@ public class Slot
     [NonSerialized] public Chip chip;
 }
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class GamePanel : MonoBehaviour, IInitializable
 {
-    public Canvas canvas;
+    public SpriteRenderer spriteRenderer;
     [SerializeField] private Transform chipsRoot;
     [SerializeField] private Slot[] slots = new Slot[SLOTS_COUNT];
 
