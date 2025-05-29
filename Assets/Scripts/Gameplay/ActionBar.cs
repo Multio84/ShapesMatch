@@ -22,7 +22,7 @@ public class Slot
 }
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class GamePanel : MonoBehaviour, IInitializable
+public class ActionBar : MonoBehaviour, IInitializable
 {
     public SpriteRenderer spriteRenderer;
     [SerializeField] private Transform chipsRoot;

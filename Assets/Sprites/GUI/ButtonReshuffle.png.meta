@@ -113,22 +113,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ButtonReshuffle 1_0
+      name: ButtonReshuffle_0
       rect:
         serializedVersion: 2
-        x: 22
-        y: 19
+        x: 28
+        y: 270
         width: 212
-        height: 215
+        height: 214
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c820a887572e173b0800000000000000
-      internalID: -5516379074390785396
+      spriteID: 8e12ff5e6c6cd8943b58636a5bf8c662
+      internalID: -114821516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ButtonReshuffle_1
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 270
+        width: 212
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e5fe50a14beefd47a90d5a7f9209159
+      internalID: -31169472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ButtonReshuffle_2
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 30
+        width: 212
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2f509d59b4052c40be36b93948a6518
+      internalID: 1612710718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ButtonReshuffle_3
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 30
+        width: 212
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6d1755eaa29a854da22ac9151999f51
+      internalID: 1773151298
       vertices: []
       indices: 
       edges: []
@@ -136,7 +199,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 227db5703476a234886d5945ed727370
     internalID: 0
     vertices: []
     indices: 
@@ -144,7 +207,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ButtonReshuffle 1_0: -5516379074390785396
+      ButtonReshuffle_0: -114821516
+      ButtonReshuffle_1: -31169472
+      ButtonReshuffle_2: 1612710718
+      ButtonReshuffle_3: 1773151298
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

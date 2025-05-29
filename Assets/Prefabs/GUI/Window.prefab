@@ -38,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 752, y: 580}
+  m_SizeDelta: {x: 807, y: 581}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8889877504972205301
 CanvasRenderer:
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1246984749821943754, guid: c4e3ed2a8a9cac94796add4d2b92cf0d, type: 3}
+  m_Sprite: {fileID: -6677279742194608663, guid: 8818f606f2331f646af0f570476edab3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -167,8 +167,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -12}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchoredPosition: {x: 0, y: -22}
+  m_SizeDelta: {x: 450, y: 90}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8474872109903573884
 CanvasRenderer:
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You win!
+  m_text: How to play
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0dd7dab3bea19394ead1408d32f1479a, type: 2}
   m_sharedMaterial: {fileID: -3199189063814769583, guid: 0dd7dab3bea19394ead1408d32f1479a, type: 2}
@@ -472,7 +472,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1945269359277807493, guid: d4e8e4640a4710241aa9b221b7b5fd6c, type: 3}
+  m_Sprite: {fileID: 213743608, guid: d4e8e4640a4710241aa9b221b7b5fd6c, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -501,7 +501,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -511,10 +511,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 1363418734, guid: d4e8e4640a4710241aa9b221b7b5fd6c, type: 3}
+    m_PressedSprite: {fileID: -287836428, guid: d4e8e4640a4710241aa9b221b7b5fd6c, type: 3}
+    m_SelectedSprite: {fileID: 213743608, guid: d4e8e4640a4710241aa9b221b7b5fd6c, type: 3}
+    m_DisabledSprite: {fileID: -2004411685, guid: d4e8e4640a4710241aa9b221b7b5fd6c, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -591,7 +591,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Congratulations!
+  m_text: 'Collect 3
+
+    matching chips!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0dd7dab3bea19394ead1408d32f1479a, type: 2}
   m_sharedMaterial: {fileID: -3199189063814769583, guid: 0dd7dab3bea19394ead1408d32f1479a, type: 2}

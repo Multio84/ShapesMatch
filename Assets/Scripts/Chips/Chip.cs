@@ -28,14 +28,13 @@ public struct ChipPassport
 public class Chip : MonoBehaviour, IPointerDownHandler
 {
     [Header("Renderers")]
-    //[SerializeField] private SpriteRenderer backRenderer;
     [SerializeField] private SpriteRenderer frameRenderer;
     [SerializeField] private SpriteRenderer animalRenderer;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Collider2D col;
     private GameplayManager gameplayManager;
-    private GamePanel panel;
+    private ActionBar actionBar;
     private bool isInteractable = true;
     private const float FLY_DURATION = 0.5f;
     private const float DEATH_DURATION = 0.25f;
@@ -43,7 +42,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     private ChipPassport passport;
     public bool isMatched = false;
 
-    public event Action<Chip> ChipSentToPanel;
+    public event Action<Chip> ChipSentToActionBar;
     public event Action ChipPlaced;
     public event Action<Chip> DeathCompleted;
 
@@ -55,7 +54,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         ChipPlaced -= gameplayManager.OnChipPlaced;
     }
 
-    public void Init(GameplayManager gm, GamePanel gp, ChipPassport p, ChipPartsDatabase db)
+    public void Init(GameplayManager gm, ActionBar ab, ChipPassport p, ChipPartsDatabase db)
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponentInChildren<Collider2D>();
@@ -66,13 +65,13 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         }
 
         gameplayManager = gm;
-        panel = gp;
+        actionBar = ab;
         passport = p;
 
         frameRenderer.color = db.GetColor(passport.colorIdx);
         animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
 
-        ChipSentToPanel += gameplayManager.OnChipSentToPanel;
+        ChipSentToActionBar += gameplayManager.OnChipSentToActionBar;
         ChipPlaced += gameplayManager.OnChipPlaced;
     }
 
@@ -80,41 +79,41 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     {
         if (isInteractable)
         {
-            int idx = panel.GetNextAvailableSlot();
+            int idx = actionBar.GetNextAvailableSlot();
             if (idx < 0) return;
 
             isInteractable = false;
 
-            SendToPanel(idx);
+            SendToActionBar(idx);
         }
     }
 
-    public void SendToPanel(int idx)
+    public void SendToActionBar(int idx)
     {
         rb.simulated = false;
         col.enabled = false;
-        PlaceOverGamePanel();
+        PlaceOverActionBar();
 
-        ChipSentToPanel?.Invoke(this);
+        ChipSentToActionBar?.Invoke(this);
 
-        panel.ReserveSlot(idx, this);
+        actionBar.ReserveSlot(idx, this);
 
-        Rotate(panel.GetSlotTransform(idx));
-        Move(panel.GetSlotTransform(idx), FLY_DURATION).
-            OnComplete(() => ChipArrivedToPanel(idx));
+        Rotate(actionBar.GetSlotTransform(idx));
+        Move(actionBar.GetSlotTransform(idx), FLY_DURATION).
+            OnComplete(() => ChipArrivedToActionBar(idx));
     }
 
-    private void PlaceOverGamePanel()
+    private void PlaceOverActionBar()
     {
-        int actionBarOrder = panel.spriteRenderer.sortingOrder;
+        int actionBarOrder = actionBar.spriteRenderer.sortingOrder;
 
         frameRenderer.sortingOrder += actionBarOrder;
         animalRenderer.sortingOrder += actionBarOrder;
     }
 
-    private void ChipArrivedToPanel(int idx)
+    private void ChipArrivedToActionBar(int idx)
     {
-        panel.PlaceChip(idx, this);
+        actionBar.PlaceChip(idx, this);
         ChipPlaced?.Invoke();
     }
 

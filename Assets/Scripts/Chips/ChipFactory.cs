@@ -6,17 +6,17 @@ public class ChipFactory : MonoBehaviour
 {
     private GameplayManager gameplayManager;
     private ChipPartsDatabase database;
-    private GamePanel gamePanel;
+    private ActionBar actionBar;
 
     private readonly List<ChipPassport> uniquePassports = new List<ChipPassport>();
     private int maxUniqueChipsCount;
 
 
-    public void Setup(ChipPartsDatabase db, GameplayManager gm, GamePanel gp)
+    public void Setup(ChipPartsDatabase db, GameplayManager gm, ActionBar gp)
     {
         database = db;
         gameplayManager = gm;
-        gamePanel = gp;
+        actionBar = gp;
     }
 
     public List<ChipPassport> BuildPassportDeck(int uniqueChipsCount, int chipCopies)
@@ -48,7 +48,7 @@ public class ChipFactory : MonoBehaviour
     {
         Chip prefab = database.GetPrefab(passport.prefabIdx);
         Chip chip = Instantiate(prefab, parent);
-        chip.Init(gameplayManager, gamePanel, passport, database);
+        chip.Init(gameplayManager, actionBar, passport, database);
         return chip;
     }
 

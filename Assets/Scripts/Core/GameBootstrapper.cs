@@ -10,7 +10,7 @@ public class GameBootstrapper : MonoBehaviour
     [SerializeField] private GameplayManager gameplayManager;
     [SerializeField] private ChipFactory chipFactory;
     [SerializeField] private ChipSpawner chipSpawner;
-    [SerializeField] private GamePanel gamePanel;
+    [SerializeField] private ActionBar actionBar;
     [SerializeField] private UIManager uiManager;
 
 
@@ -27,7 +27,7 @@ public class GameBootstrapper : MonoBehaviour
             gameplayManager is null ||
             chipFactory is null ||
             chipSpawner is null ||
-            gamePanel is null ||
+            actionBar is null ||
             uiManager is null)
         {
             Debug.LogError("GameBootstrapper: Some links are not set in the inspector!");
@@ -35,9 +35,9 @@ public class GameBootstrapper : MonoBehaviour
         }
 
         gameManager.Setup(gameplayManager, uiManager);
-        gameplayManager.Setup(chipSpawner, gamePanel, uiManager);
+        gameplayManager.Setup(chipSpawner, actionBar, uiManager);
         chipSpawner.Setup(gameplayManager, chipFactory);
-        chipFactory.Setup(chipPartsDatabase, gameplayManager, gamePanel);
+        chipFactory.Setup(chipPartsDatabase, gameplayManager, actionBar);
     }
 
     
@@ -47,7 +47,7 @@ public class GameBootstrapper : MonoBehaviour
         {
             gameManager,
             gameplayManager,
-            gamePanel
+            actionBar
         };
 
         foreach (var obj in initializables)

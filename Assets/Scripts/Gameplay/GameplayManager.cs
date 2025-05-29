@@ -5,45 +5,45 @@ using UnityEngine;
 public class GameplayManager : MonoBehaviour, IInitializable
 {
     private ChipSpawner spawner;
-    private GamePanel panel;
+    private ActionBar actionBar;
     private UIManager uiManager;
 
     [HideInInspector] public List<Chip> spawnedChips = new List<Chip>();
 
 
-    public void Setup(ChipSpawner s, GamePanel gp, UIManager uim)
+    public void Setup(ChipSpawner s, ActionBar ab, UIManager uim)
     {
         spawner = s;
-        panel = gp;
+        actionBar = ab;
         uiManager = uim;
     }
 
     public void Init()
     {
-        panel.MatchesDestroyed += OnMatchesDestroyed;
-        panel.ChipsMoveCompleted += OnChipsMoveCompleted;
+        actionBar.MatchesDestroyed += OnMatchesDestroyed;
+        actionBar.ChipsMoveCompleted += OnChipsMoveCompleted;
         uiManager.buttonReshuffle.onClick.AddListener(OnReshuffleClicked);
     }
 
     void OnDisable()
     {
-        panel.MatchesDestroyed -= OnMatchesDestroyed;
-        panel.ChipsMoveCompleted -= OnChipsMoveCompleted;
+        actionBar.MatchesDestroyed -= OnMatchesDestroyed;
+        actionBar.ChipsMoveCompleted -= OnChipsMoveCompleted;
         uiManager.buttonReshuffle.onClick.RemoveListener(OnReshuffleClicked);
     }
 
     public void GenerateLevel() => spawner.GenerateLevel();
 
-    public void OnChipSentToPanel(Chip chip)
+    public void OnChipSentToActionBar(Chip chip)
     {
         spawnedChips.Remove(chip);
     }
 
     public void OnChipPlaced()
     {
-        if (panel.HasFlyingChips()) return;
+        if (actionBar.HasFlyingChips()) return;
 
-        if (!panel.MoveChipsToEmptySlots())
+        if (!actionBar.MoveChipsToEmptySlots())
             FindAndDestroyMatches();
     }
 
@@ -54,10 +54,10 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
     private void FindAndDestroyMatches()
     {
-        if (panel.CountPlacedChips() >= ChipSpawner.CHIP_COPIES)
+        if (actionBar.CountPlacedChips() >= ChipSpawner.CHIP_COPIES)
         {
-            if (panel.FindMatches())
-                panel.DestroyMatches();
+            if (actionBar.FindMatches())
+                actionBar.DestroyMatches();
             else
                 UpdateGameState();
         }
@@ -67,16 +67,16 @@ public class GameplayManager : MonoBehaviour, IInitializable
     {
         UpdateGameState();
 
-        if (panel.CountPlacedChips() > 0)
-            panel.MoveChipsToEmptySlots();
+        if (actionBar.CountPlacedChips() > 0)
+            actionBar.MoveChipsToEmptySlots();
     }
 
     private void UpdateGameState()
     {
-        if (panel.CountPlacedChips() == 0 && spawnedChips.Count == 0)
+        if (actionBar.CountPlacedChips() == 0 && spawnedChips.Count == 0)
             uiManager.ShowWinWindow();
 
-        if (panel.CountPlacedChips() == GamePanel.SLOTS_COUNT)
+        if (actionBar.CountPlacedChips() == ActionBar.SLOTS_COUNT)
             uiManager.ShowLoseWindow();
     }
 
