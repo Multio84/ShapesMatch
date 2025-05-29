@@ -11,8 +11,6 @@ public class WindowController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI header;
     [SerializeField] private TextMeshProUGUI body;
     [SerializeField] private Button okButton;
-    [Tooltip("Empty RectTransform to set end window position.")]
-    [SerializeField] private RectTransform targetAnchor;   // a place to move to
 
     [Header("Animation Settings")]
     [SerializeField] private float moveDuration = 0.3f;
@@ -31,27 +29,28 @@ public class WindowController : MonoBehaviour
         if (windowRoot is null) 
             windowRoot = transform as RectTransform;
 
-        if (targetAnchor is null)
-            targetAnchor = windowRoot;
-
-        targetPos = targetAnchor.anchoredPosition;
-        if (targetAnchor != windowRoot)
-            targetAnchor.gameObject.SetActive(false);
-
-        startPos = targetPos + Vector2.up * Screen.height;
+        startPos = Vector2.up * Screen.height;
 
         okButton.onClick.AddListener(OnOkPressed);
         gameObject.SetActive(false);
     }
 
-    public void Open(string headerText, string bodyText)
+    private Vector2 GetTargetPos(RectTransform targetTransform)
+    {
+        if (targetTransform is null)
+            targetTransform = windowRoot;
+
+        return targetTransform.anchoredPosition;
+    }
+
+    public void Open(string headerText, string bodyText, RectTransform targetTransform)
     {
         header.text = headerText;
         body.text = bodyText;
         gameObject.SetActive(true);
 
         windowRoot.anchoredPosition = startPos;
-        moveTween = windowRoot.DOAnchorPos(targetPos, moveDuration)
+        moveTween = windowRoot.DOAnchorPos(GetTargetPos(targetTransform), moveDuration)
             .SetEase(Ease.OutBack);
     }
 

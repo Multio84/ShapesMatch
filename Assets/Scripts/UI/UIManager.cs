@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,8 @@ public class UIManager : MonoBehaviour
     public Button buttonReshuffle;
     [SerializeField] private WindowController window;
     [SerializeField] private ClickBlocker blocker;
+    [Tooltip("Empty RectTransform to set end of window appearing position.")]
+    [SerializeField] private RectTransform windowTarget;
 
     [Header("Window Texts")]
     [TextArea] public string winHeader;
@@ -27,7 +30,7 @@ public class UIManager : MonoBehaviour
         if (window.gameObject.activeSelf) return;
 
         blocker.Show();
-        window.Open(headerText, bodyText);
+        window.Open(headerText, bodyText, windowTarget);
 
         window.HideCompleted -= OnWindowHideCompleted;
         window.HideCompleted += OnWindowHideCompleted;
@@ -48,4 +51,13 @@ public class UIManager : MonoBehaviour
 
         WindowClosed?.Invoke();
     }
+
+    private void OnReshufflePressed()
+    {
+        //Vector3 targetZVector = new Vector3(0, 0, targetTransform.rotation.eulerAngles.z);
+
+        //transform.DORotate(targetZVector, FLY_DURATION)
+        //    .SetEase(Ease.InOutQuad);
+    }
+
 }
