@@ -580,8 +580,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe73fb1732a6ab448291591475bfdde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 351236011}
+  gameSettings: {fileID: 11400000, guid: 8af0e58381ff0ec4caea0feb25d5cbe9, type: 2}
   chipPartsDatabase: {fileID: 11400000, guid: 15c8c6fb6918ba44ab1f944ec83037cd, type: 2}
+  gameManager: {fileID: 351236011}
   gameplayManager: {fileID: 308865444}
   chipFactory: {fileID: 1269200907}
   chipSpawner: {fileID: 1269200906}
@@ -991,6 +992,8 @@ MonoBehaviour:
   window: {fileID: 8226315949920065394}
   blocker: {fileID: 5245961271865747253}
   windowTarget: {fileID: 694671991}
+  tutorialHeader: How to play
+  tutorialBody: Collect 3 matching chips!
   winHeader: Victory!
   winBody: 'Congratulations!
 
@@ -1140,9 +1143,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   containerBottom: {fileID: 6006310001188543566}
   bottomSensor: {fileID: 44016443}
-  uniqueChips: 20
-  spawnInterval: 0.1
-  delayAfterReshuffle: 1
 --- !u!114 &1269200907
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -33,17 +33,21 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Collider2D col;
+    private GameSettings settings;
     private GameplayManager gameplayManager;
     private ActionBar actionBar;
     private bool isInteractable = true;
-    private const float FLY_DURATION = 0.5f;
-    private const float DEATH_DURATION = 0.25f;
+    private float flyDuration;
+    private float deathDuration;
 
     private ChipPassport passport;
-    public bool isMatched = false;
+    private bool hasStopped = false;
+    private float stopThreshold;
+    private float checkDelay;
 
-    public event Action<Chip> ChipSentToActionBar;
-    public event Action ChipPlaced;
+    public event Action<Chip> Stopped;
+    public event Action<Chip> SentToActionBar;
+    public event Action Placed;
     public event Action<Chip> DeathCompleted;
 
 
@@ -51,10 +55,10 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
     void OnDisable()
     {
-        ChipPlaced -= gameplayManager.OnChipPlaced;
+        Placed -= gameplayManager.OnChipPlaced;
     }
 
-    public void Init(GameplayManager gm, ActionBar ab, ChipPassport p, ChipPartsDatabase db)
+    public void Init(GameSettings gs, GameplayManager gm, ActionBar ab, ChipPassport p, ChipPartsDatabase db)
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponentInChildren<Collider2D>();
@@ -64,15 +68,23 @@ public class Chip : MonoBehaviour, IPointerDownHandler
             return;
         }
 
+        settings = gs;
         gameplayManager = gm;
         actionBar = ab;
         passport = p;
 
+        flyDuration = settings.flyDuration;
+        deathDuration = settings.deathDuration;
+        stopThreshold = settings.stopThreshold;
+        checkDelay = settings.checkDelay;
+
         frameRenderer.color = db.GetColor(passport.colorIdx);
         animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
 
-        ChipSentToActionBar += gameplayManager.OnChipSentToActionBar;
-        ChipPlaced += gameplayManager.OnChipPlaced;
+        SentToActionBar += gameplayManager.OnChipSentToActionBar;
+        Placed += gameplayManager.OnChipPlaced;
+
+        StartCheckIfStopped();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -88,18 +100,36 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         }
     }
 
+    private void StartCheckIfStopped() => 
+        InvokeRepeating(nameof(CheckIfStopped), checkDelay, checkDelay);
+    
+    private void CheckIfStopped()
+    {
+        if (hasStopped) return;
+
+        bool isMoving = rb.velocity.sqrMagnitude > stopThreshold * stopThreshold;
+        bool isRotating = Mathf.Abs(rb.angularVelocity) > stopThreshold;
+
+        if (!isMoving && !isRotating)
+        {
+            hasStopped = true;
+            Stopped?.Invoke(this);
+            CancelInvoke(nameof(CheckIfStopped)); // больше не проверяем
+        }
+    }
+
     public void SendToActionBar(int idx)
     {
         rb.simulated = false;
         col.enabled = false;
         PlaceOverActionBar();
 
-        ChipSentToActionBar?.Invoke(this);
+        SentToActionBar?.Invoke(this);
 
         actionBar.ReserveSlot(idx, this);
 
         Rotate(actionBar.GetSlotTransform(idx));
-        Move(actionBar.GetSlotTransform(idx), FLY_DURATION).
+        Move(actionBar.GetSlotTransform(idx), flyDuration).
             OnComplete(() => ChipArrivedToActionBar(idx));
     }
 
@@ -114,7 +144,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     private void ChipArrivedToActionBar(int idx)
     {
         actionBar.PlaceChip(idx, this);
-        ChipPlaced?.Invoke();
+        Placed?.Invoke();
     }
 
     public Tween Move(Transform targetTransform, float duration)
@@ -127,13 +157,13 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     {
         Vector3 targetZVector = new Vector3(0, 0, targetTransform.rotation.eulerAngles.z);
 
-        transform.DORotate(targetZVector, FLY_DURATION)
+        transform.DORotate(targetZVector, flyDuration)
             .SetEase(Ease.InOutQuad);
     }
 
     public void Die()
     {
-        transform.DOScale(Vector3.zero, DEATH_DURATION)
+        transform.DOScale(Vector3.zero, deathDuration)
          .SetEase(Ease.InOutQuad)
          .OnComplete(() => DeathCompleted(this));
     }

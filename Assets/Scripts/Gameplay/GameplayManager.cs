@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class GameplayManager : MonoBehaviour, IInitializable
 {
+    private GameSettings settings;
     private ChipSpawner spawner;
     private ActionBar actionBar;
     private UIManager uiManager;
 
+    private int chipCopies;
+
     [HideInInspector] public List<Chip> spawnedChips = new List<Chip>();
 
 
-    public void Setup(ChipSpawner s, ActionBar ab, UIManager uim)
+    public void Setup(GameSettings gs, ChipSpawner s, ActionBar ab, UIManager uim)
     {
+        settings = gs;
         spawner = s;
         actionBar = ab;
         uiManager = uim;
+
+        chipCopies = settings.chipCopies;
     }
 
     public void Init()
@@ -54,7 +60,7 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
     private void FindAndDestroyMatches()
     {
-        if (actionBar.CountPlacedChips() >= ChipSpawner.CHIP_COPIES)
+        if (actionBar.CountPlacedChips() >= chipCopies)
         {
             if (actionBar.FindMatches())
                 actionBar.DestroyMatches();

@@ -25,17 +25,24 @@ public class Slot
 public class ActionBar : MonoBehaviour, IInitializable
 {
     public SpriteRenderer spriteRenderer;
+    private GameSettings settings;
     [SerializeField] private Transform chipsRoot;
     [SerializeField] private Slot[] slots = new Slot[SLOTS_COUNT];
 
-    [HideInInspector] public const int SLOTS_COUNT = 7;
-    [SerializeField] private float chipMoveDuration = 0.15f;
+    public const int SLOTS_COUNT = 7;
+    private float chipShiftDuration;
     private List<Chip> chipsToDelete = new List<Chip>();
     private List<Chip> chipsToMove = new List<Chip>();
 
     public event Action MatchesDestroyed;
     public event Action ChipsMoveCompleted;
 
+
+    public void Setup(GameSettings gs)
+    {
+        settings = gs;
+        chipShiftDuration = settings.chipShiftDuration;
+    }
 
     public void Init()
     {
@@ -190,7 +197,7 @@ public class ActionBar : MonoBehaviour, IInitializable
                 RelocateChip(j, i);
 
                 chipsToMove.Add(chip);
-                chip.Move(target, chipMoveDuration)
+                chip.Move(target, chipShiftDuration)
                     .OnComplete(() => HandleChipsMoved(chip));
 
                 break;

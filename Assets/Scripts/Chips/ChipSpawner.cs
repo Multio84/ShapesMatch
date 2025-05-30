@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,22 +9,31 @@ public class ChipSpawner : MonoBehaviour
     [SerializeField] private Collider2D containerBottom;
     [SerializeField] private BottomSensor bottomSensor;
 
-    [Header("Spawn settings")]
-    public const int CHIP_COPIES = 3;
-    [SerializeField] private int uniqueChips = 3;
-    [SerializeField] private float spawnInterval = 0.2f;
-    [SerializeField] private float delayAfterReshuffle = 1f;    // for all chips to finish falling
+    private int chipCopies;
+    private int uniqueChips;
+    private float spawnInterval;
+    private float delayAfterReshuffle;
+    private int stoppedChipsCount = 0;
 
+    private GameSettings settings;
     private GameplayManager gameplayManager;
     private ChipFactory factory;
     private List<ChipPassport> passportsDeck;
     private bool reshuffling;
 
+    public event Action LevelGenerated;
 
-    public void Setup(GameplayManager gm, ChipFactory cf)
+
+    public void Setup(GameSettings gs, GameplayManager gm, ChipFactory cf)
     {
+        settings = gs;
         gameplayManager = gm;
         factory = cf;
+
+        chipCopies = settings.chipCopies;
+        uniqueChips = settings.uniqueChips;
+        spawnInterval = settings.spawnInterval;
+        delayAfterReshuffle = settings.delayAfterReshuffle;
     }
 
     public void GenerateLevel()
@@ -33,14 +43,28 @@ public class ChipSpawner : MonoBehaviour
 
     private IEnumerator SpawnChips()
     {
-        passportsDeck = factory.BuildPassportDeck(uniqueChips, CHIP_COPIES);
+        passportsDeck = factory.BuildPassportDeck(uniqueChips, chipCopies);
 
-        foreach (ChipPassport passport in passportsDeck)
+        foreach (var passport in passportsDeck)
         {
             Chip chip = factory.SpawnChip(passport, transform);
+
             gameplayManager.spawnedChips.Add(chip);
+            chip.Stopped += HandleChipStopped;
 
             yield return new WaitForSeconds(spawnInterval);
+        }
+    }
+
+    private void HandleChipStopped(Chip chip)
+    {
+        chip.Stopped -= HandleChipStopped;
+        stoppedChipsCount++;
+
+        if (stoppedChipsCount >= gameplayManager.spawnedChips.Count)
+        {
+            Debug.Log("All chips stopped.");
+            LevelGenerated?.Invoke();
         }
     }
 

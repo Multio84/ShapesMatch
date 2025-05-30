@@ -6,7 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class ClickBlocker : MonoBehaviour
 {
-    [SerializeField] private float fadeDuration = 0.3f;
+    private float fadeDuration;
 
     private Image image;
     private Tween appearTween;
@@ -24,7 +24,7 @@ public class ClickBlocker : MonoBehaviour
         gameObject.SetActive(isEnable);
     }
 
-    public void Show()
+    public void Show(float fadeDuration)
     {
         SetEnable(true);
 

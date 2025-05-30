@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ChipFactory : MonoBehaviour
 {
+    private GameSettings settings;
     private GameplayManager gameplayManager;
     private ChipPartsDatabase database;
     private ActionBar actionBar;
@@ -12,8 +13,9 @@ public class ChipFactory : MonoBehaviour
     private int maxUniqueChipsCount;
 
 
-    public void Setup(ChipPartsDatabase db, GameplayManager gm, ActionBar gp)
+    public void Setup(GameSettings gs, ChipPartsDatabase db, GameplayManager gm, ActionBar gp)
     {
+        settings = gs;
         database = db;
         gameplayManager = gm;
         actionBar = gp;
@@ -48,7 +50,7 @@ public class ChipFactory : MonoBehaviour
     {
         Chip prefab = database.GetPrefab(passport.prefabIdx);
         Chip chip = Instantiate(prefab, parent);
-        chip.Init(gameplayManager, actionBar, passport, database);
+        chip.Init(settings, gameplayManager, actionBar, passport, database);
         return chip;
     }
 

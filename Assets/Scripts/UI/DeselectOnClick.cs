@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
+// deselector for buttons never to be Selected
 public class DeselectOnClick : MonoBehaviour,
                                IPointerUpHandler,
                                IPointerExitHandler

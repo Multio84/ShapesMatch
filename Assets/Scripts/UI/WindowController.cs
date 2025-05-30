@@ -13,13 +13,14 @@ public class WindowController : MonoBehaviour
     [SerializeField] private Button okButton;
 
     [Header("Animation Settings")]
-    [SerializeField] private float moveDuration = 0.3f;
+    [SerializeField] private float animDuration;
 
     private Vector2 startPos;
     private Vector2 targetPos;
     private Tween moveTween;
+    private WindowKind kind;
 
-    public event System.Action HideCompleted;
+    public event System.Action<WindowKind> HideCompleted;
 
 
     public Button OkButton => okButton;
@@ -43,14 +44,21 @@ public class WindowController : MonoBehaviour
         return targetTransform.anchoredPosition;
     }
 
-    public void Open(string headerText, string bodyText, RectTransform targetTransform)
+    public void Open(
+        string headerText, 
+        string bodyText, 
+        RectTransform targetTransform, 
+        WindowKind kind, 
+        float animDuration
+        )
     {
+        this.kind = kind;
         header.text = headerText;
         body.text = bodyText;
         gameObject.SetActive(true);
 
         windowRoot.anchoredPosition = startPos;
-        moveTween = windowRoot.DOAnchorPos(GetTargetPos(targetTransform), moveDuration)
+        moveTween = windowRoot.DOAnchorPos(GetTargetPos(targetTransform), animDuration)
             .SetEase(Ease.OutBack);
     }
 
@@ -60,12 +68,12 @@ public class WindowController : MonoBehaviour
     {
         moveTween?.Kill();
 
-        moveTween = windowRoot.DOAnchorPos(startPos, moveDuration)
+        moveTween = windowRoot.DOAnchorPos(startPos, animDuration)
                               .SetEase(Ease.InBack)
                               .OnComplete(() =>
                               {
                                   gameObject.SetActive(false);
-                                  HideCompleted?.Invoke();
+                                  HideCompleted?.Invoke(kind);
                               });
     }
 }
