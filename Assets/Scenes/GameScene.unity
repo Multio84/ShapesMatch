@@ -989,6 +989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonReshuffle: {fileID: 1902892113}
+  buttonReshuffleIcon: {fileID: 1037747241}
   window: {fileID: 8226315949920065394}
   blocker: {fileID: 5245961271865747253}
   windowTarget: {fileID: 694671991}
@@ -1000,6 +1001,11 @@ MonoBehaviour:
     You''ve done it!'
   loseHeader: Game Over
   loseBody: Better luck next time!
+--- !u!224 &1037747241 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8717544691046173613, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
+  m_PrefabInstance: {fileID: 1968352242207776385}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1173615441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1873,6 +1879,10 @@ PrefabInstance:
     - target: {fileID: 480527164810658812, guid: c9607c1506c9d5f4482b49b8ed08e3bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3876888899447229940, guid: c9607c1506c9d5f4482b49b8ed08e3bc, type: 3}
+      propertyPath: m_Offset.y
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4826904558410795614, guid: c9607c1506c9d5f4482b49b8ed08e3bc, type: 3}
       propertyPath: m_Name

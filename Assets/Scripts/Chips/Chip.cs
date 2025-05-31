@@ -73,10 +73,10 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         actionBar = ab;
         passport = p;
 
-        flyDuration = settings.flyDuration;
-        deathDuration = settings.deathDuration;
-        stopThreshold = settings.stopThreshold;
-        checkDelay = settings.checkDelay;
+        flyDuration = settings.chipFlyDuration;
+        deathDuration = settings.chipDeathDuration;
+        stopThreshold = settings.chipStopThreshold;
+        checkDelay = settings.chipStopCheckDelay;
 
         frameRenderer.color = db.GetColor(passport.colorIdx);
         animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
@@ -149,7 +149,8 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
     public Tween Move(Transform targetTransform, float duration)
     {
-        return transform.DOMove(targetTransform.position, duration)
+        return transform
+            .DOMove(targetTransform.position, duration)
             .SetEase(Ease.InOutQuad);
     }
 
@@ -157,14 +158,16 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     {
         Vector3 targetZVector = new Vector3(0, 0, targetTransform.rotation.eulerAngles.z);
 
-        transform.DORotate(targetZVector, flyDuration)
+        transform
+            .DORotate(targetZVector, flyDuration)
             .SetEase(Ease.InOutQuad);
     }
 
     public void Die()
     {
-        transform.DOScale(Vector3.zero, deathDuration)
-         .SetEase(Ease.InOutQuad)
-         .OnComplete(() => DeathCompleted(this));
+        transform
+            .DOScale(Vector3.zero, deathDuration)
+            .SetEase(Ease.InOutQuad)
+            .OnComplete(() => DeathCompleted(this));
     }
 }

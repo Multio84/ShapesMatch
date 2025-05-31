@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bbe934b2f10e0245aeb47b004c9b5a5, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  flyDuration: 0.5
+  chipFlyDuration: 0.5
   chipShiftDuration: 0.15
-  deathDuration: 0.25
-  uniqueChips: 3
+  chipDeathDuration: 0.25
+  uniqueChips: 20
   chipCopies: 3
-  spawnInterval: 0.2
+  chipSpawnInterval: 0.1
   delayAfterReshuffle: 1
-  stopThreshold: 0.5
-  checkDelay: 0.2
-  uiAnimDuration: 0.3
+  chipStopThreshold: 0.05
+  chipStopCheckDelay: 0.2
+  windowAnimDuration: 0.3
+  reshuffleAnimDuration: 0.35

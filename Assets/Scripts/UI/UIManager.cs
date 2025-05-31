@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("Scene Links")]
     public Button buttonReshuffle;
+    public RectTransform buttonReshuffleIcon;
     [SerializeField] private WindowController window;
     [SerializeField] private ClickBlocker blocker;
     [Tooltip("Empty RectTransform to set end of window appearing position.")]
@@ -27,14 +29,26 @@ public class UIManager : MonoBehaviour
     [SerializeField] [TextArea] private string loseBody;
 
     private GameSettings settings;
-    private float animDuration;
+    private float windowAnimDuration;
+    private float reshuffleAnimDuration;
 
     public event Action<WindowKind> WindowClosed;
 
     public void Setup(GameSettings gs)
     {
         settings = gs;
-        animDuration = settings.uiAnimDuration;
+        windowAnimDuration = settings.windowAnimDuration;
+        reshuffleAnimDuration = settings.reshuffleAnimDuration;
+    }
+
+    private void Awake()
+    {
+        buttonReshuffle.onClick.AddListener(OnReshufflePressed);
+    }
+
+    private void OnDisable()
+    {
+        buttonReshuffle.onClick.RemoveListener(OnReshufflePressed);
     }
 
     public void ShowTutorialWindow() => 
@@ -48,8 +62,8 @@ public class UIManager : MonoBehaviour
     {
         if (window.gameObject.activeSelf) return;
 
-        blocker.Show(animDuration);
-        window.Open(headerText, bodyText, windowTarget, kind, animDuration);
+        blocker.Show(windowAnimDuration);
+        window.Open(headerText, bodyText, windowTarget, kind, windowAnimDuration);
 
         window.HideCompleted -= OnWindowHideCompleted;
         window.HideCompleted += OnWindowHideCompleted;
@@ -73,10 +87,15 @@ public class UIManager : MonoBehaviour
 
     private void OnReshufflePressed()
     {
-        //Vector3 targetZVector = new Vector3(0, 0, targetTransform.rotation.eulerAngles.z);
+        buttonReshuffleIcon
+            .DORotate(new Vector3(0, 0, 360), reshuffleAnimDuration, RotateMode.FastBeyond360)
+            .SetEase(Ease.InSine)
+            .OnComplete(() => DisableReshuffle());
+    }
 
-        //transform.DORotate(targetZVector, flyDuration)
-        //    .SetEase(Ease.InOutQuad);
+    private void DisableReshuffle()
+    {
+        buttonReshuffle.interactable = false;
     }
 
 }

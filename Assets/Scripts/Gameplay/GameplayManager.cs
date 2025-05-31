@@ -14,10 +14,10 @@ public class GameplayManager : MonoBehaviour, IInitializable
     [HideInInspector] public List<Chip> spawnedChips = new List<Chip>();
 
 
-    public void Setup(GameSettings gs, ChipSpawner s, ActionBar ab, UIManager uim)
+    public void Setup(GameSettings gs, ChipSpawner cs, ActionBar ab, UIManager uim)
     {
         settings = gs;
-        spawner = s;
+        spawner = cs;
         actionBar = ab;
         uiManager = uim;
 
@@ -28,14 +28,14 @@ public class GameplayManager : MonoBehaviour, IInitializable
     {
         actionBar.MatchesDestroyed += OnMatchesDestroyed;
         actionBar.ChipsMoveCompleted += OnChipsMoveCompleted;
-        uiManager.buttonReshuffle.onClick.AddListener(OnReshuffleClicked);
+        uiManager.buttonReshuffle.onClick.AddListener(OnReshufflePressed);
     }
 
     void OnDisable()
     {
         actionBar.MatchesDestroyed -= OnMatchesDestroyed;
         actionBar.ChipsMoveCompleted -= OnChipsMoveCompleted;
-        uiManager.buttonReshuffle.onClick.RemoveListener(OnReshuffleClicked);
+        uiManager.buttonReshuffle.onClick.RemoveListener(OnReshufflePressed);
     }
 
     public void GenerateLevel() => spawner.GenerateLevel();
@@ -86,7 +86,7 @@ public class GameplayManager : MonoBehaviour, IInitializable
             uiManager.ShowLoseWindow();
     }
 
-    private void OnReshuffleClicked()
+    private void OnReshufflePressed()
     {
         spawner.StartReshuffle();
     }

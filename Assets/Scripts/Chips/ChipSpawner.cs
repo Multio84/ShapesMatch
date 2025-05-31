@@ -32,7 +32,7 @@ public class ChipSpawner : MonoBehaviour
 
         chipCopies = settings.chipCopies;
         uniqueChips = settings.uniqueChips;
-        spawnInterval = settings.spawnInterval;
+        spawnInterval = settings.chipSpawnInterval;
         delayAfterReshuffle = settings.delayAfterReshuffle;
     }
 
