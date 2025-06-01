@@ -19,7 +19,6 @@ public class GameSettings : ScriptableObject
     public int chipCopies = 3;
     [Tooltip("Delay in seconds before next chip will be spawned on a level.")]
     public float chipSpawnInterval = 0.2f;
-    public float delayAfterReshuffle = 1f;    // for all chips to finish falling
     [Tooltip("Threshold of velocity that won't count as chip's movement.")]
     public float chipStopThreshold = 0.05f;
     [Tooltip("Seconds of delay before next check for chips' movement.")]

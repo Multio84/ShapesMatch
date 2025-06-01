@@ -18,7 +18,6 @@ public class ChipSpawner : MonoBehaviour
     private int chipCopies;
     private int uniqueChips;
     private float spawnInterval;
-    private float delayAfterReshuffle;
     private int stoppedChipsCount = 0;
 
     private GameSettings settings;
@@ -40,7 +39,6 @@ public class ChipSpawner : MonoBehaviour
         chipCopies = settings.chipCopies;
         uniqueChips = settings.uniqueChips;
         spawnInterval = settings.chipSpawnInterval;
-        delayAfterReshuffle = settings.delayAfterReshuffle;
     }
 
     public void GenerateLevel()
@@ -57,11 +55,11 @@ public class ChipSpawner : MonoBehaviour
 
         foreach (var passport in passportsDeck)
         {
+            yield return new WaitForSeconds(spawnInterval);
+
             Chip chip = factory.SpawnChip(passport, transform);
             gameplayManager.spawnedChips.Add(chip);
             StartChipStopCheck(chip);
-
-            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
@@ -81,8 +79,15 @@ public class ChipSpawner : MonoBehaviour
         if (stoppedChipsCount >= gameplayManager.spawnedChips.Count)
         {
             Debug.Log("All chips stopped.");
+            SetChipsInteractable(true);
             ChipsStopped?.Invoke(state);
         }
+    }
+
+    private void SetChipsInteractable(bool isInteractable)
+    {
+        foreach (Chip chip in gameplayManager.spawnedChips)
+            chip.isInteractable = isInteractable;
     }
 
     public void StartReshuffle()
@@ -95,6 +100,8 @@ public class ChipSpawner : MonoBehaviour
 
     private IEnumerator Reshuffle()
     {
+        SetChipsInteractable(false);
+
         // let chips fall under screen
         containerBottom.enabled = false;
         bottomSensor.ResetSensor();
@@ -119,15 +126,13 @@ public class ChipSpawner : MonoBehaviour
         // drop chips again
         foreach (Chip chip in gameplayManager.spawnedChips)
         {
+            yield return new WaitForSeconds(spawnInterval);
+
             var rb = chip.rb;
             rb.simulated = true;
 
             chip.transform.position = transform.position;
             StartChipStopCheck(chip);
-
-            yield return new WaitForSeconds(spawnInterval);
         }
-        
-        yield return new WaitForSeconds(delayAfterReshuffle);
     }
 }

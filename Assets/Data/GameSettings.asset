@@ -18,8 +18,7 @@ MonoBehaviour:
   uniqueChips: 20
   chipCopies: 3
   chipSpawnInterval: 0.1
-  delayAfterReshuffle: 1
-  chipStopThreshold: 0.05
+  chipStopThreshold: 35
   chipStopCheckDelay: 0.2
   windowAnimDuration: 0.3
   reshuffleAnimDuration: 0.35

@@ -36,14 +36,13 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     private GameSettings settings;
     private GameplayManager gameplayManager;
     private ActionBar actionBar;
-    private bool isInteractable = true;
+    private ChipPassport passport;
+
     private float flyDuration;
     private float deathDuration;
-
-    private ChipPassport passport;
-    private bool hasStopped = false;
     private float stopThreshold;
     private float checkDelay;
+    public bool isInteractable = false;
 
     public event Action<Chip> Stopped;
     public event Action<Chip> SentToActionBar;
@@ -87,19 +86,6 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         StartCheckIfStopped();
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (isInteractable)
-        {
-            int idx = actionBar.GetNextAvailableSlot();
-            if (idx < 0) return;
-
-            isInteractable = false;
-
-            SendToActionBar(idx);
-        }
-    }
-
     public void StartCheckIfStopped() => 
         InvokeRepeating(nameof(CheckIfStopped), checkDelay, checkDelay);
     
@@ -115,6 +101,19 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         }
     }
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (isInteractable)
+        {
+            int idx = actionBar.GetNextAvailableSlot();
+            if (idx < 0) return;
+
+            isInteractable = false;
+
+            SendToActionBar(idx);
+        }
+    }
+
     public void SendToActionBar(int idx)
     {
         rb.simulated = false;
@@ -122,6 +121,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         PlaceOverActionBar();
 
         SentToActionBar?.Invoke(this);
+        SentToActionBar -= gameplayManager.OnChipSentToActionBar;
 
         actionBar.ReserveSlot(idx, this);
 

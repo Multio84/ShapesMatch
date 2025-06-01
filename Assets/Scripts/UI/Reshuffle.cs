@@ -13,7 +13,7 @@ public class Reshuffle : MonoBehaviour
 
     private float animDuration;
     private bool isEnabled;
-    private int availableCount = 2; // number of reshuffle activations, availableCount in current level
+    private int availableCount = 2; // number of reshuffles, available in current level
 
 
     public void Setup(GameSettings gs, UIManager uim, ChipSpawner cs)
@@ -69,5 +69,4 @@ public class Reshuffle : MonoBehaviour
         if (state == SpawnerState.Gameplay && availableCount > 0)
             SetEnabled(true);
     }
-
 }
