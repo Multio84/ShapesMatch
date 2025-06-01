@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 3436432320959458301}
   - component: {fileID: 6269244941243965380}
   - component: {fileID: 5906715976477993896}
+  - component: {fileID: 5805362020044428949}
   m_Layer: 5
   m_Name: ButtonReshuffle
   m_TagString: Untagged
@@ -209,3 +210,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a7b2328c8e6b434a80e64e676b705ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5805362020044428949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8589809224316188042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59bcd5e18b8ea7b4bb6f65f5c48b9506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonReshuffle: {fileID: 0}
+  buttonReshuffleIcon: {fileID: 0}

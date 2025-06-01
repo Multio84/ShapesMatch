@@ -588,6 +588,7 @@ MonoBehaviour:
   chipSpawner: {fileID: 1269200906}
   actionBar: {fileID: 1429818698}
   uiManager: {fileID: 1005341951}
+  reshuffle: {fileID: 1902892117}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,11 +989,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a764c64272cd442913a56bd8d6f209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonReshuffle: {fileID: 1902892113}
-  buttonReshuffleIcon: {fileID: 1037747241}
   window: {fileID: 8226315949920065394}
   blocker: {fileID: 5245961271865747253}
   windowTarget: {fileID: 694671991}
+  buttonReshuffle: {fileID: 1902892113}
   tutorialHeader: How to play
   tutorialBody: Collect 3 matching chips!
   winHeader: Victory!
@@ -1001,6 +1001,7 @@ MonoBehaviour:
     You''ve done it!'
   loseHeader: Game Over
   loseBody: Better luck next time!
+  reshuffle: {fileID: 0}
 --- !u!224 &1037747241 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8717544691046173613, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
@@ -1434,6 +1435,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1902892117 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5805362020044428949, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
+  m_PrefabInstance: {fileID: 1968352242207776385}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59bcd5e18b8ea7b4bb6f65f5c48b9506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1968352242207776385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1522,6 +1534,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5805362020044428949, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 1037747241}
+    - target: {fileID: 5805362020044428949, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
+      propertyPath: button
+      value: 
+      objectReference: {fileID: 1902892113}
+    - target: {fileID: 5805362020044428949, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
+      propertyPath: buttonReshuffle
+      value: 
+      objectReference: {fileID: 1902892113}
+    - target: {fileID: 5805362020044428949, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
+      propertyPath: buttonReshuffleIcon
+      value: 
+      objectReference: {fileID: 1037747241}
     - target: {fileID: 8589809224316188042, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
       propertyPath: m_Name
       value: ButtonReshuffle

@@ -28,14 +28,12 @@ public class GameplayManager : MonoBehaviour, IInitializable
     {
         actionBar.MatchesDestroyed += OnMatchesDestroyed;
         actionBar.ChipsMoveCompleted += OnChipsMoveCompleted;
-        uiManager.buttonReshuffle.onClick.AddListener(OnReshufflePressed);
     }
 
     void OnDisable()
     {
         actionBar.MatchesDestroyed -= OnMatchesDestroyed;
         actionBar.ChipsMoveCompleted -= OnChipsMoveCompleted;
-        uiManager.buttonReshuffle.onClick.RemoveListener(OnReshufflePressed);
     }
 
     public void GenerateLevel() => spawner.GenerateLevel();
@@ -84,10 +82,5 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
         if (actionBar.CountPlacedChips() == ActionBar.SLOTS_COUNT)
             uiManager.ShowLoseWindow();
-    }
-
-    private void OnReshufflePressed()
-    {
-        spawner.StartReshuffle();
     }
 }

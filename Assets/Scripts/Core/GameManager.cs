@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour, IInitializable
 
     public void Init()
     {
-        chipSpawner.LevelGenerated += OnLevelGenerated;
+        chipSpawner.ChipsStopped += OnChipsStopped;
         uiManager.WindowClosed += OnWindowClosed;
 
         StartGame();
@@ -25,17 +25,17 @@ public class GameManager : MonoBehaviour, IInitializable
 
     private void OnDisable()
     {
+        chipSpawner.ChipsStopped -= OnChipsStopped;
         uiManager.WindowClosed -= OnWindowClosed;
     }
 
     private void StartGame() => gameplayManager.GenerateLevel();
 
-    private void OnLevelGenerated()
+
+    private void OnChipsStopped(SpawnerState state)
     {
-        //if (levelNum == 1)
+        if (state == SpawnerState.LevelGeneration)
             uiManager.ShowTutorialWindow();
-        //else
-        //    StartLevel();
     }
 
     private void OnWindowClosed(WindowKind kind)
@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour, IInitializable
         {
             case WindowKind.Tutorial:
                 StartLevel();
+                uiManager.reshuffle.SetEnabled(true);
                 break;
             case WindowKind.LevelCompletion:
                 QuitGame();

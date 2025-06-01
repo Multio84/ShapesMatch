@@ -100,21 +100,18 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    private void StartCheckIfStopped() => 
+    public void StartCheckIfStopped() => 
         InvokeRepeating(nameof(CheckIfStopped), checkDelay, checkDelay);
     
     private void CheckIfStopped()
     {
-        if (hasStopped) return;
-
         bool isMoving = rb.velocity.sqrMagnitude > stopThreshold * stopThreshold;
         bool isRotating = Mathf.Abs(rb.angularVelocity) > stopThreshold;
 
         if (!isMoving && !isRotating)
         {
-            hasStopped = true;
             Stopped?.Invoke(this);
-            CancelInvoke(nameof(CheckIfStopped)); // больше не проверяем
+            CancelInvoke(nameof(CheckIfStopped));
         }
     }
 

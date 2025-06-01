@@ -28,6 +28,6 @@ public class GameSettings : ScriptableObject
     [Header("UI")]
     [Tooltip("Window appearing and disappearing duration.")]
     public float windowAnimDuration = 0.3f;
-    [Tooltip("Reshuffle icon animation duration.")]
+    [Tooltip("Gameplay icon animation duration.")]
     public float reshuffleAnimDuration = 1f;
 }

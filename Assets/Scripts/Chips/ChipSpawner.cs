@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public enum SpawnerState
+{
+    LevelGeneration,
+    Gameplay
+}
+
 public class ChipSpawner : MonoBehaviour
 {
     [SerializeField] private Collider2D containerBottom;
@@ -19,9 +25,10 @@ public class ChipSpawner : MonoBehaviour
     private GameplayManager gameplayManager;
     private ChipFactory factory;
     private List<ChipPassport> passportsDeck;
-    private bool reshuffling;
 
-    public event Action LevelGenerated;
+    private SpawnerState state;
+
+    public event Action<SpawnerState> ChipsStopped;
 
 
     public void Setup(GameSettings gs, GameplayManager gm, ChipFactory cf)
@@ -38,6 +45,9 @@ public class ChipSpawner : MonoBehaviour
 
     public void GenerateLevel()
     {
+        state = SpawnerState.LevelGeneration;
+        stoppedChipsCount = 0;
+
         StartCoroutine(SpawnChips());
     }
 
@@ -48,12 +58,19 @@ public class ChipSpawner : MonoBehaviour
         foreach (var passport in passportsDeck)
         {
             Chip chip = factory.SpawnChip(passport, transform);
-
             gameplayManager.spawnedChips.Add(chip);
-            chip.Stopped += HandleChipStopped;
+            StartChipStopCheck(chip);
 
             yield return new WaitForSeconds(spawnInterval);
         }
+    }
+
+    private void StartChipStopCheck(Chip chip)
+    {
+        chip.Stopped -= HandleChipStopped;
+        chip.Stopped += HandleChipStopped;
+
+        chip.StartCheckIfStopped();
     }
 
     private void HandleChipStopped(Chip chip)
@@ -64,19 +81,20 @@ public class ChipSpawner : MonoBehaviour
         if (stoppedChipsCount >= gameplayManager.spawnedChips.Count)
         {
             Debug.Log("All chips stopped.");
-            LevelGenerated?.Invoke();
+            ChipsStopped?.Invoke(state);
         }
     }
 
     public void StartReshuffle()
     {
-        if (!reshuffling) StartCoroutine(Reshuffle());
+        state = SpawnerState.Gameplay;
+        stoppedChipsCount = 0;
+
+        StartCoroutine(Reshuffle());
     }
 
     private IEnumerator Reshuffle()
     {
-        reshuffling = true;
-
         // let chips fall under screen
         containerBottom.enabled = false;
         bottomSensor.ResetSensor();
@@ -105,13 +123,11 @@ public class ChipSpawner : MonoBehaviour
             rb.simulated = true;
 
             chip.transform.position = transform.position;
+            StartChipStopCheck(chip);
 
             yield return new WaitForSeconds(spawnInterval);
         }
-
         
         yield return new WaitForSeconds(delayAfterReshuffle);
-
-        reshuffling = false;
     }
 }
