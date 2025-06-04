@@ -13,9 +13,11 @@ public class Reshuffle : MonoBehaviour
 
     private float animDuration;
     private bool isEnabled;
-    private int availableCount = 2; // number of reshuffles, available in current level
-
-
+    private int availableCount = 10; // number of reshuffles, available in current level
+    
+    
+    public bool IsReshuffleAvailable => availableCount > 0 ? true : false;
+    
     public void Setup(GameSettings gs, UIManager uim, ChipSpawner cs)
     {
         settings = gs;
@@ -37,15 +39,6 @@ public class Reshuffle : MonoBehaviour
 
     public void SetEnabled(bool enabled)
     {
-        if (enabled)
-        {
-            Debug.Log("Reshuffle enabled");
-        }
-        else
-        {
-            Debug.Log("Reshuffle disabled");
-        }
-
         isEnabled = enabled;
         button.interactable = enabled;
     }
@@ -54,19 +47,19 @@ public class Reshuffle : MonoBehaviour
     {
         if (!isEnabled) return;
         isEnabled = false;
+
         availableCount--;
 
         icon.DORotate(new Vector3(0, 0, 360), animDuration, RotateMode.FastBeyond360)
             .SetEase(Ease.InSine)
             .OnComplete(() => button.interactable = false);
 
-        Debug.Log($"Gameplay activated. {availableCount} left.");
         chipSpawner.StartReshuffle();
     }
 
     private void OnChipsStopped(SpawnerState state)
     {
-        if (state == SpawnerState.Gameplay && availableCount > 0)
+        if (state == SpawnerState.LevelPlaying && availableCount > 0)
             SetEnabled(true);
     }
 }

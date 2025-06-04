@@ -11,7 +11,7 @@ public class GameSettings : ScriptableObject
     public float chipShiftDuration = 0.15f;
     public float chipDeathDuration = 0.25f;
 
-    [Header("Gameplay")]
+    [Header("LevelPlaying")]
     [Tooltip("Number of unique chips in the level.")]
     public int uniqueChips = 3;
     [Tooltip("Number of copies for each unique chip.")]
@@ -27,6 +27,6 @@ public class GameSettings : ScriptableObject
     [Header("UI")]
     [Tooltip("Window appearing and disappearing duration.")]
     public float windowAnimDuration = 0.3f;
-    [Tooltip("Gameplay icon animation duration.")]
+    [Tooltip("LevelPlaying icon animation duration.")]
     public float reshuffleAnimDuration = 1f;
 }

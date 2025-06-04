@@ -41,9 +41,9 @@ public class GameBootstrapper : MonoBehaviour
         gameManager.Setup(gameplayManager, uiManager, chipSpawner);
         gameplayManager.Setup(gameSettings, chipSpawner, actionBar, uiManager);
         uiManager.Setup(gameSettings, reshuffle);
-        chipSpawner.Setup(gameSettings, gameplayManager, chipFactory);
+        chipSpawner.Setup(gameSettings, gameplayManager, chipFactory, actionBar);
         chipFactory.Setup(gameSettings, chipPartsDatabase, gameplayManager, actionBar);
-        actionBar.Setup(gameSettings);
+        actionBar.Setup(gameSettings, chipSpawner);
         reshuffle.Setup(gameSettings, uiManager, chipSpawner);
     }
 

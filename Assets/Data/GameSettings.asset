@@ -15,10 +15,10 @@ MonoBehaviour:
   chipFlyDuration: 0.5
   chipShiftDuration: 0.15
   chipDeathDuration: 0.25
-  uniqueChips: 20
+  uniqueChips: 30
   chipCopies: 3
   chipSpawnInterval: 0.1
-  chipStopThreshold: 35
+  chipStopThreshold: 10
   chipStopCheckDelay: 0.2
   windowAnimDuration: 0.3
   reshuffleAnimDuration: 0.35

@@ -26,6 +26,7 @@ public class ActionBar : MonoBehaviour, IInitializable
 {
     public SpriteRenderer spriteRenderer;
     private GameSettings settings;
+    private ChipSpawner chipSpawner;
     [SerializeField] private Transform chipsRoot;
     [SerializeField] private Slot[] slots = new Slot[SLOTS_COUNT];
 
@@ -38,9 +39,11 @@ public class ActionBar : MonoBehaviour, IInitializable
     public event Action ChipsMoveCompleted;
 
 
-    public void Setup(GameSettings gs)
+    public void Setup(GameSettings gs, ChipSpawner cs)
     {
         settings = gs;
+        chipSpawner = cs;
+
         chipShiftDuration = settings.chipShiftDuration;
     }
 
@@ -67,12 +70,14 @@ public class ActionBar : MonoBehaviour, IInitializable
     public void ReserveSlot(int idx, Chip chip)
     {
         slots[idx].state = SlotState.Reserved;
+        slots[idx].chip = chip;
+        Debug.LogWarning($"ReservedSot: Chip added to AB in {idx} slot.");
     }
 
     public void PlaceChip(int idx, Chip chip)
     {
         slots[idx].state = SlotState.Occupied;
-        slots[idx].chip = chip;
+        //slots[idx].chip = chip;
         slots[idx].chip.transform.SetParent(chipsRoot);
     }
 
@@ -213,5 +218,25 @@ public class ActionBar : MonoBehaviour, IInitializable
 
         if (chipsToMove.Count <= 0)
             ChipsMoveCompleted?.Invoke();
+    }
+
+    // drops all chips from ActionBar to fall down when Reshuffle had been used
+    public List<Chip> DropCollectedChips()
+    {
+        List<Chip> chips = new List<Chip>();
+        foreach (var slot in slots)
+        {
+            if (slot.state != SlotState.Occupied &&
+                slot.state != SlotState.Reserved) continue;
+
+            Chip chip = slot.chip;
+            DestroyChip(slot.index);
+
+            chip.transform.SetParent(chipSpawner.transform);
+            chip.DropFromActionBar();
+            chips.Add(chip);
+        }
+
+        return chips;
     }
 }

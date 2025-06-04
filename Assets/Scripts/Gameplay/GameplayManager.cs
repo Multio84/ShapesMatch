@@ -38,10 +38,7 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
     public void GenerateLevel() => spawner.GenerateLevel();
 
-    public void OnChipSentToActionBar(Chip chip)
-    {
-        spawnedChips.Remove(chip);
-    }
+    public void OnChipSentToActionBar(Chip chip) => spawnedChips.Remove(chip);
 
     public void OnChipPlaced()
     {
@@ -80,7 +77,8 @@ public class GameplayManager : MonoBehaviour, IInitializable
         if (actionBar.CountPlacedChips() == 0 && spawnedChips.Count == 0)
             uiManager.ShowWinWindow();
 
-        if (actionBar.CountPlacedChips() == ActionBar.SLOTS_COUNT)
-            uiManager.ShowLoseWindow();
+        if (actionBar.CountPlacedChips() == ActionBar.SLOTS_COUNT &&
+            !uiManager.reshuffle.IsReshuffleAvailable)
+                uiManager.ShowLoseWindow();
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 public enum SpawnerState
 {
     LevelGeneration,
-    Gameplay
+    LevelPlaying
 }
 
 public class ChipSpawner : MonoBehaviour
@@ -23,6 +23,7 @@ public class ChipSpawner : MonoBehaviour
     private GameSettings settings;
     private GameplayManager gameplayManager;
     private ChipFactory factory;
+    private ActionBar actionBar;
     private List<ChipPassport> passportsDeck;
 
     private SpawnerState state;
@@ -30,11 +31,12 @@ public class ChipSpawner : MonoBehaviour
     public event Action<SpawnerState> ChipsStopped;
 
 
-    public void Setup(GameSettings gs, GameplayManager gm, ChipFactory cf)
+    public void Setup(GameSettings gs, GameplayManager gm, ChipFactory cf, ActionBar ab)
     {
         settings = gs;
         gameplayManager = gm;
         factory = cf;
+        actionBar = ab;
 
         chipCopies = settings.chipCopies;
         uniqueChips = settings.uniqueChips;
@@ -78,7 +80,7 @@ public class ChipSpawner : MonoBehaviour
 
         if (stoppedChipsCount >= gameplayManager.spawnedChips.Count)
         {
-            Debug.Log("All chips stopped.");
+            //Debug.Log("All chips stopped.");
             SetChipsInteractable(true);
             ChipsStopped?.Invoke(state);
         }
@@ -92,7 +94,7 @@ public class ChipSpawner : MonoBehaviour
 
     public void StartReshuffle()
     {
-        state = SpawnerState.Gameplay;
+        state = SpawnerState.LevelPlaying;
         stoppedChipsCount = 0;
 
         StartCoroutine(Reshuffle());
@@ -106,12 +108,21 @@ public class ChipSpawner : MonoBehaviour
         containerBottom.enabled = false;
         bottomSensor.ResetSensor();
 
+        List<Chip> chips = gameplayManager.spawnedChips;
+        List<Chip> chipsFromBar = actionBar.DropCollectedChips();
+        chips.AddRange(chipsFromBar);
+
         // check that all chips intersected screen bottom
         yield return new WaitUntil(() =>
-            bottomSensor.IsAllPassed(gameplayManager.spawnedChips));
+            bottomSensor.IsAllPassed(chips));
+
+        foreach (Chip chip in chipsFromBar)
+            chip.ChangeLayerOrder(false);
+
+        chipsFromBar = null;
 
         // stop chips' movement
-        foreach (Chip chip in gameplayManager.spawnedChips)
+        foreach (Chip chip in chips)
         {
             var rb = chip.rb;
             rb.velocity = Vector2.zero;
@@ -121,16 +132,14 @@ public class ChipSpawner : MonoBehaviour
 
         containerBottom.enabled = true;
 
-        ChipFactory.Shuffle(gameplayManager.spawnedChips);
+        ChipFactory.Shuffle(chips);
 
         // drop chips again
-        foreach (Chip chip in gameplayManager.spawnedChips)
+        foreach (Chip chip in chips)
         {
             yield return new WaitForSeconds(spawnInterval);
 
-            var rb = chip.rb;
-            rb.simulated = true;
-
+            chip.rb.simulated = true;
             chip.transform.position = transform.position;
             StartChipStopCheck(chip);
         }

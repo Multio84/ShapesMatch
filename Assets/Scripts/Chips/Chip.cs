@@ -38,6 +38,10 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     private ActionBar actionBar;
     private ChipPassport passport;
 
+    private Tween move;
+    private Tween rotate;
+    private Tween death;
+
     private float flyDuration;
     private float deathDuration;
     private float stopThreshold;
@@ -54,6 +58,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
     void OnDisable()
     {
+        SentToActionBar -= gameplayManager.OnChipSentToActionBar;
         Placed -= gameplayManager.OnChipPlaced;
     }
 
@@ -117,11 +122,9 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     public void SendToActionBar(int idx)
     {
         rb.simulated = false;
-        col.enabled = false;
-        PlaceOverActionBar();
+        ChangeLayerOrder(true);
 
         SentToActionBar?.Invoke(this);
-        SentToActionBar -= gameplayManager.OnChipSentToActionBar;
 
         actionBar.ReserveSlot(idx, this);
 
@@ -130,12 +133,20 @@ public class Chip : MonoBehaviour, IPointerDownHandler
             OnComplete(() => ChipArrivedToActionBar(idx));
     }
 
-    private void PlaceOverActionBar()
+    public void ChangeLayerOrder(bool isOverActionBar)
     {
         int actionBarOrder = actionBar.spriteRenderer.sortingOrder;
 
-        frameRenderer.sortingOrder += actionBarOrder;
-        animalRenderer.sortingOrder += actionBarOrder;
+        if (isOverActionBar)
+        {
+            frameRenderer.sortingOrder += actionBarOrder;
+            animalRenderer.sortingOrder += actionBarOrder;
+        }
+        else
+        {
+            frameRenderer.sortingOrder -= actionBarOrder;
+            animalRenderer.sortingOrder -= actionBarOrder;
+        }
     }
 
     private void ChipArrivedToActionBar(int idx)
@@ -146,7 +157,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
     public Tween Move(Transform targetTransform, float duration)
     {
-        return transform
+        return move = transform
             .DOMove(targetTransform.position, duration)
             .SetEase(Ease.InOutQuad);
     }
@@ -154,17 +165,32 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     public void Rotate(Transform targetTransform)
     {
         Vector3 targetZVector = new Vector3(0, 0, targetTransform.rotation.eulerAngles.z);
-
-        transform
+        rotate = transform
             .DORotate(targetZVector, flyDuration)
             .SetEase(Ease.InOutQuad);
     }
 
     public void Die()
     {
-        transform
+        death = transform
             .DOScale(Vector3.zero, deathDuration)
             .SetEase(Ease.InOutQuad)
-            .OnComplete(() => DeathCompleted(this));
+            .OnComplete(() => {
+                KillAllTweens();
+                DeathCompleted(this);
+                });
+    }
+
+    public void KillAllTweens()
+    {
+        move.Kill(false);
+        rotate.Kill(false);
+        death.Kill(false);
+    }
+
+    public void DropFromActionBar()
+    {
+        KillAllTweens();
+        rb.simulated = true;
     }
 }
