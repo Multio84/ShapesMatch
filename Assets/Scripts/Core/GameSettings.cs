@@ -10,6 +10,8 @@ public class GameSettings : ScriptableObject
     [Tooltip("Duration in seconds of chip's shifting in ActionBar.")]
     public float chipShiftDuration = 0.15f;
     public float chipDeathDuration = 0.25f;
+    [Tooltip("Max value of the force applied to the chip after spawning to randomize it's falling direction.")]
+    public float chipMaxStartImpulse = 0.1f;
 
     [Header("LevelPlaying")]
     [Tooltip("Number of unique chips in the level.")]

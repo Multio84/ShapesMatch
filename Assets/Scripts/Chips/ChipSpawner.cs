@@ -18,6 +18,7 @@ public class ChipSpawner : MonoBehaviour
     private int chipCopies;
     private int uniqueChips;
     private float spawnInterval;
+    private float chipMaxImpulse;
     private int stoppedChipsCount = 0;
 
     private GameSettings settings;
@@ -26,7 +27,6 @@ public class ChipSpawner : MonoBehaviour
     private List<ChipPassport> passportsDeck;
     private ChipPile chipPile;
     private SpawnerState state;
-
 
     public event Action<SpawnerState> ChipsStopped;
 
@@ -41,6 +41,7 @@ public class ChipSpawner : MonoBehaviour
         chipCopies = settings.chipCopies;
         uniqueChips = settings.uniqueChips;
         spawnInterval = settings.chipSpawnInterval;
+        chipMaxImpulse = settings.chipMaxStartImpulse;
     }
 
     public void GenerateLevel()
@@ -60,10 +61,17 @@ public class ChipSpawner : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
 
             Chip chip = factory.SpawnChip(passport, transform);
+            AddRandomHorizontalImpulse(chip);
             chipPile.Add(chip);
 
             StartChipStopCheck(chip);
         }
+    }
+
+    private void AddRandomHorizontalImpulse(Chip chip)
+    {
+        float imp = UnityEngine.Random.Range(-chipMaxImpulse, chipMaxImpulse);
+        chip.rb.AddForce(new Vector2(imp, 0f), ForceMode2D.Impulse);
     }
 
     private void StartChipStopCheck(Chip chip)
