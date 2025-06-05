@@ -15,14 +15,13 @@ public class GameSettings : ScriptableObject
 
     [Header("LevelPlaying")]
     [Tooltip("Number of unique chips in the level.")]
-    public int uniqueChips = 3;
+    [Range(1, 50)]
+    public int uniqueChips = 10;
     [Tooltip("Number of copies for each unique chip.")]
     [Range(1, 6)]
     public int chipCopies = 3;
     [Tooltip("Delay in seconds before next chip will be spawned on a level.")]
     public float chipSpawnInterval = 0.2f;
-    [Tooltip("Threshold of velocity that won't count as chip's movement.")]
-    public float chipStopThreshold = 0.05f;
     [Tooltip("Seconds of delay before next check for chips' movement.")]
     public float chipStopCheckDelay = 0.2f;
 

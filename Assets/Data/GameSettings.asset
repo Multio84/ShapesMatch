@@ -16,7 +16,7 @@ MonoBehaviour:
   chipShiftDuration: 0.15
   chipDeathDuration: 0.25
   chipMaxStartImpulse: 0.5
-  uniqueChips: 1
+  uniqueChips: 10
   chipCopies: 3
   chipSpawnInterval: 0.03
   chipStopThreshold: 10

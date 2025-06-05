@@ -45,8 +45,8 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
     private float flyDuration;
     private float deathDuration;
-    private float stopThreshold;
     private float checkDelay;
+    private float prevSpeed = 0;
     public bool isInteractable = false;
 
     public event Action<Chip> Stopped;
@@ -84,7 +84,6 @@ public class Chip : MonoBehaviour, IPointerDownHandler
 
         flyDuration = settings.chipFlyDuration;
         deathDuration = settings.chipDeathDuration;
-        stopThreshold = settings.chipStopThreshold;
         checkDelay = settings.chipStopCheckDelay;
 
         frameRenderer.color = db.GetColor(passport.colorIdx);
@@ -96,19 +95,24 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         StartCheckIfStopped();
     }
 
-    public void StartCheckIfStopped() => 
+    public void StartCheckIfStopped()
+    {
+        prevSpeed = 0;
         InvokeRepeating(nameof(CheckIfStopped), checkDelay, checkDelay);
-    
+    }
+
     private void CheckIfStopped()
     {
-        bool isMoving = rb.velocity.sqrMagnitude > stopThreshold * stopThreshold;
-        bool isRotating = Mathf.Abs(rb.angularVelocity) > stopThreshold;
-
-        if (!isMoving && !isRotating)
+        float curSpeed = rb.velocity.sqrMagnitude;
+        if (curSpeed < prevSpeed)
         {
-            Stopped?.Invoke(this);
             CancelInvoke(nameof(CheckIfStopped));
+            Stopped?.Invoke(this);
+            
+            return;
         }
+
+        prevSpeed = curSpeed;
     }
 
     public void OnPointerDown(PointerEventData eventData)
