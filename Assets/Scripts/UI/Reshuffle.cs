@@ -1,4 +1,5 @@
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class Reshuffle : MonoBehaviour
 {
     [SerializeField] private Button button;
     [SerializeField] private RectTransform icon;
+    [SerializeField] private TextMeshProUGUI availableCountText;
 
     private GameSettings settings;
     private ChipSpawner chipSpawner;
@@ -29,6 +31,7 @@ public class Reshuffle : MonoBehaviour
     private void Awake()
     {
         SetEnabled(false);
+        availableCountText.text = availableCount.ToString();
         chipSpawner.ChipsStopped += OnChipsStopped;
     }
 
@@ -48,13 +51,18 @@ public class Reshuffle : MonoBehaviour
         if (!isEnabled) return;
         isEnabled = false;
 
-        availableCount--;
-
         icon.DORotate(new Vector3(0, 0, 360), animDuration, RotateMode.FastBeyond360)
             .SetEase(Ease.InSine)
-            .OnComplete(() => button.interactable = false);
+            .OnComplete(() => Deactivate());
 
         chipSpawner.StartReshuffle();
+    }
+
+    private void Deactivate()
+    {
+        button.interactable = false;
+        availableCount--;
+        availableCountText.text = availableCount.ToString();
     }
 
     private void OnChipsStopped(SpawnerState state)

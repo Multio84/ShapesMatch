@@ -366,10 +366,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1493442506}
-  - {fileID: 1902892112}
   - {fileID: 5245961271865747251}
   - {fileID: 694671991}
   - {fileID: 7214768134687251933}
+  - {fileID: 1902892112}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -456,7 +456,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb692debe999ce40abcf0f162f4242c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnedChips: []
 --- !u!1 &351236009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,15 +1517,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1377641992995884451, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1377641992995884451, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1377641992995884451, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1377641992995884451, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1534,7 +1533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1377641992995884451, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 200
+      value: 199.99988
       objectReference: {fileID: 0}
     - target: {fileID: 1377641992995884451, guid: e41702ba1c7b74d49a4b6195816c98ed, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
