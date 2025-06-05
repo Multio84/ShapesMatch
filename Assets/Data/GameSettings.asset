@@ -17,7 +17,7 @@ MonoBehaviour:
   chipDeathDuration: 0.25
   uniqueChips: 30
   chipCopies: 3
-  chipSpawnInterval: 0.1
+  chipSpawnInterval: 0.03
   chipStopThreshold: 10
   chipStopCheckDelay: 0.2
   windowAnimDuration: 0.3

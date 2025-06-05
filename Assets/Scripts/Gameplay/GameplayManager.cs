@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -9,17 +8,17 @@ public class GameplayManager : MonoBehaviour, IInitializable
     private ActionBar actionBar;
     private UIManager uiManager;
 
+    private ChipPile chipPile;
     private int chipCopies;
 
-    [HideInInspector] public List<Chip> spawnedChips = new List<Chip>();
 
-
-    public void Setup(GameSettings gs, ChipSpawner cs, ActionBar ab, UIManager uim)
+    public void Setup(GameSettings gs, ChipSpawner cs, ActionBar ab, UIManager uim, ChipPile cp)
     {
         settings = gs;
         spawner = cs;
         actionBar = ab;
         uiManager = uim;
+        chipPile = cp;
 
         chipCopies = settings.chipCopies;
     }
@@ -38,7 +37,7 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
     public void GenerateLevel() => spawner.GenerateLevel();
 
-    public void OnChipSentToActionBar(Chip chip) => spawnedChips.Remove(chip);
+    public void OnChipSentToActionBar(Chip chip) => chipPile.Remove(chip);
 
     public void OnChipPlaced()
     {
@@ -74,7 +73,7 @@ public class GameplayManager : MonoBehaviour, IInitializable
 
     private void UpdateGameState()
     {
-        if (actionBar.CountPlacedChips() == 0 && spawnedChips.Count == 0)
+        if (actionBar.CountPlacedChips() == 0 && chipPile.Count == 0)
             uiManager.ShowWinWindow();
 
         if (actionBar.CountPlacedChips() == ActionBar.SLOTS_COUNT &&

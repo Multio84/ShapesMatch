@@ -37,6 +37,7 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     private GameplayManager gameplayManager;
     private ActionBar actionBar;
     private ChipPassport passport;
+    public ChipPassport Passport => passport;
 
     private Tween move;
     private Tween rotate;
@@ -54,15 +55,19 @@ public class Chip : MonoBehaviour, IPointerDownHandler
     public event Action<Chip> DeathCompleted;
 
 
-    public ChipPassport Passport => passport;
-
     void OnDisable()
     {
         SentToActionBar -= gameplayManager.OnChipSentToActionBar;
         Placed -= gameplayManager.OnChipPlaced;
     }
 
-    public void Init(GameSettings gs, GameplayManager gm, ActionBar ab, ChipPassport p, ChipPartsDatabase db)
+    public void Init(
+        GameSettings gs, 
+        GameplayManager gm,
+        ActionBar ab, 
+        ChipPassport p, 
+        ChipPartsDatabase db
+        )
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponentInChildren<Collider2D>();
@@ -125,7 +130,6 @@ public class Chip : MonoBehaviour, IPointerDownHandler
         ChangeLayerOrder(true);
 
         SentToActionBar?.Invoke(this);
-
         actionBar.ReserveSlot(idx, this);
 
         Rotate(actionBar.GetSlotTransform(idx));

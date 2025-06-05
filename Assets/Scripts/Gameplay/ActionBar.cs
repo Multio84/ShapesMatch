@@ -71,13 +71,11 @@ public class ActionBar : MonoBehaviour, IInitializable
     {
         slots[idx].state = SlotState.Reserved;
         slots[idx].chip = chip;
-        Debug.LogWarning($"ReservedSot: Chip added to AB in {idx} slot.");
     }
 
     public void PlaceChip(int idx, Chip chip)
     {
         slots[idx].state = SlotState.Occupied;
-        //slots[idx].chip = chip;
         slots[idx].chip.transform.SetParent(chipsRoot);
     }
 
@@ -120,7 +118,7 @@ public class ActionBar : MonoBehaviour, IInitializable
 
     public bool FindMatches()
     {
-        bool wasMatched = false;
+        bool wasMatched = false;    // if any of chips were matched
 
         for (int i = 0; i < SLOTS_COUNT; i++)
         {
@@ -139,10 +137,10 @@ public class ActionBar : MonoBehaviour, IInitializable
                     matchCount++;
                 }
 
-                if (matchCount == 3) break;
+                if (matchCount == settings.chipCopies) break;
             }
 
-            if (matchCount == 3)
+            if (matchCount == settings.chipCopies)
                 foreach (int idx in matchedIndices)
                 {
                     slots[idx].state = SlotState.Matched;

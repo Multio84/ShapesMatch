@@ -86,7 +86,6 @@ public class UIManager : MonoBehaviour
     private void OnWindowHideCompleted(WindowKind kind)
     {
         window.HideCompleted -= OnWindowHideCompleted;
-
         WindowClosed?.Invoke(kind);
     }
 }

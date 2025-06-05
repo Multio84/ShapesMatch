@@ -14,16 +14,29 @@ public class GameBootstrapper : MonoBehaviour
     [SerializeField] private ActionBar actionBar;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private Reshuffle reshuffle;
+    private ChipPile chipPile;  // all chips of game field (not in action bar)
 
 
     private void Awake()
     {
+        CreateChipPile();
         Setup();
         Init();
     }
 
+    private void CreateChipPile()
+    {
+        chipPile = new ChipPile();
+    }
+
     private void Setup()
     {
+        if (chipPile is null)
+        {
+            Debug.LogError("ChipPile is null.");
+            return;
+        }
+
         if (gameSettings is null ||
             gameManager is null ||
             uiManager is null ||
@@ -39,9 +52,9 @@ public class GameBootstrapper : MonoBehaviour
         }
 
         gameManager.Setup(gameplayManager, uiManager, chipSpawner);
-        gameplayManager.Setup(gameSettings, chipSpawner, actionBar, uiManager);
+        gameplayManager.Setup(gameSettings, chipSpawner, actionBar, uiManager, chipPile);
         uiManager.Setup(gameSettings, reshuffle);
-        chipSpawner.Setup(gameSettings, gameplayManager, chipFactory, actionBar);
+        chipSpawner.Setup(gameSettings, chipFactory, actionBar, chipPile);
         chipFactory.Setup(gameSettings, chipPartsDatabase, gameplayManager, actionBar);
         actionBar.Setup(gameSettings, chipSpawner);
         reshuffle.Setup(gameSettings, uiManager, chipSpawner);
