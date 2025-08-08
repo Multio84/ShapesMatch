@@ -1,60 +1,112 @@
 using UnityEngine;
+using System;
 
+
+public enum GameState
+{
+    Loading,
+    Playing,
+    Win,
+    Lose
+}
 
 public class GameManager : MonoBehaviour, IInitializable
 {
-    private GameplayManager gameplayManager;
-    private UIManager uiManager;
-    private ChipSpawner chipSpawner;
+    private IBarState barState;//ActionBarController barController;
+    private UIController uiController;
+    private ChipSpawner spawner;
+    private ChipPile chipPile;
+    private ReshuffleService reshuffleService;
+    private static GameState state;
+    //public static GameState State 
+    //{
+    //    get => state;
+    //    private set
+    //    {
+    //        if (state == value) return;
+    //        state = value;
+
+    //        GameStateChanged?.Invoke();
+    //    } 
+    //}
+    //public static event Action GameStateChanged;  
 
 
-    public void Setup(GameplayManager gm, UIManager uim, ChipSpawner cs)
+    public void Setup(
+        IBarState bs,
+        UIController uic,
+        ChipSpawner cs,
+        ChipPile cp,
+        ReshuffleService rs
+        )
     {
-        gameplayManager = gm;
-        uiManager = uim;
-        chipSpawner = cs;
+        barState = bs;
+        uiController = uic;
+        spawner = cs;
+        chipPile = cp;
+        reshuffleService = rs;
     }
 
     public void Init()
     {
-        chipSpawner.ChipsStopped += OnChipsStopped;
-        uiManager.WindowClosed += OnWindowClosed;
+        barState.StateChanged += UpdateGameState;
 
         StartGame();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        chipSpawner.ChipsStopped -= OnChipsStopped;
-        uiManager.WindowClosed -= OnWindowClosed;
+        barState.StateChanged -= UpdateGameState;
     }
 
-    private void StartGame() => gameplayManager.GenerateLevel();
-
-
-    private void OnChipsStopped(SpawnerState state)
+    private void StartGame()
     {
-        if (state == SpawnerState.LevelGeneration)
-            uiManager.ShowTutorialWindow();
+        state = GameState.Loading;
+        StartLevel();
     }
 
-    private void OnWindowClosed(WindowKind kind)
+    private void StartLevel()
     {
-        switch (kind)
+        state = GameState.Playing;
+        spawner.GenerateLevel();
+    }
+
+    private void EndLevel() { }
+
+    private void UpdateGameState(BarState barState)
+    {
+        if (barState == BarState.Empty && chipPile.IsEmpty)
+            state = GameState.Win;
+
+        if (barState == BarState.Full && !reshuffleService.IsAvailable)
+            state = GameState.Lose;
+
+        else state = GameState.Playing;
+
+        ApplyGameState();
+
+        // TODO: other states
+    }
+
+    private void ApplyGameState()
+    {
+        if (state == GameState.Win)
         {
-            case WindowKind.Tutorial:
-                StartLevel();
-                uiManager.reshuffle.SetEnabled(true);
-                break;
-            case WindowKind.LevelCompletion:
-                QuitGame();
-                break;
+            Debug.Log("You Win!");
+            chipPile.Dispose();
+            Win();
+        }
+        else if (state == GameState.Lose)
+        {
+            Debug.Log("Game Over...");
+            chipPile.Dispose();
+            Lose();
         }
     }
 
-    private void StartLevel() { } // enable chips here
+    private void Win() => uiController.Show(WindowKind.Win);
 
-
+    private void Lose() => uiController.Show(WindowKind.Lose);
 
     private void QuitGame()
     {

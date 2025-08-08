@@ -4,70 +4,75 @@ using UnityEngine;
 [DefaultExecutionOrder(-100)]
 public class GameBootstrapper : MonoBehaviour
 {
-    private IInitializable[] initializables;
     [SerializeField] private GameSettings gameSettings;
     [SerializeField] private ChipPartsDatabase chipPartsDatabase;
     [SerializeField] private GameManager gameManager;
-    [SerializeField] private GameplayManager gameplayManager;
+    [SerializeField] private ActionBarController barController;
+    [SerializeField] private ActionBarView barView;
     [SerializeField] private ChipFactory chipFactory;
     [SerializeField] private ChipSpawner chipSpawner;
-    [SerializeField] private ActionBar actionBar;
-    [SerializeField] private UIManager uiManager;
-    [SerializeField] private Reshuffle reshuffle;
-    private ChipPile chipPile;  // all chips of game field (not in action bar)
+    [SerializeField] private UIController uiController;
+    [SerializeField] private ReshuffleService reshuffleService;
+    [SerializeField] private ReshuffleButton reshuffleButton;
+    [SerializeField] private TutorialUIController tutorialUI;
 
+    private IInitializable[] initializables;
+    private ActionBarModel barModel;
+    private ChipPile chipPile;
+    private ChipMonitor chipMonitor;
+    private TutorialManager tutorial;
 
     private void Awake()
     {
-        CreateChipPile();
+        CreateObjects();
         Setup();
         Init();
     }
 
-    private void CreateChipPile()
+    private void CreateObjects()
     {
+        barModel = new ActionBarModel();
         chipPile = new ChipPile();
+        chipMonitor = new ChipMonitor();
+        tutorial = new TutorialManager();
     }
 
     private void Setup()
     {
-        if (chipPile is null)
-        {
-            Debug.LogError("ChipPile is null.");
-            return;
-        }
-
-        if (gameSettings is null ||
-            gameManager is null ||
-            uiManager is null ||
-            chipPartsDatabase is null ||
-            gameplayManager is null ||
-            chipFactory is null ||
-            chipSpawner is null ||
-            actionBar is null ||
-            reshuffle is null)
+        if (!gameSettings ||
+            !chipPartsDatabase ||
+            !gameManager ||
+            !barController ||
+            !barView ||
+            !chipFactory ||
+            !chipSpawner ||
+            !uiController ||
+            !reshuffleService ||
+            !reshuffleButton ||
+            !tutorialUI
+            )
         {
             Debug.LogError("GameBootstrapper: Some links are not set in the inspector!");
             return;
         }
 
-        gameManager.Setup(gameplayManager, uiManager, chipSpawner);
-        gameplayManager.Setup(gameSettings, chipSpawner, actionBar, uiManager, chipPile);
-        uiManager.Setup(gameSettings, reshuffle);
-        chipSpawner.Setup(gameSettings, chipFactory, actionBar, chipPile);
-        chipFactory.Setup(gameSettings, chipPartsDatabase, gameplayManager, actionBar);
-        actionBar.Setup(gameSettings, chipSpawner);
-        reshuffle.Setup(gameSettings, uiManager, chipSpawner);
+        gameManager.Setup((IBarState)barController, uiController, chipSpawner, chipPile,reshuffleService);
+        barController.Setup(gameSettings, barView, barModel);
+        barView.Setup(gameSettings);
+        barModel.Setup(gameSettings);
+        chipFactory.Setup(chipPartsDatabase, (IChipCollector)barController);
+        chipSpawner.Setup(gameSettings, chipFactory, chipPile, chipMonitor);
+        uiController.Setup(gameSettings);
+        reshuffleService.Setup(chipPile, (IChipDropper)barController, chipSpawner, chipMonitor, reshuffleButton);
+        reshuffleButton.Setup(gameSettings, reshuffleService);
+        chipMonitor.Setup(gameSettings, chipPile);
     }
-
     
-    void Init()
+    private void Init()
     {
         initializables = new IInitializable[]
         {
-            gameManager,
-            gameplayManager,
-            actionBar
+            gameManager
         };
 
         foreach (var obj in initializables)

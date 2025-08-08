@@ -1,42 +1,29 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-
-public enum SpawnerState
-{
-    LevelGeneration,
-    LevelPlaying
-}
 
 public class ChipSpawner : MonoBehaviour
 {
-    [SerializeField] private Collider2D containerBottom;
-    [SerializeField] private BottomSensor bottomSensor;
+    public event Action ChipsFallingStarted;
 
     private int chipCopies;
     private int uniqueChips;
     private float spawnInterval;
     private float chipMaxImpulse;
-    private int stoppedChipsCount = 0;
 
     private GameSettings settings;
     private ChipFactory factory;
-    private ActionBar actionBar;
-    private List<ChipPassport> passportsDeck;
     private ChipPile chipPile;
-    private SpawnerState state;
+    private ChipMonitor monitor;
 
-    public event Action<SpawnerState> ChipsStopped;
-
-
-    public void Setup(GameSettings gs, ChipFactory cf, ActionBar ab, ChipPile cp)
+    public void Setup(GameSettings gs, ChipFactory cf, ChipPile cp, ChipMonitor cm)
     {
         settings = gs;
         factory = cf;
-        actionBar = ab;
         chipPile = cp;
+        monitor = cm;
 
         chipCopies = settings.chipCopies;
         uniqueChips = settings.uniqueChips;
@@ -46,15 +33,13 @@ public class ChipSpawner : MonoBehaviour
 
     public void GenerateLevel()
     {
-        state = SpawnerState.LevelGeneration;
-        stoppedChipsCount = 0;
-
+        ChipsFallingStarted?.Invoke();
         StartCoroutine(SpawnChips());
     }
 
     private IEnumerator SpawnChips()
     {
-        passportsDeck = factory.BuildPassportDeck(uniqueChips, chipCopies);
+        List<ChipPassport> passportsDeck = factory.BuildPassportDeck(uniqueChips, chipCopies);
 
         foreach (var passport in passportsDeck)
         {
@@ -64,92 +49,37 @@ public class ChipSpawner : MonoBehaviour
             AddRandomHorizontalImpulse(chip);
             chipPile.Add(chip);
 
-            StartChipStopCheck(chip);
+            monitor.StartChipStopCheck(chip);
         }
     }
 
-    private void AddRandomHorizontalImpulse(Chip chip)
+    public void EmitExistingChips()
     {
-        float imp = UnityEngine.Random.Range(-chipMaxImpulse, chipMaxImpulse);
-        chip.rb.AddForce(new Vector2(imp, 0f), ForceMode2D.Impulse);
+        ChipsFallingStarted?.Invoke();
+        StartCoroutine(PlaceChips());
     }
 
-    private void StartChipStopCheck(Chip chip)
+    // relocate chips of pile to spawner pos again (after reshuffle)
+    private IEnumerator PlaceChips()
     {
-        chip.Stopped -= HandleChipStopped;
-        chip.Stopped += HandleChipStopped;
-
-        chip.StartCheckIfStopped();
-    }
-
-    private void HandleChipStopped(Chip chip)
-    {
-        chip.Stopped -= HandleChipStopped;
-        stoppedChipsCount++;
-
-        if (stoppedChipsCount >= chipPile.Count)
-        {
-            //Debug.Log("All chips stopped.");
-            SetChipsInteractable(true);
-            ChipsStopped?.Invoke(state);
-        }
-    }
-
-    private void SetChipsInteractable(bool isInteractable)
-    {
-        foreach (Chip chip in chipPile.Chips)
-            chip.isInteractable = isInteractable;
-    }
-
-    public void StartReshuffle()
-    {
-        state = SpawnerState.LevelPlaying;
-        stoppedChipsCount = 0;
-
-        StartCoroutine(Reshuffle());
-    }
-
-    private IEnumerator Reshuffle()
-    {
-        SetChipsInteractable(false);
-
-        // let chips fall under screen
-        containerBottom.enabled = false;
-        bottomSensor.ResetSensor();
-        
-        List<Chip> chipsFromBar = actionBar.DropCollectedChips();
-        chipPile.AddRange(chipsFromBar);
-
-        // check that all chips intersected screen bottom
-        yield return new WaitUntil(() =>
-            bottomSensor.IsAllPassed(chipPile.Chips));
-
-        foreach (Chip chip in chipsFromBar)
-            chip.ChangeLayerOrder(false);
-
-        chipsFromBar = null;
-
-        // stop chips' movement
-        foreach (Chip chip in chipPile.Chips)
-        {
-            var rb = chip.rb;
-            rb.velocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-            rb.simulated = false;
-        }
-
-        containerBottom.enabled = true;
-
-        chipPile.Shuffle();
-
-        // drop chips again
         foreach (Chip chip in chipPile.Chips)
         {
             yield return new WaitForSeconds(spawnInterval);
 
-            chip.rb.simulated = true;
+            chip.Emit();
+
             chip.transform.position = transform.position;
-            StartChipStopCheck(chip);
+            chip.SetPhysEnabled(true);
+            AddRandomHorizontalImpulse(chip);
+
+            monitor.StartChipStopCheck(chip);
         }
+    }
+
+    // prevents falling in one line
+    private void AddRandomHorizontalImpulse(Chip chip)
+    {
+        float imp = UnityEngine.Random.Range(-chipMaxImpulse, chipMaxImpulse);
+        chip.rb.AddForce(new Vector2(imp, 0f), ForceMode2D.Impulse);
     }
 }

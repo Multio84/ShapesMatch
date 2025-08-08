@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class ChipFactory : MonoBehaviour
 {
-    private GameSettings settings;
-    private GameplayManager gameplayManager;
     private ChipPartsDatabase database;
-    private ActionBar actionBar;
+    private IChipCollector collector;
 
-    private readonly List<ChipPassport> uniquePassports = new List<ChipPassport>();
+    private readonly List<ChipPassport> uniquePassports = new();
     private int maxUniqueChipsCount;
 
-
-    public void Setup(GameSettings gs, ChipPartsDatabase db, GameplayManager gm, ActionBar gp)
+    public void Setup(ChipPartsDatabase db, IChipCollector cc)
     {
-        settings = gs;
         database = db;
-        gameplayManager = gm;
-        actionBar = gp;
+        collector = cc;
     }
 
     public List<ChipPassport> BuildPassportDeck(int uniqueChipsCount, int chipCopies)
@@ -40,7 +35,7 @@ public class ChipFactory : MonoBehaviour
             for (int i = 0; i < chipCopies; i++)
                 deck.Add(p);
 
-        // shuffle all Deck of passports
+        // shuffle all deck of passports
         Shuffle(deck);
 
         return deck;
@@ -50,9 +45,34 @@ public class ChipFactory : MonoBehaviour
     {
         Chip prefab = database.GetPrefab(passport.prefabIdx);
         Chip chip = Instantiate(prefab, parent);
-        chip.Init(settings, gameplayManager, actionBar, passport, database);
+
+        chip.Init(collector, passport, database);
         return chip;
     }
+
+    //public ChipPresenter SpawnChip(ChipPassport passport, Transform parent)
+    //{
+    //    // 1. Спауним визуал (префаб)
+    //    ChipView prefabView = database.GetPrefab(passport.prefabIdx);
+    //    ChipView view = Object.Instantiate(prefabView, parent);
+
+    //    // 2. Берём компонент ввода
+    //    ChipInput input = view.GetComponent<ChipInput>();
+
+    //    // 3. Создаём модель (plain-C#) и инициализируем её тем,
+    //    //    что раньше задавалось через Chip.Init(...)
+    //    var model = new ChipModel();
+    //    model.SetInteractable(true);
+    //    model.SetState(ChipState.Idle);
+    //    // если нужно, передайте collector / passport в модель
+    //    // либо храните эти данные отдельными полями
+
+    //    // 4. Склеиваем всё презентером
+    //    var presenter = new ChipPresenter(model, view, input);
+    //    presenter.Clicked += _collector.TryCollectChip;  // подписка как раньше
+
+    //    return presenter;
+    //}
 
     private ChipPassport GetUniqueRandomPassport()
     {
@@ -97,7 +117,7 @@ public class ChipFactory : MonoBehaviour
     private int CountMaxUniquePassports(ChipPartsDatabase db) =>
        db.prefabs.Count * db.frameColors.Count * db.animalSprites.Count;
 
-    public static void Shuffle<T>(IList<T> list)
+    private static void Shuffle<T>(IList<T> list)
     {
         for (int i = 0; i < list.Count; i++)
         {

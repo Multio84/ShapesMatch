@@ -106,9 +106,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -1690796311
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: -8138782370738992367, guid: ed1e505b543e73f4c8fe01c933c3e28b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -206,7 +206,6 @@ MonoBehaviour:
   animalRenderer: {fileID: 7317676209381694161}
   rb: {fileID: 0}
   col: {fileID: 0}
-  isMatched: 0
 --- !u!50 &1420525478682591080
 Rigidbody2D:
   serializedVersion: 4
@@ -306,9 +305,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -1690796311
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 3139590038334684883, guid: ea983d9b5f133854cb2620a0377bb46c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -72,7 +72,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8978295636007501052}
   - component: {fileID: 5318221883895939780}
-  - component: {fileID: 3022978639460893343}
+  - component: {fileID: 6011324352304795586}
+  - component: {fileID: 9099754133609654118}
   m_Layer: 0
   m_Name: ActionBar
   m_TagString: Untagged
@@ -137,9 +138,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingLayerID: -1696785187
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: -7500360871514107123, guid: 8818f606f2331f646af0f570476edab3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -151,7 +152,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3022978639460893343
+--- !u!114 &6011324352304795586
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,20 +161,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 4239404601047802702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 673f241b660086443a6576abdb89bdd1, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b4bbdb351d95274984ca5f0671c0e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 5318221883895939780}
+--- !u!114 &9099754133609654118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4239404601047802702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b5b1527343b8df42acc71ede5c59e70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   chipsRoot: {fileID: 1082890184125791570}
-  slots:
-  - transform: {fileID: 7617295473217565893}
-  - transform: {fileID: 5526775286419139929}
-  - transform: {fileID: 2630805695847391267}
-  - transform: {fileID: 3738245178010772374}
-  - transform: {fileID: 1894461698207612182}
-  - transform: {fileID: 2600107210128978402}
-  - transform: {fileID: 3991377030730382124}
-  chipMoveDuration: 0.15
+  spriteRenderer: {fileID: 5318221883895939780}
+  slotPoints:
+  - {fileID: 7617295473217565893}
+  - {fileID: 5526775286419139929}
+  - {fileID: 2630805695847391267}
+  - {fileID: 3738245178010772374}
+  - {fileID: 1894461698207612182}
+  - {fileID: 2600107210128978402}
+  - {fileID: 3991377030730382124}
 --- !u!1 &4956112271315307409
 GameObject:
   m_ObjectHideFlags: 0

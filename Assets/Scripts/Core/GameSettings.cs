@@ -13,7 +13,7 @@ public class GameSettings : ScriptableObject
     [Tooltip("Max value of the force applied to the chip after spawning to randomize it's falling direction.")]
     public float chipMaxStartImpulse = 0.1f;
 
-    [Header("LevelPlaying")]
+    [Header("Gameplay")]
     [Tooltip("Number of unique chips in the level.")]
     [Range(1, 50)]
     public int uniqueChips = 10;
@@ -28,6 +28,8 @@ public class GameSettings : ScriptableObject
     [Header("UI")]
     [Tooltip("Window appearing and disappearing duration.")]
     public float windowAnimDuration = 0.3f;
+    [Tooltip("Tutorial element appearing and disappearing duration.")]
+    public float tutorialAnimDuration = 0.3f;
     [Tooltip("LevelPlaying icon animation duration.")]
     public float reshuffleAnimDuration = 1f;
 }
