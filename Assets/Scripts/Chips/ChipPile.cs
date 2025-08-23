@@ -27,11 +27,11 @@ public class ChipPile : IDisposable
         collector.ChipCollected -= Remove;
     }
 
-    public void SetInteractable(bool isInteractable)
-    {
-        foreach (Chip chip in chips)
-            chip.IsInteractable = isInteractable;
-    }
+    //public void SetInteractable(bool isInteractable)
+    //{
+    //    foreach (Chip chip in chips)
+    //        chip.IsInteractable = isInteractable;
+    //}
 
     public void Add(Chip chip)
     {
@@ -70,14 +70,15 @@ public class ChipPile : IDisposable
         }
     }
 
-    public void StopChips()
+    public void FreezeChips()
     {
         foreach (Chip chip in chips)
-        {
-            var rb = chip.rb;
-            rb.velocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-            rb.simulated = false;
-        }
+            chip.SetState(ChipState.Freezed);
+        //{
+        //    var rb = chip.rb;
+        //    rb.velocity = Vector2.zero;
+        //    rb.angularVelocity = 0f;
+        //    rb.simulated = false;
+        //}
     }
 }

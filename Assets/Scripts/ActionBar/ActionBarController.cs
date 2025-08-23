@@ -30,16 +30,16 @@ public class ActionBarController : MonoBehaviour, IChipCollector, IChipDropper, 
     public bool Busy { get; private set; }
 
     private GameSettings    settings;
-    private ActionBarView   _view;
-    private ActionBarModel  _model;
+    private ActionBarView   view;
+    private ActionBarModel  model;
     private int             chipCopies; 
-    private BarState _state;
+    private BarState        state;
 
     public void Setup(GameSettings gs, ActionBarView bv, ActionBarModel bm)
     {
         settings = gs;
-        _view = bv;
-        _model = bm;
+        view = bv;
+        model = bm;
 
         chipCopies = settings.chipCopies;
     }
@@ -47,12 +47,12 @@ public class ActionBarController : MonoBehaviour, IChipCollector, IChipDropper, 
     public void UpdateState()
     {
         BarState state;
-        int chipsInBar = _model.CountPlacedChips();
+        int chipsInBar = model.CountPlacedChips();
 
         if (chipsInBar == 0)
             state = BarState.Empty;   // win case
 
-        else if (chipsInBar == ActionBarModel.SlostCount)
+        else if (chipsInBar == ActionBarModel.SlotsCount)
             state = BarState.Full;    // lose case or reshuffle tutorial
 
         else if (chipsInBar >= chipCopies)
@@ -61,8 +61,8 @@ public class ActionBarController : MonoBehaviour, IChipCollector, IChipDropper, 
         else
             state = BarState.PotentialShift; // got chips to shift
 
-        if (_state == state) return;
-        _state = state;
+        if (this.state == state) return;
+        this.state = state;
 
         StateChanged?.Invoke(state);
     }
@@ -70,34 +70,33 @@ public class ActionBarController : MonoBehaviour, IChipCollector, IChipDropper, 
     public void TryCollectChip(Chip chip)
     {
         if (Busy) return;
-        if (!_model.TryBeginPlacement(out int slotIdx)) return;
+        if (!model.TryBeginPlacement(out int slotIdx)) return;
 
         Busy = true;
-        chip.Fly();
         ChipCollected?.Invoke(chip);
 
-        _view.FlyChip(
+        view.FlyChip(
             chip,
-            _view.GetSlotPoint(slotIdx),
+            view.GetSlotPoint(slotIdx),
             () => PlaceChip(chip, slotIdx)
             );
     }
 
     public List<Chip> DropChips()
     {
-        return _view.DropChips(_model.RemoveAllChips());
+        return view.DropChips(model.RemoveAllChips());
     }
 
     private void PlaceChip(Chip chip, int slotIdx)
     {
-        _model.CommitPlacement(chip, slotIdx);
-        _view.AttachChipToSlot(chip, slotIdx);
+        model.CommitPlacement(chip, slotIdx);
+        view.AttachChipToSlot(chip, slotIdx);
 
         // don't collapse if some chips are flying to bar
-        if (_model.HasFlyingChips())
+        if (model.HasFlyingChips())
             return;
 
-        var collapse = _model.BuildCollapse();
+        var collapse = model.BuildCollapse();
         Collapse(collapse);
     }
 
@@ -121,8 +120,8 @@ public class ActionBarController : MonoBehaviour, IChipCollector, IChipDropper, 
 
     private IEnumerator ProcessCollapse(CollapseInfo collapseInfo)
     {
-        yield return StartCoroutine(_view.PlayRemoval(collapseInfo.Matches));
-        yield return StartCoroutine(_view.PlayMoves(collapseInfo.Moves));
+        yield return StartCoroutine(view.PlayRemoval(collapseInfo.Matches));
+        yield return StartCoroutine(view.PlayMoves(collapseInfo.Moves));
 
         UpdateState();
         Busy = false;

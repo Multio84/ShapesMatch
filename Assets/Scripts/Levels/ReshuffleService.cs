@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -70,26 +69,24 @@ public class ReshuffleService : MonoBehaviour
 
     private IEnumerator Reshuffle()
     {
-        chipPile.SetInteractable(false);
-
-        List<Chip> chipsFromBar = dropper.DropChips();
+        // drop chips from bar
+        var chipsFromBar = dropper.DropChips();
         foreach (var chip in chipsFromBar)
             chip.transform.SetParent(spawner.transform);
         chipPile.AddRange(chipsFromBar);
+        chipsFromBar = null;
+
+        Debug.Log($"Chip pile has {chipPile.Count} chips.");
 
         // let chips fall under screen
         containerBottom.enabled = false;
-        bottomSensor.ResetSensor();
 
         // check that all chips intersected screen bottom
         yield return new WaitUntil(() =>
             bottomSensor.IsAllPassed(chipPile.Chips));
+        bottomSensor.ResetSensor();
 
-        foreach (Chip chip in chipsFromBar)
-            chip.SetPhysEnabled(true);//PrepareForFlight(true, false, bar._view.LayerOrder);
-        chipsFromBar = null;
-
-        chipPile.StopChips();
+        chipPile.FreezeChips();
 
         containerBottom.enabled = true;
 

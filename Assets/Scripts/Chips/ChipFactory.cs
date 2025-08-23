@@ -6,12 +6,14 @@ public class ChipFactory : MonoBehaviour
 {
     private ChipPartsDatabase database;
     private IChipCollector collector;
+    private GameSettings settings;
 
     private readonly List<ChipPassport> uniquePassports = new();
     private int maxUniqueChipsCount;
 
-    public void Setup(ChipPartsDatabase db, IChipCollector cc)
+    public void Setup(GameSettings gs, ChipPartsDatabase db, IChipCollector cc)
     {
+        settings = gs;
         database = db;
         collector = cc;
     }
@@ -46,7 +48,8 @@ public class ChipFactory : MonoBehaviour
         Chip prefab = database.GetPrefab(passport.prefabIdx);
         Chip chip = Instantiate(prefab, parent);
 
-        chip.Init(collector, passport, database);
+        chip.Init(settings, passport, database);
+        chip.Clicked += collector.TryCollectChip;
         return chip;
     }
 
@@ -69,7 +72,7 @@ public class ChipFactory : MonoBehaviour
 
     //    // 4. Склеиваем всё презентером
     //    var presenter = new ChipPresenter(model, view, input);
-    //    presenter.Clicked += _collector.TryCollectChip;  // подписка как раньше
+    //    presenter.InteralClicked += _collector.TryCollectChip;  // подписка как раньше
 
     //    return presenter;
     //}

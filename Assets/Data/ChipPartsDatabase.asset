@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ChipPartsDatabase
   m_EditorClassIdentifier: 
   prefabs:
-  - {fileID: 7944276093468792547, guid: e838ff8e4de8bee4da44f8646419d2b8, type: 3}
-  - {fileID: 5696569194042326745, guid: 46fd9e33315f80349972e5628709ae16, type: 3}
-  - {fileID: 6093005239934392322, guid: 34fd423c5c5be6644a36e30bc266fd48, type: 3}
-  - {fileID: 7431731607049902133, guid: 9b079c4ee16387a4c830ae873723760b, type: 3}
+  - {fileID: 8092657783021479601, guid: e838ff8e4de8bee4da44f8646419d2b8, type: 3}
+  - {fileID: 2099162982082910344, guid: 46fd9e33315f80349972e5628709ae16, type: 3}
+  - {fileID: 6312999439514974648, guid: 34fd423c5c5be6644a36e30bc266fd48, type: 3}
+  - {fileID: 285044037633018135, guid: 9b079c4ee16387a4c830ae873723760b, type: 3}
   frameColors:
   - {r: 1, g: 0.41037738, b: 0.47589102, a: 1}
   - {r: 1, g: 0.654032, b: 0.43867922, a: 1}

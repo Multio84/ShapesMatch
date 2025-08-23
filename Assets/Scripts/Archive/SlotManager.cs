@@ -24,8 +24,8 @@ public class SlotManager :
         [NonSerialized] public Chip chip;
     }
 
-    public const int SlostCount = 7;
-    [SerializeField] private Slot[] slots = new Slot[SlostCount];
+    public const int SlotsCount = 7;
+    [SerializeField] private Slot[] slots = new Slot[SlotsCount];
     public Slot[] Slots => slots;
     
 
@@ -36,7 +36,7 @@ public class SlotManager :
 
     private void InitSlotsIndices()
     {
-        for (int i = 0; i < SlostCount; i++)
+        for (int i = 0; i < SlotsCount; i++)
             slots[i].index = i;
     }
 
@@ -109,7 +109,7 @@ public class SlotManager :
 
     public int GetNextAvailableSlot()
     {
-        for (int i = 0; i < SlostCount; i++)
+        for (int i = 0; i < SlotsCount; i++)
             if (GetState(i) == SlotState.Free)
                 return i;
 

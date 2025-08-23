@@ -11,7 +11,7 @@ public class ActionBarView : MonoBehaviour
     [SerializeField] private Transform chipsRoot;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    public Transform[] slotPoints = new Transform[ActionBarModel.SlostCount];
+    public Transform[] slotPoints = new Transform[ActionBarModel.SlotsCount];
 
     private GameSettings settings;
 
@@ -66,17 +66,15 @@ public class ActionBarView : MonoBehaviour
 
     public void FlyChip(Chip chip, Transform target, Action onComplete)
     {
-        //chip.SetState(ChipState.Flying);
-        chip.SetPhysEnabled(false);
-        chip.Rotate(target, chipFlyDuration);
-        chip.Move(target, chipFlyDuration).
+        chip.View.Rotate(target, chipFlyDuration);
+        chip.View.Move(target, chipFlyDuration).
             OnComplete(() => onComplete?.Invoke());
     }
 
     public List<Chip> DropChips(List<Chip> chips)
     {
         foreach (var chip in chips)
-            chip.DropFromActionBar();
+            chip.View.Drop();
 
         return chips;
     }
@@ -89,13 +87,13 @@ public class ActionBarView : MonoBehaviour
 
     private void ShiftChipToSlot(Chip chip, int targetIdx, Action OnDone)
     {
-        chip.Move(slotPoints[targetIdx], chipShiftDuration)
+        chip.View.Move(slotPoints[targetIdx], chipShiftDuration)
             .OnComplete(() => OnDone?.Invoke());
     }
 
     private void DestroyChip(Chip chip, Action OnDone)
     {
-        chip.Die(chipDeathDuration)
+        chip.View.Die(chipDeathDuration)
             .OnComplete(() => OnDone?.Invoke());
     }
 }

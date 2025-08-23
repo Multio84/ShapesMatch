@@ -66,7 +66,7 @@ public class ActionBar : MonoBehaviour//, IChipCollector
         else if (chipsInBar >= chipCopies)
             return barState = BarState.PotentialMatch;  // find matches and destroy
 
-        else if (chipsInBar == SlotManager.SlostCount)
+        else if (chipsInBar == SlotManager.SlotsCount)
             return barState = BarState.Full;    // lose case, reshuffle tutorial
 
         else if (chipsInBar > 0)
@@ -114,14 +114,14 @@ public class ActionBar : MonoBehaviour//, IChipCollector
     {
         bool wasMatched = false;    // if any of chips were matched
 
-        for (int i = 0; i < SlotManager.SlostCount; i++)
+        for (int i = 0; i < SlotManager.SlotsCount; i++)
         {
             if (provider.GetState(i) != SlotState.Occupied) continue;
 
             int matchCount = 1;
             List<int> matchedIndices = new List<int> { i };
 
-            for (int j = i + 1; j < SlotManager.SlostCount; j++)
+            for (int j = i + 1; j < SlotManager.SlotsCount; j++)
             {
                 if (provider.GetState(j) != SlotState.Occupied) continue;
 
@@ -174,11 +174,11 @@ public class ActionBar : MonoBehaviour//, IChipCollector
     {
         bool chipsSentToMove = false;
 
-        for (int i = 0; i < SlotManager.SlostCount; i++)
+        for (int i = 0; i < SlotManager.SlotsCount; i++)
         {
             if (provider.GetSlot(i).state != SlotState.Free) continue;
 
-            for (int j = i + 1; j < SlotManager.SlostCount; j++)
+            for (int j = i + 1; j < SlotManager.SlotsCount; j++)
             {
                 if (provider.GetSlot(j).state != SlotState.Occupied) continue;
 

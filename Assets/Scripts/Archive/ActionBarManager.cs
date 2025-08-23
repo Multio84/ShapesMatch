@@ -30,7 +30,7 @@ public class ActionBarManager : MonoBehaviour//, IInitializable
     /*
     private ActionBar ab;
 
-    public event Action StateChanged;
+    public event Action StateProduced;
 
 
     public void Setup(GameSettings gs, ActionBar ab)
@@ -80,7 +80,7 @@ public class ActionBarManager : MonoBehaviour//, IInitializable
     // Если фишек > 0, попытаться сдвинуть их
     public void OnMatchesDestroyed()
     {
-        StateChanged?.Invoke();
+        StateProduced?.Invoke();
 
         if (IsBarState(BarState.PotentialShift))
             ab.ShiftChipsToEmptySlots();
@@ -99,7 +99,7 @@ public class ActionBarManager : MonoBehaviour//, IInitializable
             if (ab.FindMatches())
                 ab.DestroyMatches();
             else
-                StateChanged?.Invoke();
+                StateProduced?.Invoke();
         }
     }
     */

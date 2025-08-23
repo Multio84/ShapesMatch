@@ -60,12 +60,13 @@ public class GameBootstrapper : MonoBehaviour
         barController.Setup(gameSettings, barView, barModel);
         barView.Setup(gameSettings);
         barModel.Setup(gameSettings);
-        chipFactory.Setup(chipPartsDatabase, (IChipCollector)barController);
+        chipFactory.Setup(gameSettings, chipPartsDatabase, (IChipCollector)barController);
         chipSpawner.Setup(gameSettings, chipFactory, chipPile, chipMonitor);
         uiController.Setup(gameSettings);
         reshuffleService.Setup(chipPile, (IChipDropper)barController, chipSpawner, chipMonitor, reshuffleButton);
         reshuffleButton.Setup(gameSettings, reshuffleService);
         chipMonitor.Setup(gameSettings, chipPile);
+        chipPile.Setup((IChipCollector)barController);
     }
     
     private void Init()

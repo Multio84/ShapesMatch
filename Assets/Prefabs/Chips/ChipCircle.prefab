@@ -43,7 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6856636107021352161}
   - component: {fileID: 1063323566823463244}
-  - component: {fileID: 1964759497764906279}
+  - component: {fileID: 1325446289209823700}
   m_Layer: 0
   m_Name: Frame
   m_TagString: Untagged
@@ -120,7 +120,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &1964759497764906279
+--- !u!58 &1325446289209823700
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,8 +165,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3360015935573095240}
-  - component: {fileID: 7944276093468792547}
   - component: {fileID: 1420525478682591080}
+  - component: {fileID: 8092657783021479601}
+  - component: {fileID: 8336025177569714638}
+  - component: {fileID: 2063759358285394232}
   m_Layer: 0
   m_Name: ChipCircle
   m_TagString: Untagged
@@ -190,22 +192,6 @@ Transform:
   - {fileID: 7088564198132159239}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7944276093468792547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5137413284542248550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd9add48cc886f149bf9d5e045c6291d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frameRenderer: {fileID: 1063323566823463244}
-  animalRenderer: {fileID: 7317676209381694161}
-  rb: {fileID: 0}
-  col: {fileID: 0}
 --- !u!50 &1420525478682591080
 Rigidbody2D:
   serializedVersion: 4
@@ -233,6 +219,46 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8092657783021479601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5137413284542248550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd0211101d6fb442874ca87221d0724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8336025177569714638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5137413284542248550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb6a0a22f1ec702409b241f5b8baf825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameRenderer: {fileID: 1063323566823463244}
+  animalRenderer: {fileID: 7317676209381694161}
+--- !u!114 &2063759358285394232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5137413284542248550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba24fa3eba8db7b4fa4d0e03ad592f33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1420525478682591080}
+  col: {fileID: 1325446289209823700}
 --- !u!1 &9106574442896568716
 GameObject:
   m_ObjectHideFlags: 0

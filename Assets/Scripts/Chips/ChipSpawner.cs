@@ -17,7 +17,7 @@ public class ChipSpawner : MonoBehaviour
     private ChipFactory factory;
     private ChipPile chipPile;
     private ChipMonitor monitor;
-
+    
     public void Setup(GameSettings gs, ChipFactory cf, ChipPile cp, ChipMonitor cm)
     {
         settings = gs;
@@ -46,7 +46,8 @@ public class ChipSpawner : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
 
             Chip chip = factory.SpawnChip(passport, transform);
-            AddRandomHorizontalImpulse(chip);
+            chip.SetState(ChipState.Emitting);
+            //AddRandomHorizontalImpulse(chip);
             chipPile.Add(chip);
 
             monitor.StartChipStopCheck(chip);
@@ -66,20 +67,25 @@ public class ChipSpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(spawnInterval);
 
-            chip.Emit();
-
             chip.transform.position = transform.position;
-            chip.SetPhysEnabled(true);
-            AddRandomHorizontalImpulse(chip);
+            chip.SetState(ChipState.Emitting);
+            //chip.SetPhysEnabled(true);
+            //AddRandomHorizontalImpulse(chip);
 
             monitor.StartChipStopCheck(chip);
         }
     }
 
     // prevents falling in one line
-    private void AddRandomHorizontalImpulse(Chip chip)
-    {
-        float imp = UnityEngine.Random.Range(-chipMaxImpulse, chipMaxImpulse);
-        chip.rb.AddForce(new Vector2(imp, 0f), ForceMode2D.Impulse);
-    }
+    //private void AddRandomHorizontalImpulse(Chip chip)
+    //{
+    //    float imp = UnityEngine.Random.Range(-chipMaxImpulse, chipMaxImpulse);
+    //    chip.rb.AddForce(new Vector2(imp, 0f), ForceMode2D.Impulse);
+    //}
+    //private void AddRandomHorizontalImpulse(float maxImp)
+    //{
+    //    float imp = UnityEngine.Random.Range(-chipMaxImpulse, chipMaxImpulse);
+    //    chip.rb.AddForce(new Vector2(imp, 0f), ForceMode2D.Impulse);
+    //}
+
 }

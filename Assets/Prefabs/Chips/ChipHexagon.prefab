@@ -9,8 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5586983887208177655}
-  - component: {fileID: 5696569194042326745}
   - component: {fileID: 1977170162010559799}
+  - component: {fileID: 2099162982082910344}
+  - component: {fileID: -7988466636372318701}
+  - component: {fileID: 8029947368894732152}
   m_Layer: 0
   m_Name: ChipHexagon
   m_TagString: Untagged
@@ -34,22 +36,6 @@ Transform:
   - {fileID: 4811169597045533474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5696569194042326745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 988845445912423307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd9add48cc886f149bf9d5e045c6291d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  col: {fileID: 0}
-  frameRenderer: {fileID: 8022517175416750886}
-  animalRenderer: {fileID: 2462835011597678081}
 --- !u!50 &1977170162010559799
 Rigidbody2D:
   serializedVersion: 4
@@ -77,6 +63,46 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2099162982082910344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988845445912423307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd0211101d6fb442874ca87221d0724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7988466636372318701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988845445912423307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb6a0a22f1ec702409b241f5b8baf825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameRenderer: {fileID: 8022517175416750886}
+  animalRenderer: {fileID: 2462835011597678081}
+--- !u!114 &8029947368894732152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988845445912423307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba24fa3eba8db7b4fa4d0e03ad592f33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1977170162010559799}
+  col: {fileID: 8214717772003311951}
 --- !u!1 &1985881052572105958
 GameObject:
   m_ObjectHideFlags: 0

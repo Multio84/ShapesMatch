@@ -128,8 +128,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1324287432355481222}
-  - component: {fileID: 7431731607049902133}
   - component: {fileID: 2783056906616110657}
+  - component: {fileID: 285044037633018135}
+  - component: {fileID: -8561989525257274224}
+  - component: {fileID: -8592847037242071389}
   m_Layer: 0
   m_Name: ChipTriangle
   m_TagString: Untagged
@@ -153,22 +155,6 @@ Transform:
   - {fileID: 5922400469011647395}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7431731607049902133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8744734322545729949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd9add48cc886f149bf9d5e045c6291d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  col: {fileID: 0}
-  frameRenderer: {fileID: 8712154668372045391}
-  animalRenderer: {fileID: 2952992614679648263}
 --- !u!50 &2783056906616110657
 Rigidbody2D:
   serializedVersion: 4
@@ -196,6 +182,46 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &285044037633018135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8744734322545729949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd0211101d6fb442874ca87221d0724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8561989525257274224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8744734322545729949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb6a0a22f1ec702409b241f5b8baf825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameRenderer: {fileID: 8712154668372045391}
+  animalRenderer: {fileID: 2952992614679648263}
+--- !u!114 &-8592847037242071389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8744734322545729949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba24fa3eba8db7b4fa4d0e03ad592f33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 2783056906616110657}
+  col: {fileID: 649318255363693901}
 --- !u!1 &9018982719138149307
 GameObject:
   m_ObjectHideFlags: 0

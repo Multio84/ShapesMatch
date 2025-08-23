@@ -9,32 +9,33 @@ public class ChipMonitor
     private ChipPile chipPile;
     private GameSettings settings;
     private int stoppedChipsCount = 0;
-    private float checkDelay;
+    //private float checkDelay;
 
     public void Setup(GameSettings gs, ChipPile cp)
     {
         chipPile = cp;
         settings = gs;
 
-        checkDelay = settings.chipStopCheckDelay;
+        //checkDelay = settings.chipStopCheckDelay;
     }
 
     public void StartChipStopCheck(Chip chip)
     {
-        chip.Stopped -= HandleChipStopped;
-        chip.Stopped += HandleChipStopped;
+        chip.FallingStopped -= HandleChipStopped;
+        chip.FallingStopped += HandleChipStopped;
 
-        chip.StartCheckIfStopped(checkDelay);
+        // =====  !!!!! now chip starts check itself - check if it's ook !!!!!  =====
+        //chip.StartCheckIfStopped(checkDelay);
     }
 
+    // if all emitting chips have stopped
     private void HandleChipStopped(Chip chip)
     {
-        chip.Stopped -= HandleChipStopped;
+        chip.FallingStopped -= HandleChipStopped;
         stoppedChipsCount++;
 
         if (stoppedChipsCount >= chipPile.Count)
         {
-            chipPile.SetInteractable(true);
             stoppedChipsCount = 0;
             ChipsStopped?.Invoke();
         }

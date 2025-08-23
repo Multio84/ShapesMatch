@@ -39,7 +39,7 @@ public class ActionBarModel
         None
     }
 
-    public const int SlostCount = 7;
+    public const int SlotsCount = 7;
 
     private sealed class Slot
     {
@@ -48,7 +48,7 @@ public class ActionBarModel
     }
 
     private GameSettings settings;
-    private readonly Slot[] slots = new Slot[SlostCount];
+    private readonly Slot[] slots = new Slot[SlotsCount];
     private int chipCopies;
 
 
@@ -125,7 +125,7 @@ public class ActionBarModel
     public List<Chip> RemoveAllChips()
     {
         List<Chip> chips = new();
-        for (int i = 0; i < SlostCount; i++)
+        for (int i = 0; i < SlotsCount; i++)
         {
             //if (slots[i].State != SlotState.Occupied &&
             //    slots[i].State != SlotState.Reserved) continue;
@@ -144,7 +144,7 @@ public class ActionBarModel
 
     private void CreateSlots()
     {
-        for (int i = 0; i < SlostCount; i++)
+        for (int i = 0; i < SlotsCount; i++)
             slots[i] = new Slot();
     }
 
@@ -152,12 +152,12 @@ public class ActionBarModel
     {
         List<int> matches = new();
 
-        for (int i = 0; i < SlostCount; i++)
+        for (int i = 0; i < SlotsCount; i++)
         {
             if (GetState(i) != SlotState.Occupied) continue;
             matches.Add(i);
 
-            for (int j = i + 1; j < SlostCount; j++)
+            for (int j = i + 1; j < SlotsCount; j++)
             {
                 if (GetState(j) != SlotState.Occupied) continue;
 
@@ -179,11 +179,11 @@ public class ActionBarModel
     {
         List<MoveInfo> moves = new();
 
-        for (int i = 0; i < SlostCount; i++)
+        for (int i = 0; i < SlotsCount; i++)
         {
             if (GetState(i) != SlotState.Free) continue;
 
-            for (int j = i + 1; j < SlostCount; j++)
+            for (int j = i + 1; j < SlotsCount; j++)
             {
                 if (GetState(j) != SlotState.Occupied) continue;
 
@@ -204,7 +204,7 @@ public class ActionBarModel
 
     private int GetFirstFreeSlotIdx()
     {
-        for (int i = 0; i < SlostCount; i++)
+        for (int i = 0; i < SlotsCount; i++)
             if (GetState(i) == SlotState.Free)
                 return i;
 
@@ -232,7 +232,7 @@ public class ActionBarModel
 
     private Chip GetChip(int idx)
     {
-        if (IsValidSlot(idx))
+        if (!IsValidSlot(idx))
             return null;
 
         return GetSlot(idx).Chip;
@@ -240,7 +240,7 @@ public class ActionBarModel
 
     private bool SetChip(int idx, Chip chip)
     {
-        if (IsValidSlot(idx))
+        if (!IsValidSlot(idx))
             return false;
 
         GetSlot(idx).Chip = chip;
