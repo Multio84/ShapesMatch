@@ -92,7 +92,7 @@ public class ActionBarController : MonoBehaviour, IChipCollector, IChipDropper, 
         model.CommitPlacement(chip, slotIdx);
         view.AttachChipToSlot(chip, slotIdx);
 
-        // don't collapse if there are chips are flying to bar
+        // don't collapse if there are chips flying to bar
         if (model.HasFlyingChips()) return;
 
         var collapse = model.BuildCollapse();

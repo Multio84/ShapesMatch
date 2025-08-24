@@ -194,26 +194,11 @@ public class ActionBarModel
             {
                 if (GetState(j) != SlotState.Occupied) continue;
 
-                //MoveInfo move = new(GetChip(j), j, i);
                 moves.Add(new(GetChip(j), j, i));
-
-                Debug.Log($"Before Relocate: Slot{j}: {slots[j].State}; Slot{i}: {slots[i].State}.");
                 RelocateChip(j, i);
 
-                Debug.Log($"AFTER Relocate: Slot{j}: {slots[j].State}; Slot{i}: {slots[i].State}.");
                 break;
             }
-        }
-
-        int c = 0;
-        for (int i = 0; i < SlotsCount; i++)
-        {
-            if (slots[i].State != SlotState.Free)
-            { 
-                Debug.Log($"Slot {i} is {slots[i].State}");
-                c++;
-            }
-            if (c == 0) Debug.Log($"All slots are free");
         }
 
         return moves;

@@ -53,8 +53,6 @@ public class ChipPhysics : MonoBehaviour,
     public void OnPointerDown(PointerEventData eventData)
     {
         if (!isInteractable) return;
-
-        isInteractable = false;
         InteralClicked?.Invoke();
     }
 
