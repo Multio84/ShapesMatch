@@ -8,6 +8,13 @@ public struct MoveInfo
     public Chip Chip;
     public int From;
     public int To;
+
+    public MoveInfo (Chip chip, int from, int to)
+    {
+        Chip = chip;
+        From = from;
+        To = to;
+    }
 }
 
 // contains chips, deleted in array, to animate removal
@@ -24,7 +31,7 @@ public struct CollapseInfo
 //public interface IActionBarModel
 //{
 //    bool TryBeginPlacement(out int idx);        // reserves slot if possible
-//    void CommitPlacement(Chip chip, int idx);   // place chip in the slot
+//    void CommitPlacement(chip chip, int idx);   // place chip in the slot
 //    CollapseInfo BuildCollapse();               // collect info for destroying chips and shifting left if needed
 //}
 
@@ -187,16 +194,26 @@ public class ActionBarModel
             {
                 if (GetState(j) != SlotState.Occupied) continue;
 
-                MoveInfo move = new();
-                move.Chip = GetChip(j);
-                move.From = j;
-                move.To = i;
+                //MoveInfo move = new(GetChip(j), j, i);
+                moves.Add(new(GetChip(j), j, i));
 
-                moves.Add(move);
+                Debug.Log($"Before Relocate: Slot{j}: {slots[j].State}; Slot{i}: {slots[i].State}.");
                 RelocateChip(j, i);
 
+                Debug.Log($"AFTER Relocate: Slot{j}: {slots[j].State}; Slot{i}: {slots[i].State}.");
                 break;
             }
+        }
+
+        int c = 0;
+        for (int i = 0; i < SlotsCount; i++)
+        {
+            if (slots[i].State != SlotState.Free)
+            { 
+                Debug.Log($"Slot {i} is {slots[i].State}");
+                c++;
+            }
+            if (c == 0) Debug.Log($"All slots are free");
         }
 
         return moves;
@@ -217,11 +234,12 @@ public class ActionBarModel
     }
 
     // moves chip from current to target place in slots array
-    private void RelocateChip(int currentIdx, int targetIdx)
+    private void RelocateChip(int fromIdx, int toIdx)
     {
-        Chip currentChip = GetChip(currentIdx);
-        SetChip(targetIdx, currentChip);
-        RemoveChip(currentIdx);
+        Chip chip = GetChip(fromIdx);
+        SetChip(toIdx, chip);
+        SetState(toIdx, SlotState.Occupied);
+        RemoveChip(fromIdx);
     }
 
     private void RemoveChip(int idx)
@@ -272,7 +290,7 @@ public class ActionBarModel
     {
         if (idx < 0 || idx >= slots.Length)
         {
-            Debug.LogError($"Invalid slotTransform idx: {idx}");
+            Debug.LogError($"Invalid slot idx: {idx}.");
             return false;
         }
 

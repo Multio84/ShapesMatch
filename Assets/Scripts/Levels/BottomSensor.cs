@@ -19,8 +19,5 @@ public class BottomSensor : MonoBehaviour
         if (other != physics.Collider) return;
 
         passed.Add(physics);
-
-
-        Debug.Log($"Passed chips: {passed.Count}");
     }
 }

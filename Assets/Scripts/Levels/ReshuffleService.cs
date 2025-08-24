@@ -76,8 +76,6 @@ public class ReshuffleService : MonoBehaviour
         chipPile.AddRange(chipsFromBar);
         chipsFromBar = null;
 
-        Debug.Log($"Chip pile has {chipPile.Count} chips.");
-
         // let chips fall under screen
         containerBottom.enabled = false;
 
