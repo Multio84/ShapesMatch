@@ -71,13 +71,13 @@ public class ActionBarView : MonoBehaviour
             OnComplete(() => onComplete?.Invoke());
     }
 
-    public List<Chip> DropChips(List<Chip> chips)
-    {
-        foreach (var chip in chips)
-            chip.View.Drop();
+    //public List<Chip> DropChips(List<Chip> chips)
+    //{
+    //    foreach (var chip in chips)
+    //        chip.SetState(ChipState.Falling);
 
-        return chips;
-    }
+    //    return chips;
+    //}
 
     public void AttachChipToSlot(Chip chip, int slotIdx)
     {

@@ -7,16 +7,11 @@ public class ChipMonitor
     public event Action ChipsStopped;
 
     private ChipPile chipPile;
-    private GameSettings settings;
     private int stoppedChipsCount = 0;
-    //private float checkDelay;
 
-    public void Setup(GameSettings gs, ChipPile cp)
+    public void Setup(ChipPile cp)
     {
         chipPile = cp;
-        settings = gs;
-
-        //checkDelay = settings.chipStopCheckDelay;
     }
 
     public void StartChipStopCheck(Chip chip)

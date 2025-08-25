@@ -71,25 +71,17 @@ public class ActionBarController : MonoBehaviour, IChipCollector, IChipDropper, 
     {
         if (Busy) return;
         if (!model.TryBeginPlacement(out int slotIdx)) return;
-
         Busy = true;
-        ChipCollected?.Invoke(chip);
 
-        view.FlyChip(
-            chip,
-            view.GetSlotPoint(slotIdx),
-            () => PlaceChip(chip, slotIdx)
-            );
-    }
-
-    public List<Chip> DropChips()
-    {
-        return view.DropChips(model.RemoveAllChips());
+        view.FlyChip(chip, view.GetSlotPoint(slotIdx), 
+            () => PlaceChip(chip, slotIdx));
     }
 
     private void PlaceChip(Chip chip, int slotIdx)
     {
         model.CommitPlacement(chip, slotIdx);
+        ChipCollected?.Invoke(chip);
+
         view.AttachChipToSlot(chip, slotIdx);
 
         // don't collapse if there are chips flying to bar
@@ -97,6 +89,11 @@ public class ActionBarController : MonoBehaviour, IChipCollector, IChipDropper, 
 
         var collapse = model.BuildCollapse();
         Collapse(collapse);
+    }
+
+    public List<Chip> DropChips()
+    {
+        return model.RemoveAllChips();
     }
 
     /*  
