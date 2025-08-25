@@ -7,13 +7,12 @@ public interface IChipPhysics
 {
     Collider2D Collider { get; }
     void Init(GameSettings settings);
-    void Enable(bool value);
     event Action InteralFallingStopped;
 }
 
 public interface IChipClickable { event Action InteralClicked; }
 
-// управляет Rigidbody2D/Collider2D и даёт события InteralFallingStopped/InteralClicked.  
+// physical chip presentation: gravity, collision, clickability, stop check
 public class ChipPhysics : MonoBehaviour, 
     IChipPhysics,
     IChipStateMediator,
@@ -33,7 +32,7 @@ public class ChipPhysics : MonoBehaviour,
     public event Action<ChipState> StateProduced;
 
     private float prevSpeed;    // save speed to detect if chip slowed down
-    private float maxXImpulse;  // max impulse value to shift on X axis when being emitted
+    private float maxImpulse;  // max impulse value to shift on X axis when being emitted
     private float checkDelay;
 
     public void Init(GameSettings settings)
@@ -44,11 +43,9 @@ public class ChipPhysics : MonoBehaviour,
             return;
         }
 
-        maxXImpulse = settings.chipMaxStartImpulse;
+        maxImpulse = settings.chipMaxStartImpulse;
         checkDelay = settings.chipStopCheckDelay;
     }
-
-    public void Enable(bool value) => rb.simulated = value;
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -92,9 +89,11 @@ public class ChipPhysics : MonoBehaviour,
         }
     }
 
+    private void Enable(bool value) => rb.simulated = value;
+
     private void AddRandomHorizontalImpulse()
     {
-        float imp = UnityEngine.Random.Range(-maxXImpulse, maxXImpulse);
+        float imp = UnityEngine.Random.Range(-maxImpulse, maxImpulse);
         rb.AddForce(new Vector2(imp, 0f), ForceMode2D.Impulse);
     }
 
@@ -116,19 +115,4 @@ public class ChipPhysics : MonoBehaviour,
         }
         prevSpeed = curSpeed;
     }
-
-    // a variant of stopping detection
-    //IEnumerator Start()
-    //{
-    //    float eps = .05f;
-    //    while (true)
-    //    {
-    //        yield return new WaitForSeconds(.2f);
-    //        if (rb.IsSleeping() || rb.velocity.sqrMagnitude < eps)
-    //        {
-    //            InteralFallingStopped?.Invoke();
-    //            yield break;
-    //        }
-    //    }
-    //}
 }

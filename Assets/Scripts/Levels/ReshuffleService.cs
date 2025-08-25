@@ -76,6 +76,9 @@ public class ReshuffleService : MonoBehaviour
         chipPile.AddRange(chipsFromBar);
         chipsFromBar = null;
 
+        // drop all chips
+        chipPile.DropChips();
+
         // let chips fall under screen
         containerBottom.enabled = false;
 

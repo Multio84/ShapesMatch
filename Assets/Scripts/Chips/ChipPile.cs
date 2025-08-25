@@ -70,15 +70,15 @@ public class ChipPile : IDisposable
         }
     }
 
+    public void DropChips()
+    {
+        foreach (Chip chip in chips)
+            chip.SetState(ChipState.Falling);
+    }
+
     public void FreezeChips()
     {
         foreach (Chip chip in chips)
             chip.SetState(ChipState.Freezed);
-        //{
-        //    var rb = chip.rb;
-        //    rb.velocity = Vector2.zero;
-        //    rb.angularVelocity = 0f;
-        //    rb.simulated = false;
-        //}
     }
 }

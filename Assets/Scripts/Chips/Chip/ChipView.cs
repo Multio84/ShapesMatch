@@ -9,13 +9,9 @@ public interface IChipView
     Tween Move(Transform target, float duration);
     void Rotate(Transform target, float duration);
     Tween Die(float duration);
-    void Drop();
 }
 
-//interface IFlyableChip { Tween FlyTo(Transform t, float dur); }
-//interface IDroppableChip { void Drop(); }
-
-// визуальные эффекты(Move/Rotate/Die).  
+// visual chip presentation
 public class ChipView : MonoBehaviour, 
     IChipView, 
     IChipStateMediator
@@ -37,33 +33,12 @@ public class ChipView : MonoBehaviour,
         animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
     }
 
-    //public void SetView(ChipPassport passport, ChipPartsDatabase db)
-    //{
-    //    frameRenderer.color = db.GetColor(passport.colorIdx);
-    //    animalRenderer.sprite = db.GetAnimal(passport.animalIdx);
-    //}
-
-    /*
-        Emitting,   // creating in field over screen - падает ЗА баром: отрисовывать под баром, включить физику, отключить кликабельность
-        Idle,       // lying in game field container - включить кликабельность
-        Moving,     // flying to bar / shifting in bar - отрисовывать поверх бара, отключить физику, отключить кликабельность
-        Falling     // falling from game field container - падает ПЕРЕД баром: отрисовывать над баром, включить физику, отключить кликабельность
-    */
-
-    public void ApplyState(ChipState state) => SetOrderLayer(state);
-
-    private void SetOrderLayer(ChipState state)
+    public void ApplyState(ChipState state)
     {
-        string layer = state switch
-        {
-            ChipState.Emitting  => SortingLayers.UnderActionBar,
-            ChipState.Moving    => SortingLayers.OverActionBar,
-            ChipState.Falling   => SortingLayers.OverActionBar,
-            _ => frameRenderer.sortingLayerName
-        };
+        if (state == ChipState.Falling)
+            KillAllTweens();
 
-        frameRenderer.sortingLayerName = layer;
-        animalRenderer.sortingLayerName = layer;
+        SetOrderLayer(state);
     }
 
     public Tween Move(Transform targetTransform, float duration)
@@ -91,16 +66,24 @@ public class ChipView : MonoBehaviour,
             .OnComplete(() => KillAllTweens());
     }
 
-    public void Drop()
-    {
-        KillAllTweens();
-        StateProduced?.Invoke(ChipState.Falling);   // -> Falling
-    }
-
-    public void KillAllTweens()
+    private void KillAllTweens()
     {
         move.Kill(false);
         rotate.Kill(false);
         death.Kill(false);
+    }
+
+    private void SetOrderLayer(ChipState state)
+    {
+        string layer = state switch
+        {
+            ChipState.Emitting => SortingLayers.UnderActionBar,
+            ChipState.Moving => SortingLayers.OverActionBar,
+            ChipState.Falling => SortingLayers.OverActionBar,
+            _ => frameRenderer.sortingLayerName
+        };
+
+        frameRenderer.sortingLayerName = layer;
+        animalRenderer.sortingLayerName = layer;
     }
 }

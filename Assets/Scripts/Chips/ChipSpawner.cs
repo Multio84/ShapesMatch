@@ -47,7 +47,6 @@ public class ChipSpawner : MonoBehaviour
 
             Chip chip = factory.SpawnChip(passport, transform);
             chip.SetState(ChipState.Emitting);
-            //AddRandomHorizontalImpulse(chip);
             chipPile.Add(chip);
 
             monitor.StartChipStopCheck(chip);
@@ -69,8 +68,6 @@ public class ChipSpawner : MonoBehaviour
 
             chip.transform.position = transform.position;
             chip.SetState(ChipState.Emitting);
-            //chip.SetPhysEnabled(true);
-            //AddRandomHorizontalImpulse(chip);
 
             monitor.StartChipStopCheck(chip);
         }

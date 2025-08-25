@@ -65,7 +65,7 @@ public class GameBootstrapper : MonoBehaviour
         uiController.Setup(gameSettings);
         reshuffleService.Setup(chipPile, (IChipDropper)barController, chipSpawner, chipMonitor, reshuffleButton);
         reshuffleButton.Setup(gameSettings, reshuffleService);
-        chipMonitor.Setup(gameSettings, chipPile);
+        chipMonitor.Setup(chipPile);
         chipPile.Setup((IChipCollector)barController);
     }
     
