@@ -18,9 +18,9 @@ public interface IChipStateMediator
     event Action<ChipState> StateProduced;
 }
 
-// тонкий Уфасад-орchestratorФ, склеивающий всЄ:
-// Ц если вам нужно временно отключить физику, вы трогаете только ChipPhysics;  
-// Ц если решите перейти с DOTween на свою корутину, мен€етс€ только ChipView;  
+// тонкий "фасад-оrchestrator", склеивающий всЄ:
+// Ц если нужно временно отключить физику, трогаем только ChipPhysics;  
+// Ц если придЄтс€ перейти с DOTween на корутину, мен€етс€ только ChipView;  
 // Ц логика ReshuffleService / ActionBarController общаетс€ с IChipView и IChipPhysics, не зна€ конкретной реализации.
 public class Chip : MonoBehaviour
 {
@@ -85,8 +85,8 @@ public class Chip : MonoBehaviour
         if (State == newState) return;
         State = newState;
 
-        foreach (var sl in stateMediators)
-            sl.ApplyState(newState);
+        foreach (var sm in stateMediators)
+            sm.ApplyState(newState);
     }
 
     private void OnClicked() => Clicked?.Invoke(this);

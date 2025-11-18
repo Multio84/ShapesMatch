@@ -62,6 +62,7 @@ public sealed class UIController : MonoBehaviour
         return go;
     }
 
+    // hide blocker only if it's the only window opened
     private void OnWindowStartedHiding()
     {
         if (blocker && visible.Count == 1)
@@ -71,6 +72,7 @@ public sealed class UIController : MonoBehaviour
     }
 
     // maybe useless method cause noone needs to know that window is closed
+    // windows block clicks, so nothing will be interactive, when they are on
     //private void OnWindowClosed(WindowKind kind)
     //{
     //    visible.Remove(kind);

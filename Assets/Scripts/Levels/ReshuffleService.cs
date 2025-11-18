@@ -1,24 +1,27 @@
 using System.Collections;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 
 public class ReshuffleService : MonoBehaviour
 {
-    [SerializeField] private Collider2D containerBottom;
-    [SerializeField] private BottomSensor bottomSensor;
+    [SerializeField] private Collider2D _containerBottom;
+    [SerializeField] private BottomSensor _bottomSensor;
 
-    public bool hasBeenUsed = false;
+    public bool HasBeenUsed => _hasBeenUsed;
 
-    public bool CanExecute => canExecute;
-    public bool IsAvailable => availableCount > 0 ? true : false;
+    public bool CanExecute => _canExecute;
+    public bool IsAvailable => _availableCount > 0 ? true : false;
+    public int AvailableCount => _availableCount;
 
     private ChipPile chipPile;
     private IChipDropper dropper;
     private ChipSpawner spawner;
     private ChipMonitor monitor;
     private ReshuffleButton button;
-    private int availableCount = 10;    // number of reshuffles, available in current level
-    private bool canExecute = false;
+    private int _availableCount = 3;    // number of reshuffles, available in current level
+    private bool _canExecute = false;
+    private bool _hasBeenUsed = false;
 
     public void Setup(
         ChipPile cp,
@@ -51,19 +54,25 @@ public class ReshuffleService : MonoBehaviour
 
     public void Execute()
     {
-        hasBeenUsed = true;
-        availableCount--;
+        if (!_hasBeenUsed) _hasBeenUsed = true;
+        if (!_canExecute) return;
+        _canExecute = false;
+        _availableCount--;
 
         StartCoroutine(Reshuffle());
     }
 
-    private void OnChipsFallingStarted() => canExecute = false;
+    private void OnChipsFallingStarted()
+    {
+        //_canExecute = false;
+        button.UpdateInteractable();
+    }
     
     private void MakeExecutable()
     {
         if (!IsAvailable) return;
 
-        canExecute = true;
+        _canExecute = true;
         button.UpdateInteractable();
     }
 
@@ -88,16 +97,16 @@ public class ReshuffleService : MonoBehaviour
         chipPile.DropChips();
 
         // let chips fall under screen
-        containerBottom.enabled = false;
+        _containerBottom.enabled = false;
 
         // check that all chips intersected screen bottom
         yield return new WaitUntil(() =>
-            bottomSensor.IsAllPassed(chipPile.Chips));
-        bottomSensor.ResetSensor();
+            _bottomSensor.IsAllPassed(chipPile.Chips));
+        _bottomSensor.ResetSensor();
 
         chipPile.FreezeChips();
 
-        containerBottom.enabled = true;
+        _containerBottom.enabled = true;
 
         chipPile.Shuffle();
         spawner.EmitExistingChips();

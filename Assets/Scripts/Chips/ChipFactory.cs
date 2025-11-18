@@ -23,7 +23,7 @@ public class ChipFactory : MonoBehaviour
         maxUniqueChipsCount = CountMaxUniquePassports(database);
         if (uniqueChipsCount > maxUniqueChipsCount)
         {
-            Debug.LogWarning("Quantity of availableCount unique chips is less than required to generate. It will be clamped.");
+            Debug.LogWarning("Quantity of _availableCount unique chips is less than required to generate. It will be clamped.");
             uniqueChipsCount = Mathf.Clamp(uniqueChipsCount, 0, maxUniqueChipsCount);
         }
 

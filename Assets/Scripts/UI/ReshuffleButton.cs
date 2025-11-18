@@ -30,6 +30,8 @@ public class ReshuffleButton : MonoBehaviour
     {
         button.onClick.AddListener(OnButtonPressed);
         UpdateInteractable();
+
+        DisplayReshuffleCount();
     }
 
     private void OnDestroy()
@@ -42,6 +44,20 @@ public class ReshuffleButton : MonoBehaviour
         button.interactable = service.CanExecute;
     }
 
+    public void Animate()
+    {
+        isAnimating = true;
+
+        icon.DORotate(new Vector3(0, 0, 360), animDuration, RotateMode.FastBeyond360)
+            .SetEase(Ease.InSine)
+            .OnComplete(() => {
+                isAnimating = false;
+                // if service.CanExecute (usually not), button will be enabled after animation
+                UpdateInteractable();
+                DisplayReshuffleCount();
+            });
+    }
+
     private void OnButtonPressed()
     {
         // button should look active for animation visuals, so it's still interactable,
@@ -52,16 +68,8 @@ public class ReshuffleButton : MonoBehaviour
         Animate();
     }
 
-    public void Animate()
+    private void DisplayReshuffleCount()
     {
-        isAnimating = true;
-
-        icon.DORotate(new Vector3(0, 0, 360), animDuration, RotateMode.FastBeyond360)
-            .SetEase(Ease.InSine)
-            .OnComplete(() => {
-                isAnimating = false;
-                // if service.CanExecute (usually not), button will be enabled after animation
-                UpdateInteractable();   
-            });
+        availableCountText.text = service.AvailableCount.ToString();
     }
 }

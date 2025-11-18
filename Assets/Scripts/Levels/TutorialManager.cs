@@ -13,7 +13,7 @@ public enum TutorialStep
 public class TutorialManager
 {
     public TutorialStep Step => step;
-    //is it needed ?
+    //is it needed?:
     //public event Action TutorialClosed;
 
     private TutorialUIController controller;
@@ -51,7 +51,7 @@ public class TutorialManager
         step = TutorialStep.Done;
         barState.StateChanged -= OnFirstActionBarFilled;
 
-        if (reshuffleService.hasBeenUsed)
+        if (reshuffleService.HasBeenUsed)
         {
             Debug.Log("Reshuffle has been used, so \'UseReshuffle\' tutorial skipped.");
             return;

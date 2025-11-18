@@ -1624,9 +1624,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ba76354c55ea1458dd9ccc67050fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerBottom: {fileID: 6006310001188543566}
-  bottomSensor: {fileID: 44016443}
-  hasBeenUsed: 0
+  _containerBottom: {fileID: 6006310001188543566}
+  _bottomSensor: {fileID: 44016443}
 --- !u!1001 &632088118507362093
 PrefabInstance:
   m_ObjectHideFlags: 0
